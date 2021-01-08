@@ -10,7 +10,7 @@
         <a-icon type="login"/>
         <span>登录</span>
       </a-menu-item>
-      <a-menu-item @click="open(config.router.logout.path)"  :key="'注册'">
+      <a-menu-item @click="open(config.router.register.path)"  :key="'注册'">
         <a-icon type="form"/>
         <span>注册</span>
       </a-menu-item>
