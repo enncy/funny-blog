@@ -9,11 +9,7 @@
     <a-form-item>
       <a-input
           @keydown="validate.handelSpacialChar"
-          v-decorator="[
-          'account',
-
-          {  rules: [{ required: true, message: '请输入你的用户名' }] , },
-        ]"
+          v-decorator="accountDecorator()"
           placeholder="用户名"
       >
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)"/>
@@ -21,12 +17,8 @@
     </a-form-item>
     <a-form-item>
       <a-input
-
           @keydown="validate.handelSpacialChar"
-          v-decorator="[
-          'password',
-          {  rules: [{ required: true, message: '请输入你的账号' }] ,  },
-        ]"
+          v-decorator="passwordDecorator()"
           type="password"
           placeholder="密码"
       >
@@ -35,13 +27,7 @@
     </a-form-item>
     <a-form-item>
       <a-checkbox
-          v-decorator="[
-          'remember',
-          {
-            valuePropName: 'checked',
-            initialValue: true,
-          },
-        ]"
+          v-decorator="rememberDecorator()"
       >
         记住我
       </a-checkbox>
@@ -51,7 +37,7 @@
       <a-button type="primary" html-type="submit" class="login-form-button">
         登录
       </a-button>
-      或者
+        或者
       <a href="">
         注册
       </a>
@@ -70,30 +56,37 @@ export default {
       validate
     }
   },
-
-
   beforeCreate() {
     this.form = this.$form.createForm(this, {name: 'normal_login'});
   },
+  mounted() {
+
+  },
   methods: {
-    getFieldDecorator() {
-
+    //账号组件包装
+    accountDecorator() {
+      return ['account', {rules: [{required: true, message: '请输入你的用户名'}],}]
     },
-
+    //密码组件包装
+    passwordDecorator() {
+      return ['password', {rules: [{required: true, message: '请输入你的账号'}],}]
+    },
+    //密码组件包装
+    rememberDecorator() {
+      return ['remember',
+        {
+          valuePropName: 'checked',
+          initialValue: true,
+        }]
+    },
     handleSubmit(e) {
       e.preventDefault();
-      console.log(this.form.getFieldDecorator('password'))
-      console.log(this.account)
       this.form.validateFields((err, values) => {
-
         if (!err) {
           console.log('Received values of form: ', values);
         }
       });
     },
-
-
-
   },
 };
 </script>
