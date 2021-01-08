@@ -17,13 +17,9 @@
     </a-sub-menu>
   </a-menu>
 </template>
-
 <script>
-import config from "@/config/index";
-
-
+import config from "@/config";
 export default {
-
   name: "UserMenu",
   data() {
     return {

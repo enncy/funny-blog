@@ -19,8 +19,6 @@
 
         </a-menu>
       </a-col>
-
-
       <!--      用户菜单栏-->
       <a-col style="justify-content: flex-end;width: 100%;display: flex;">
         <user-menu></user-menu>
@@ -32,9 +30,12 @@
 <script>
 import SubMenu from "./SubMenu";
 import UserMenu from "./UserMenu";
-import config from "@/config/index";
+import config from "@/config";
 
 export default {
+  props:{
+    list:Array
+  },
   components: {
     'sub-menu': SubMenu,
     UserMenu
@@ -42,20 +43,7 @@ export default {
   data() {
     return {
       config,
-      collapsed: false,
-      list: [
-        {
-          path: config.router.blog.path,
-          icon: 'home',
-          title: '首页',
-        },
-        {
-          path: config.router.star.path,
-          title: '推荐',
-          icon: 'star',
-
-        },
-      ],
+      collapsed: false
     };
   },
   methods: {
@@ -68,8 +56,5 @@ export default {
   },
 };
 </script>
-
-
 <style scoped>
-
 </style>

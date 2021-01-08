@@ -16,9 +16,7 @@
 </template>
 
 <script>
-
 import {Menu} from 'ant-design-vue';
-
 export default {
   name: 'SubMenu',
   isSubMenu: true,
@@ -32,8 +30,5 @@ export default {
   },
 }
 </script>
-
-
 <style scoped>
-
 </style>
