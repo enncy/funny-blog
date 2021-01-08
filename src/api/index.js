@@ -4,11 +4,16 @@
  * @date  2021/1/7 : 23:54
  */
 
-const requset = require('@/utils/request.js')
 
+const requset  = require('@/utils/request.js')
 
-export default {
-    
+module.exports = {
+    apiTest(){
+        return requset({
+            methods:'get',
+            url:'https://www.baidu.com/',
+        })
+    }
 }
 
 

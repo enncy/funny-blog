@@ -8,7 +8,13 @@
 
 const axios = require('axios')
 
-const  request = axios.interceptors.request.use(function (config) {
+//初始化一个 axios 对象
+const request = axios.create({
+    baseURL: '', //基础路径
+    timeout: 60 * 1000, //超时时间
+})
+
+request.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     return config;
 }, function (error) {
@@ -17,7 +23,7 @@ const  request = axios.interceptors.request.use(function (config) {
 });
 
 // 添加响应拦截器
-axios.interceptors.response.use(function (response) {
+request.interceptors.response.use(function (response) {
     // 对响应数据做点什么
     return response;
 }, function (error) {

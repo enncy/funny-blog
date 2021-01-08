@@ -1,14 +1,14 @@
-import Vue from 'vue';
+import Vue from 'vue'
+import App from './App.vue'
 import Antd from 'ant-design-vue';
-import App from './App';
+import router from "@/router/index";
+
 import 'ant-design-vue/dist/antd.css';
-Vue.config.productionTip = false;
 
 Vue.use(Antd);
+Vue.config.productionTip = false
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  components: { App },
-  template: '<App/>',
-});
+  render: h => h(App),
+  router
+}).$mount('#app')
