@@ -1,10 +1,12 @@
 <template>
   <div class="menu">
-    <a-row style="display: flex;flex-wrap: nowrap;padding: 0px 100px 0px 100px">
+    <a-row class="index-menu-row">
       <a-col>
         <a-menu
             :inline-collapsed="collapsed"
             mode="horizontal"
+
+            class="index-menu-item"
         >
           <template v-for="item in list">
             <a-menu-item v-if="!item.children" :key="item.key" @click="open(item.path)">
@@ -20,7 +22,7 @@
         </a-menu>
       </a-col>
       <!--      用户菜单栏-->
-      <a-col style="justify-content: flex-end;width: 100%;display: flex;">
+      <a-col class="index-user-menu">
         <user-menu></user-menu>
       </a-col>
     </a-row>
@@ -33,8 +35,8 @@ import UserMenu from "./UserMenu";
 import config from "@/config";
 
 export default {
-  props:{
-    list:Array
+  props: {
+    list: Array
   },
   components: {
     'sub-menu': SubMenu,
@@ -57,4 +59,43 @@ export default {
 };
 </script>
 <style scoped>
+/*响应式*/
+.index-menu-item {
+
+}
+
+.index-user-menu {
+  justify-content: flex-end;
+  width: 100%;
+  display: flex;
+}
+
+@media screen and (min-width: 575px) {
+  .index-menu-item {
+    display: block;
+  }
+
+
+  .index-menu-row {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 0px 100px 0px 100px
+  }
+
+
+}
+
+/*当屏幕小于 575 时，隐藏*/
+@media screen and (max-width: 575px) {
+  .index-menu-item {
+    display: none;
+  }
+
+  .index-menu-row {
+    display: flex;
+    flex-wrap: nowrap;
+
+  }
+
+}
 </style>
