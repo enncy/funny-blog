@@ -2,6 +2,10 @@
 node_modules
 /dist
 
+# 忽略经过编译的 js 文件
+
+/server/**/**.js
+
 
 # local env files
 .env.local
