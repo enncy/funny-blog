@@ -1,7 +1,9 @@
 <template>
   <a-layout id="components-layout-demo-top" class="layout">
     <a-layout-header class="index-header">
-      <div class="logo">funy blog</div>
+      <div class="logo">
+        <img width="150px" style="    margin:0px 0px 20px 10px"  src="../../assets/logo.png">
+      </div>
 <!--      导航-->
       <navigation class="index-menu"></navigation>
     </a-layout-header>
@@ -28,7 +30,6 @@ export default {
 #components-layout-demo-top .logo {
   height: 31px;
   background: rgba(255, 255, 255, 0.2);
-  padding: 0  10px;
   float: left;
 }
 .layout {

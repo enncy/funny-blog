@@ -4,7 +4,11 @@ node_modules
 
 # 忽略经过编译的 js 文件
 
-/server/**/**.js
+/server/**/*.js
+
+# 忽略邮箱个人信息
+
+email.config.js
 
 
 # local env files

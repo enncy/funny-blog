@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <index>
-      <template   slot="router">
+      <template slot="router">
         <router-view></router-view>
       </template>
     </index>
@@ -20,8 +20,21 @@ export default {
   name: 'App',
   components: {index},
   mounted() {
+    //监听刷新，刷新前保存数据
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('store', JSON.stringify(this.$store.state))
+    })
+  },
 
-  }
+  //以 json 的方式储存数据，以防丢失
+  beforeCreate() {
+    console.log("app create")
+    let store = localStorage.getItem('store')
+    if (store) {
+      this.$store.replaceState(Object.assign(this.$store.state,JSON.parse(store)))
+    }
+  },
+
 }
 </script>
 

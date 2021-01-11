@@ -1,16 +1,18 @@
+
+
+
+const axios = require('axios')
+
+axios.defaults.withCredentials=true; //跨域携带cookie
+
 /**
  * request 是 axios 的封装，封装了简单的请求拦截器功能 <br/>
  * 官方文档 : http://www.axios-js.com/zh-cn/docs/#%E6%8B%A6%E6%88%AA%E5%99%A8
  * @author  klskeleton
  * @date  2021/1/7 : 23:52
  */
-
-
-const axios = require('axios')
-
-//初始化一个 axios 对象
 const request = axios.create({
-    baseURL: '', //基础路径
+    baseURL: 'http://localhost:3011', //基础路径
     timeout: 60 * 1000, //超时时间
 })
 
@@ -19,6 +21,7 @@ request.interceptors.request.use(function (config) {
     return config;
 }, function (error) {
     // 对请求错误做些什么
+
     return Promise.reject(error);
 });
 

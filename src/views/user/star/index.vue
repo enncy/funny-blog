@@ -8,7 +8,12 @@
 
 <script>
 export default {
-name: "star"
+  name: "star",
+  beforeCreate() {
+    if (! this.$store.state.userInfo) {
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 

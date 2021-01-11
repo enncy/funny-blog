@@ -5,11 +5,11 @@
  */
 
 
-const requset  = require('@/utils/request.js')
+const request  = require('@/utils/request.js')
 
 module.exports = {
     apiTest(){
-        return requset({
+        return request({
             methods:'get',
             url:'https://www.baidu.com/',
         })

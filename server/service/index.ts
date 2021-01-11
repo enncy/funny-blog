@@ -8,27 +8,20 @@ const mongoose = require('mongoose');
  * @date  2021/1/10 : 15:09
  */
 
-class Service {
-    definition:SchemaDefinition
+abstract class Index {
+
     schema ?:Schema
     mongooseModel ?: Model<Document>
 
     constructor(UserSchemaType : SchemaDefinition , model_name :String) {
+        this.schema = new Schema(UserSchemaType)
+        //调用init ， 初始化信息，和中间件
+        this.initSchema()
+        this.mongooseModel =mongoose.model(model_name,this.schema)
+    }
+    abstract initSchema() : void
 
-        if(!this.definition){
-            this.schema = new Schema(UserSchemaType)
-            this.definition = UserSchemaType
-            this.mongooseModel =mongoose.model(model_name,this.schema)
-            this.initSchema()
-        }
-    }
-    initSchema(){
-        this.schema.index({uid: 1});
-    }
-
-    model(definition:SchemaDefinition):Document{
-        return  new this.mongooseModel(definition)
-    }
+    abstract model(...definition):Document<any>
 
     getModel() : Model<Document>{
         return this.mongooseModel
@@ -40,13 +33,13 @@ class Service {
 
     //根据 uid 查找
     findByUid(uid:String) : Query<Document<any>, Document<any>> {
-        return this.mongooseModel.findOne({uid:this.definition.uid})
+        return this.mongooseModel.findOne({uid})
     }
 
 }
 
 
-export  default  Service
+export  default  Index
 
 
 

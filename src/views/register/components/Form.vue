@@ -1,8 +1,9 @@
 <template>
   <BaseForm :emailIsValidate="emailIsValidate" @validateFinish="validateFinish" @validateError="validateError"
-            @clear="clear">
+            @clear="clear" @register="register">
     <template slot="email-btn">
-      <a-button type="primary" v-show="canSend" :disabled="!isValidateFinish || sending" @click="sendEmail">
+      <a-button slot="email-btn-send" type="primary" v-show="canSend" :disabled="!isValidateFinish || sending"
+                @click="sendEmail">
         {{
           sending
               ? '正在发送...'
@@ -21,17 +22,14 @@
             placeholder="输入4位数验证码"
             type="text"
             v-model="emailCode"
-            @change="checkEmailCode"
-
         >
 
-          <template v-show="sendFinish && emailCode.length!==0">
+          <template v-show="sendFinish ">
             <template slot="suffix">
               <a-icon v-show="emailIsValidate" type="check-circle" theme="filled" style="color:#52c41a;"/>
+              <a-button type="link" @click="checkEmailCode">点击验证</a-button>
             </template>
-            <template slot="suffix">
-              <a-icon v-show="!emailIsValidate" type="close-circle" theme="filled" style="color:#f5222d;"/>
-            </template>
+
           </template>
 
 
@@ -48,8 +46,9 @@
 
 <script>
 import BaseForm from "./BaseForm";
-import api from "@/api/index";
 
+const emailApi = require('@/api/email')
+const userApi = require('@/api/user')
 
 const config = {
   count: 60,
@@ -82,12 +81,19 @@ export default {
       emailCode: '',
       //错误信息
       errorMsg: ' ',
+      //表单数据
+      form: {
+        email: ''
+      },
     }
   },
   methods: {
+
+
     //是否验证成功，验证信息成功后才能发送验证码
-    validateFinish() {
+    validateFinish(form) {
       this.isValidateFinish = true
+      this.form = form
     },
     //信息验证失败
     validateError() {
@@ -97,25 +103,38 @@ export default {
       if (!this.isValidateFinish) {
         this.$message.error("请把信息填写完整后再发送验证码")
       } else {
-        this.$message.info("正在发送验证码...")
+        //开始发送
         this.sendFinish = false
         this.sending = true
+
         this.sendCount++
-        setTimeout(() => {
-          //开始计时
-          this.countDown()
+        this.clearInput()
+
+        emailApi.sendEmail(this.form.email).then((r) => {
+          if (r.data.status) {
+
+            this.$message.success(r.data.msg)
+            //开始计时
+            this.countDown()
+          } else {
+            this.$message.error(r.data.msg)
+          }
           //发送完成
           this.sendFinish = true
           this.sending = false
-        }, 3000)
+        }).catch((err) => {
+          console.error(err)
+        })
 
-        // api.apiTest().then(() => {
-        //   this.$message.success("验证码发送成功！请查收")
+        // setTimeout(()=>{
         //   //开始计时
         //   this.countDown()
-        // }).catch((err) => {
-        //   console.error(err)
-        // })
+        //   //发送完成
+        //   this.sendFinish = true
+        //   this.sending = false
+        // },1000)
+
+
       }
 
     },
@@ -134,30 +153,65 @@ export default {
     },
     //检验验证码
     checkEmailCode() {
-      if (this.emailCode === '1111') {
-        // this.$message.success("验证成功！")
-        this.errorMsg = ' '
-        this.emailIsValidate = true
-      } else if (this.emailCode.length !== 4) {
-        // this.$message.error("验证码为4位数的数字！")
-        this.errorMsg = '验证码为4位数的数字!'
+      if (this.emailCode.length !== 4) {
+        this.emailCodeError( '验证码为4位数的数字!')
       } else {
-        // this.$message.error("验证码错误！")
-        this.errorMsg = '验证码错误!'
+        //发送请求
+        emailApi.checkEmailCode(this.form.email, this.emailCode).then((r) => {
+          if (r.data.status) {
+            this.$message.success(r.data.msg)
+            this.emailCodeCorrect()
+          } else {
+            this.emailCodeError(r.data.msg)
+          }
+        }).catch((err) => {
+          console.error(err)
+        })
       }
     },
+    //验证码错误
+    emailCodeError(msg){
+      this.errorMsg = msg
+      this.emailIsValidate = false
+    },
+    //验证码正确
+    emailCodeCorrect(){
+      this.errorMsg = ''
+      this.emailIsValidate = false
+    },
     //发送注册请求
-    register() {
-
+    register(form) {
+      userApi.register(form.name,form.password,form.email,this.emailCode).then((r) => {
+        if(r.data.status){
+          this.$message.success(r.data.msg)
+          //保存数据
+          this.$store.dispatch('setUserInfo',r.data.data)
+          setTimeout(()=>{
+            this.$router.push('/user')
+          },1000)
+        }else{
+          this.$message.error(r.data.msg)
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    clearInput(){
+      this.errorMsg = ''
+      this.emailCode = ''
     },
     //重置表单
     clear() {
+      //验证码
       this.emailCode = ""
+      //验证码失效
       this.emailIsValidate = false
+      //未验证
       this.isValidateFinish = false
+      //未发送
       this.sendFinish = false
+      //错误信息清空
       this.errorMsg = ""
-      this.emailCode = ""
 
     }
   }

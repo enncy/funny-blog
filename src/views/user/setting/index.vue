@@ -5,8 +5,14 @@
 </template>
 
 <script>
+
 export default {
-name: "setting"
+name: "setting",
+  beforeCreate() {
+    if (! this.$store.state.userInfo) {
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 

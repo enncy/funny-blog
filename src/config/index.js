@@ -5,9 +5,6 @@ module.exports = {
         blog:{
             path:'/blog',
         },
-        editor:{
-            path:'/editor',
-        },
         login:{
             path:'/login',
         },
@@ -18,10 +15,14 @@ module.exports = {
             path:'/register',
         },
         setting:{
-            path:'/setting',
+            path:'/user/setting',
         },
         star:{
-            path:'/star',
+            path:'/user/star',
+        },
+
+        editor:{
+            path:'/user/editor'
         },
         user:{
             path:'/user',

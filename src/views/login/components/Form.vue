@@ -9,7 +9,7 @@
     <a-form-item>
       <a-input
           @keydown="validate.handelSpacialChar"
-          v-decorator="accountDecorator()"
+          v-decorator="nameDecorator()"
           placeholder="用户名"
       >
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)"/>
@@ -37,7 +37,7 @@
       <a-button type="primary" html-type="submit" class="login-form-button">
         登录
       </a-button>
-        或者
+      或者
       <a href="">
         注册
       </a>
@@ -47,6 +47,9 @@
 
 <script>
 import validate from '@/utils/validate'
+
+const userApi = require("@/api/user")
+
 
 export default {
 
@@ -64,8 +67,8 @@ export default {
   },
   methods: {
     //账号组件包装
-    accountDecorator() {
-      return ['account', {rules: [{required: true, message: '请输入你的用户名'}],}]
+    nameDecorator() {
+      return ['name', {rules: [{required: true, message: '请输入你的用户名'}],}]
     },
     //密码组件包装
     passwordDecorator() {
@@ -79,11 +82,27 @@ export default {
           initialValue: true,
         }]
     },
+    //登录提交
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields((err, values) => {
+      this.form.validateFields((err, form) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          userApi.login(form.name, form.password).then((r) => {
+            console.log("请求返回", r)
+            if (r.data.status) {
+              let userInfo =   r.data.data
+              this.$message.success(r.data.msg)
+              this.$store.dispatch('setUserInfo',userInfo)
+              this.$emitter.emit('login',userInfo)
+              setTimeout(()=>{
+                this.$router.push('/user')
+              },1000)
+            } else {
+              this.$message.error(r.data.msg)
+            }
+          }).catch((err) => {
+            console.error(err)
+          })
         }
       });
     },

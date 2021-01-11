@@ -8,14 +8,14 @@
       class="base-form"
 
   >
-    <a-form-model-item ref="account" label="用户名" prop="account">
+    <a-form-model-item ref="name" label="用户名" prop="name">
       <a-input
           @keydown="validateUtils.handelSpacialChar"
-          v-model="form.account"
+          v-model="form.name"
           @blur="()=>{
                validate()
             }"
-          placeholder="account"
+          placeholder="name"
       />
     </a-form-model-item>
     <a-form-model-item ref="password" label="密码" prop="password">
@@ -25,6 +25,7 @@
           @blur="()=>{
                validate()
             }"
+          type="password"
           placeholder="password"
       />
     </a-form-model-item>
@@ -35,6 +36,7 @@
           @blur="()=>{
                validate()
             }"
+          type="password"
           placeholder="confirm your password"
       />
     </a-form-model-item>
@@ -50,7 +52,9 @@
                validate()
             }"
         />
-        <slot name="email-btn"></slot>
+        <slot name="email-btn">
+          <slot name="email-btn-send" ></slot>
+        </slot>
       </a-input-group>
 
       <slot name="email-validate"></slot>
@@ -89,13 +93,13 @@ export default {
       wrapperCol: {span: 14},
       other: '',
       form: {
-        account: '',
+        name: '',
         password: '',
         email: '',
         confirmPassword: '',
       },
       rules: {
-        account: [
+        name: [
           {required: true, message: '请输入你的用户名', trigger: 'blur'},
           {min: 1, max: 16, message: '长度应该从 1 到 16 ,中文占2个长度', trigger: 'blur' , transform: (v)=>{return v.replace(/[\u4e00-\u9fa5]/g,"  ")}},
         ],
@@ -134,7 +138,7 @@ export default {
     },
     //检查表单值
     checkValue(){
-      this.form.account = validateUtils.removeSpacialChar(this.form.account)
+      this.form.name = validateUtils.removeSpacialChar(this.form.name)
       this.form.password = validateUtils.removeSpacialChar(this.form.password)
       this.form.confirmPassword = validateUtils.removeSpacialChar(this.form.confirmPassword)
 
@@ -142,6 +146,7 @@ export default {
     //提交表单
     submit(){
       console.log('submit!',this.form);
+      this.$emit('register',this.form)
     },
     //重置表单
     resetForm() {
@@ -159,13 +164,13 @@ export default {
     },
     //完成验证
     validateFinish() {
-      this.$emit('validateFinish')
+      this.$emit('validateFinish',this.form)
       console.log('validateFinish')
     },
     validateError(){
       this.$emit('validateError')
       console.log('validateError')
-    }
+    },
 
 
   },
