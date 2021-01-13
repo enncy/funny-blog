@@ -6,6 +6,9 @@ node_modules
 
 /server/**/*.js
 
+# 服务器文件
+app*
+
 # 忽略邮箱个人信息
 
 email.config.js

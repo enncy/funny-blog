@@ -16,7 +16,10 @@
 </template>
 
 <script>
-import {Menu} from 'ant-design-vue';
+
+//按需引入
+const Menu = antd.Menu
+
 export default {
   name: 'SubMenu',
   isSubMenu: true,

@@ -10,7 +10,8 @@ export default {
 name: "setting",
   beforeCreate() {
     if (! this.$store.state.userInfo) {
-      this.$router.push('/login')
+      this.$message.error("您还未登录！")
+      // this.$router.push('/login')
     }
   }
 }

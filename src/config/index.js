@@ -1,6 +1,8 @@
 
 
 module.exports = {
+
+
     router:{
         blog:{
             path:'/blog',
@@ -14,18 +16,21 @@ module.exports = {
         register:{
             path:'/register',
         },
-        setting:{
-            path:'/user/setting',
-        },
-        star:{
-            path:'/user/star',
-        },
 
-        editor:{
-            path:'/user/editor'
-        },
         user:{
             path:'/user',
+            setting:{
+                path:'/user/setting',
+            },
+            star:{
+                path:'/user/star',
+            },
+
+            editor:{
+                path:'/user/editor'
+            },
+
         },
+
     }
 }

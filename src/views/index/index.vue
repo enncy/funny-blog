@@ -1,57 +1,63 @@
 <template>
-  <a-layout id="components-layout-demo-top" class="layout">
-    <a-layout-header class="index-header">
-      <div class="logo">
-        <img width="150px" style="    margin:0px 0px 20px 10px"  src="../../assets/logo.png">
-      </div>
-<!--      导航-->
-      <navigation class="index-menu"></navigation>
-    </a-layout-header>
-    <a-layout-content class="index-content">
-      <slot name="router">  </slot>
-    </a-layout-content>
-    <a-layout-footer style="text-align: center">
-      funy blog ©2021 Created by klskeleton
-    </a-layout-footer>
-  </a-layout>
+  <a-card >
+    <a-row style="display: flex; flex-wrap: wrap">
+      <a-col class="adapt-item" :span="18"  >
+        <template v-for="(item,index) in list">
+          <blog-card   :blogInfo="item" :index="index"></blog-card>
+        </template>
+
+        <template v-if="list.length===0">
+
+          <a-skeleton v-if="sending" active />
+          <a-empty v-else description="暂无博客文章"></a-empty>
+        </template>
+
+      </a-col>
+      <a-col style="min-width: 150px" :offset="1" :span="5" class="adapt-item-width"  >
+        <a-card size="small" title="热门文章">
+          暂无
+        </a-card>
+        <a-card style="margin-top: 20px" size="small"  title="你的喜欢">
+          暂无
+        </a-card>
+      </a-col>
+    </a-row>
+  </a-card>
 </template>
 
 <script>
-import Navigation from "@/views/components/Navigation";
+import BlogCard from "@/views/components/BlogCard";
+
+import blogApi from '@/api/blog'
+
 export default {
-  name: "index",
-  components: {
-    Navigation
+  components:{
+    BlogCard
+  },
+  data(){
+    return {
+      list:[],
+      hot_blog:[],
+      fav_blog:[],
+
+      sending:false,
+    }
+  },
+  mounted() {
+    this.sending = true
+    blogApi.getByPage(0,10).then((r) => {
+      console.log(r)
+      if(r.data.status){
+        this.list = r.data.data
+        this.sending = false
+      }
+    }).catch((err) => {
+      console.error(err)
+    })
   }
 }
 </script>
 
-<style>
-#components-layout-demo-top .logo {
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  float: left;
-}
-.layout {
-  height: 100%;
-}
-.layout .index-header {
-  background-color: white;
-  height: auto;
-  padding: 0px;
-}
-.layout .index-content {
-  height: 100%;
-  padding:  50px
-}
-/*覆盖 antdv 原生菜单栏样式的边框*/
-.layout .index-header {
-  border-bottom: 1px solid white;
-}
-.layout  .ant-menu-horizontal > .ant-menu-item-selected{
-  border-bottom: 1px solid white;
-}
-.layout  .ant-menu-horizontal{
-  border-bottom: 1px solid white;
-}
+<style scoped>
+
 </style>

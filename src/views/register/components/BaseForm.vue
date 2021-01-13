@@ -5,7 +5,7 @@
       :rules="rules"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      class="base-form"
+
 
   >
     <a-form-model-item ref="name" label="用户名" prop="name">
@@ -13,17 +13,25 @@
           @keydown="validateUtils.handelSpacialChar"
           v-model="form.name"
           @blur="()=>{
-               validate()
+
+               nameFieldBlur()
             }"
           placeholder="name"
-      />
+      >
+        <template>
+          <template slot="suffix">
+            <a-button type="link" @click="checkNameValidate">验证</a-button>
+          </template>
+        </template>
+
+      </a-input>
     </a-form-model-item>
     <a-form-model-item ref="password" label="密码" prop="password">
       <a-input
           @keydown="validateUtils.handelSpacialChar"
           v-model="form.password"
           @blur="()=>{
-               validate()
+               $refs.password.onFieldBlur();
             }"
           type="password"
           placeholder="password"
@@ -34,7 +42,7 @@
           @keydown="validateUtils.handelSpacialChar"
           v-model="form.confirmPassword"
           @blur="()=>{
-               validate()
+               $refs.confirmPassword.onFieldBlur();
             }"
           type="password"
           placeholder="confirm your password"
@@ -47,6 +55,10 @@
             v-model="form.email"
             :title="'邮箱用于找回账号密码'"
             placeholder="email 邮箱用于找回密码"
+
+            @blur="()=>{
+               validate()
+            }"
 
             @change="()=>{
                validate()
@@ -61,7 +73,7 @@
 
     </a-form-model-item>
 
-    <a-form-model-item :wrapper-col="{ span: 18 ,offset:2 }">
+    <a-form-model-item :wrapper-col="{ span: 22  ,offset:1 }">
       <a-row style="display: flex;flex-wrap: nowrap;width: 100%;">
         <a-col  >
           <a-button @click="resetForm">
@@ -80,6 +92,8 @@
 <script>
 import validateUtils from "@/utils/validate";
 
+import userApi from '@/api/user'
+
 
 export default {
   props: {
@@ -89,8 +103,8 @@ export default {
     return {
       validateUtils,
 
-      labelCol: {span: 8},
-      wrapperCol: {span: 14},
+      labelCol: {span: 6},
+      wrapperCol: {span: 18},
       other: '',
       form: {
         name: '',
@@ -101,7 +115,7 @@ export default {
       rules: {
         name: [
           {required: true, message: '请输入你的用户名', trigger: 'blur'},
-          {min: 1, max: 16, message: '长度应该从 1 到 16 ,中文占2个长度', trigger: 'blur' , transform: (v)=>{return v.replace(/[\u4e00-\u9fa5]/g,"  ")}},
+          {min: 1, max: 16, message: '长度应该从 1 到 16 ,中文占2个长度', trigger: 'blur' , transform: (v)=>{return v.replace(/[\u4e00-\u9fa5]/g,"  ")}}, // 变成2个空格主要是方便判断长度
         ],
         password: [
           {required: true, message: '请输入你的密码', trigger: 'blur'},
@@ -109,11 +123,16 @@ export default {
         ],
         confirmPassword: [
           {
+            required: true,
+            message: '请重复确认你的密码',
+            trigger: 'blur'
+          },
+          {
             validator: this.confirmPasswordEvent
           }
         ],
         email: [
-          { required: true, message: '请输入你的qq邮箱 包括@qq.com', trigger: 'blur', pattern:'@qq.com' },
+          { required: true, message: '请输入你的qq邮箱 包括@qq.com', trigger: 'blur', pattern:'^.+@qq.com$' },
         ],
 
       },
@@ -126,6 +145,7 @@ export default {
       this.checkValue()
       //自动检验
       this.$refs.ruleForm.validate(valid => {
+        console.log(valid)
         if (valid) {
           //发送验证成功
           this.validateFinish()
@@ -162,6 +182,36 @@ export default {
         else callback('密码不一样!')
       }
     },
+    //检测名字是否可用
+    checkNameValidate(){
+      this.$refs.ruleForm.validateField('name',(valid)=>{
+        if(valid===''){
+          if(!this.form.name || this.form.name==='') this.$message.error('请输入你的用户名')
+          else {
+            userApi.check(this.form.name).then((r) => {
+              console.log(r)
+              if(r.data.status){
+                this.$message.success(r.data.msg)
+              }else{
+                this.$message.error(r.data.msg)
+              }
+            }).catch((err) => {
+              console.error(err)
+            })
+          }
+        }else{
+          this.$message.error(valid)
+        }
+      })
+
+
+    },
+
+    nameFieldBlur(){
+      console.log(this.$refs.name)
+      this.$refs.name.onFieldBlur()
+    },
+
     //完成验证
     validateFinish() {
       this.$emit('validateFinish',this.form)

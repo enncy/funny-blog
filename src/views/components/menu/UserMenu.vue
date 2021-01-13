@@ -8,15 +8,23 @@
         {{userInfo?userInfo.name:'未登录'}}
       </span>
       <template v-if="userInfo">
+
+        <a-menu-item @click="home()" :key="'个人首页'">
+          <a-icon type="home"/>
+          <span>个人首页</span>
+        </a-menu-item>
+
         <a-menu-item @click="open(config.router.user.path)" :key="'个人中心'">
           <a-icon type="user"/>
           <span>个人中心</span>
         </a-menu-item>
-        <a-menu-item @click="open(config.router.editor.path)" :key="'写博客'">
+
+        <a-menu-item @click="open(config.router.user.editor.path)" :key="'写博客'">
           <a-icon type="edit"/>
           <span>写博客</span>
         </a-menu-item>
-        <a-menu-item @click="open(config.router.star.path)"  :key="'我的收藏'">
+
+        <a-menu-item @click="open(config.router.user.star.path)"  :key="'我的收藏'">
           <a-icon type="star"/>
           <span>我的收藏</span>
         </a-menu-item>
@@ -55,6 +63,7 @@ export default {
   },
   mounted() {
     this.$emitter.on('login',userInfo=>{
+      console.log("用户登录：",userInfo)
       this.userInfo = userInfo
     })
   },
@@ -76,6 +85,10 @@ export default {
         console.error(err)
       })
 
+    },
+    //个人首页
+    home(){
+      this.$router.push('/home/')
     }
   }
 }

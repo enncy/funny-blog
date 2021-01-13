@@ -29,7 +29,7 @@ module.exports = {
      * @return {*}  Promise<Boolean>>
      */
     sendEmailCode(email,code){
-        return this.sendEmailTo(email,"邮箱验证","html",`欢迎使用 funy-blog,你的邮箱验证码为: <a>${code}</a> ,请您尽快验证`)
+        return this.sendEmailTo(email,"邮箱验证","html",`<h1>funyblog:</h1> 你的邮箱验证码为: <a>${code}</a> ,请您尽快验证`)
     },
 
 

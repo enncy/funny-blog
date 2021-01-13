@@ -1,7 +1,7 @@
 
 const request  = require('@/utils/request.js')
 
-
+const userURL = '/api/user'
 
 module.exports = {
 
@@ -14,7 +14,7 @@ module.exports = {
     login(name,pwd){
         return request({
             method:"post",
-            url:'/user/login',
+            url:userURL+'/login',
             data:{
                 name,
                 pwd
@@ -33,7 +33,7 @@ module.exports = {
     register(name,pwd,email,code){
         return request({
             method:"post",
-            url:'/user/register',
+            url:userURL+'/register',
             data:{
                 name,
                 pwd,
@@ -47,7 +47,18 @@ module.exports = {
     quit(){
         return request({
             method:"get",
-            url:'/user/quit',
+            url:userURL+'/quit',
+        })
+    },
+
+    /**
+     * 检测用户名是否可用
+     * @param name
+     */
+    check(name){
+        return request({
+            method:"get",
+            url:userURL+`/check/${name}`,
         })
     }
 

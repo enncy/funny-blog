@@ -7,6 +7,11 @@
 
 module.exports = {
 
+    //验证用户是否存在
+    valid(req){
+        return !!this.getUser(req);
+    },
+
     /**
      *  保存用户数据
      * @param req   请求

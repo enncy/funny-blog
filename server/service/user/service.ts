@@ -2,14 +2,12 @@ import Index from "../index";
 import {Document, SchemaDefinition} from "mongoose";
 
 
-
+const utils = require('../../utils')
 
 class UserService extends  Index {
 
     initSchema(): void {
-
         this.schema.index({uid: 1});
-
         //保存后置钩子
         this.schema.post('save', function(error, doc, next)  {
 
@@ -24,37 +22,46 @@ class UserService extends  Index {
 
     }
 
-    model(name: String , pwd : String ,email : String ): Document<any> {
+    model(name: string , pwd : string ,email : string ): Document<any> {
+        let uid = utils.createUid()
+        let date = Date.now()
         return new this.mongooseModel({
-            name,pwd,email
+            name,pwd,email , uid ,date
         });
     }
 
-
-    findByName(name : String){
-        return this.mongooseModel.findOne({name})
+    /**
+     * 通过名字获取用户
+     * @param name  名字
+     * @param show_pwd  是否返回密码字段
+     */
+    async findByName(name : string,show_pwd ?: boolean){
+        return this.format(await this.mongooseModel.findOne({name}),show_pwd)
     }
-    findByEmail(email : String){
-        return this.mongooseModel.findOne({email})
+    async findByEmail(email : string){
+        return this.format(await this.mongooseModel.findOne({email}))
     }
 
-    async hasUser(uid:String){
+    async hasUser(uid:string){
         let user = await this.mongooseModel.findOne({uid});
         return !!user
     }
 
+
     /**
      * 格式化数据
      * @param user  用户数据
+     * @param show_pwd  是否返回密码字段
      */
-    format(user){
-        return {
-            name:user.name,
-            email:user.email,   //邮箱
-            date:user.date,  //创建时间
-            blogs_uid:user.blogs_uid,   //自己的博客
-            favorites_uid:user.favorites_uid,    //自己的喜欢博客文章id
-        }
+    format(user:Document,show_pwd ?: boolean){
+        if(!user)return null
+        user.set('uid',undefined)
+        user.set('email',undefined)
+        user.set('fans',undefined)
+        user.set('top_blogs',undefined)
+        user.set('favorites_uid',undefined)
+        if(!show_pwd)user.set('pwd',undefined)
+        return user
     }
 
 

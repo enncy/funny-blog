@@ -16,7 +16,7 @@
             <sub-menu v-else :key="item.key" :menu-info="item" @click="open(item.path)"/>
           </template>
           <a-menu-item :key="'search-menu'">
-            <a-input-search placeholder="input search text" style="width: 200px" @search="onSearch"/>
+            <a-input-search placeholder="搜索博客文章" style="width: 200px" @search="onSearch"/>
           </a-menu-item>
 
         </a-menu>
@@ -70,7 +70,7 @@ export default {
   display: flex;
 }
 
-@media screen and (min-width: 575px) {
+@media screen and (min-width: 801px) {
   .index-menu-item {
     display: block;
   }
@@ -86,7 +86,7 @@ export default {
 }
 
 /*当屏幕小于 575 时，隐藏*/
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 800px) {
   .index-menu-item {
     display: none;
   }

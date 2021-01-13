@@ -14,7 +14,7 @@ abstract class Index {
     mongooseModel ?: Model<Document>
 
     constructor(UserSchemaType : SchemaDefinition , model_name :String) {
-        this.schema = new Schema(UserSchemaType)
+        this.schema = new Schema( UserSchemaType , {versionKey:false})
         //调用init ， 初始化信息，和中间件
         this.initSchema()
         this.mongooseModel =mongoose.model(model_name,this.schema)
@@ -33,8 +33,14 @@ abstract class Index {
 
     //根据 uid 查找
     findByUid(uid:String) : Query<Document<any>, Document<any>> {
-        return this.mongooseModel.findOne({uid})
+        return this.format(this.mongooseModel.findOne({uid}))
     }
+
+    /**
+     * 每次执行业务处理 findByxxx 都要经过数据处理
+     * @param data
+     */
+    abstract  format(data:any)
 
 }
 

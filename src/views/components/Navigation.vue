@@ -1,4 +1,5 @@
 <template>
+
   <navigation-menu :list="list">
 
   </navigation-menu>
@@ -18,12 +19,12 @@ export default {
     return {
       list: [
         {
-          path: config.router.blog.path,
+          path: '/',
           icon: 'home',
           title: '首页',
         },
         {
-          path: config.router.star.path,
+          path: '/',
           title: '推荐',
           icon: 'star',
 

@@ -1,5 +1,8 @@
 import Index from "../index";
 import {Document} from "mongoose";
+import User from "../user";
+
+const utils = require('../../utils')
 
 class CommentsService extends  Index {
 
@@ -18,22 +21,29 @@ class CommentsService extends  Index {
 
     }
 
-    model(author:String, user_uid: String , blog_uid: String , body : String   ): Document<any> {
+    model(author  , body : string   ): Document<any> {
+        let uid = utils.createUid()
+        let date = Date.now()
         return new this.mongooseModel({
-            author,user_uid,blog_uid,body
+            author,body ,uid , date
         });
     }
 
-    findByUserUid(user_uid : String){
-        return this.mongooseModel.findOne({user_uid})
+
+    /**
+     * 格式化数据
+     * @param comment  文章数据
+     */
+    format(comment){
+        if(!comment)return null
+
+        return comment
     }
 
 }
 
 
 export default  CommentsService
-
-
 
 
 

@@ -1,7 +1,7 @@
 
 
 
-const axios = require('axios')
+// const axios = require('axios')
 
 axios.defaults.withCredentials=true; //跨域携带cookie
 
@@ -11,10 +11,15 @@ axios.defaults.withCredentials=true; //跨域携带cookie
  * @author  klskeleton
  * @date  2021/1/7 : 23:52
  */
+
+
+
 const request = axios.create({
-    baseURL: 'http://localhost:3011', //基础路径
+    baseURL: process.env.NODE_ENV==='development'?'http://localhost:3011':'', //基础路径
     timeout: 60 * 1000, //超时时间
 })
+
+
 
 request.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么

@@ -4,16 +4,13 @@ import { SchemaDefinition} from "mongoose";
 import CommentsService from "./service";
 
 
-const utils = require('../../utils')
-
 const   commentsSchemaType : SchemaDefinition=  {
-    uid:{type:String , default:utils.createUid(),unique: true},  //唯一索引
-    author: String, //评论者
-    user_uid:String,   //评论者的 uid
-    blogs_uid: String,
+    uid:{type:String  ,unique: true},  //唯一索引
+    author: Object, //评论者
     body:   String, //内容
-    date: { type: Number, default: Date.now },    //时间
-    fav_num:Number,  //点赞数量
+    date: { type: Number, default:0 },    //时间
+    fav_num:{type:Number , default:0},  //收藏数量
+    like:{type:Number , default:0},    //点赞数据
     comments: [String],   //回复这个评论的 id
 }
 

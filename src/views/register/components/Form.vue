@@ -177,7 +177,7 @@ export default {
     //验证码正确
     emailCodeCorrect(){
       this.errorMsg = ''
-      this.emailIsValidate = false
+      this.emailIsValidate = true
     },
     //发送注册请求
     register(form) {
@@ -186,6 +186,7 @@ export default {
           this.$message.success(r.data.msg)
           //保存数据
           this.$store.dispatch('setUserInfo',r.data.data)
+          this.$emitter.emit('login',r.data.data)
           setTimeout(()=>{
             this.$router.push('/user')
           },1000)

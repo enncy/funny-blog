@@ -38,7 +38,7 @@
         登录
       </a-button>
       或者
-      <a href="">
+      <a @click="$router.push('/register')">
         注册
       </a>
     </a-form-item>
@@ -72,7 +72,7 @@ export default {
     },
     //密码组件包装
     passwordDecorator() {
-      return ['password', {rules: [{required: true, message: '请输入你的账号'}],}]
+      return ['password', {rules: [{required: true, message: '请输入你的密码'}],}]
     },
     //密码组件包装
     rememberDecorator() {

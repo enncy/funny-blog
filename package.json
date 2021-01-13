@@ -2,19 +2,21 @@
   "name": "funy-blog",
   "version": "0.1.0",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "server": "node ./server/app.js   ",
+    "pkg": "pkg ./server/app.js  --target=node14-linux-x64"
   },
   "dependencies": {
     "ant-design-vue": "^1.7.2",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
-    "core-js": "^3.6.5",
+    "core-js": "^3.8.2",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "module-alias": "^2.2.2",
+    "mavon-editor": "^2.9.1",
     "mongoose": "^5.11.11",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.17",
@@ -30,6 +32,7 @@
   },
   "browserslist": [
     "> 1%",
+    "last 2 versions",
     "last 2 versions",
     "not dead"
   ],
