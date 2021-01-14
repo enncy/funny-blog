@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-row style="display: flex;flex-wrap: wrap; align-items:center">
-      <a-col>
+      <a-col style="cursor: pointer;" @click="$router.push('/'+userInfo.name)">
         <user-profile  :show-data="true" :show-profile="true" :user-info="userInfo"></user-profile>
       </a-col>
 

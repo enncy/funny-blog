@@ -10,9 +10,13 @@
     <template v-else>
       <a-card>
         <a-row>
-          <user-profile :show-profile="false" :show-data="false" :user-info="userInfo"></user-profile>
-          <a-divider/>
-          <user-data  :data="userInfo" :theme="'filled'"></user-data>
+          <a-col :span="5" class="adapt-item-width">
+            <user-profile :show-profile="false" :show-data="false" :user-info="userInfo"></user-profile>
+          </a-col>
+
+          <a-col  :span="18"  style="margin-top: 20px"  class="adapt-item-width">
+            <user-data  :data="userInfo" :theme="'filled'"></user-data>
+          </a-col>
         </a-row>
 
         <a-row>
@@ -31,6 +35,20 @@
                 <blog-card v-for="(item,index) in blogInfo"   :blog-info="item"  :index="index"></blog-card>
               </template>
             </a-tab-pane>
+
+            <a-tab-pane key="2" tab="收藏">
+              <a-empty  description="暂无文章"/>
+            </a-tab-pane>
+
+            <a-tab-pane key="3" tab="关注">
+              <a-empty  description="暂无文章"/>
+            </a-tab-pane>
+
+
+            <a-tab-pane key="4" tab="分栏">
+              <a-empty  description="暂无文章"/>
+            </a-tab-pane>
+
 
           </a-tabs>
         </a-row>

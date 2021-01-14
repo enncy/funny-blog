@@ -1,7 +1,11 @@
 <template>
   <a-card >
     <a-row style="display: flex; flex-wrap: wrap">
+
+
+
       <a-col class="adapt-item" :span="18"  >
+
         <template v-for="(item,index) in list">
           <blog-card   :blogInfo="item" :index="index"></blog-card>
         </template>
@@ -58,6 +62,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  >
 
 </style>

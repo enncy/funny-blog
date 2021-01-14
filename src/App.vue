@@ -2,14 +2,14 @@
 
   <div id="app">
 
-<!--    沉浸式编辑体验-->
+    <!--    沉浸式编辑体验-->
     <template v-if="$route.path==='/user/editor'">
       <router-view></router-view>
     </template>
 
-<!--    <template v-else-if="$route.name==='home'">-->
-<!--      <router-view></router-view>-->
-<!--    </template>-->
+    <!--    <template v-else-if="$route.name==='home'">-->
+    <!--      <router-view></router-view>-->
+    <!--    </template>-->
 
 
     <template v-else>
@@ -29,13 +29,24 @@
         <a-layout-content class="index-content">
           <!--      router-views  网页内容显示-->
           <router-view></router-view>
+
         </a-layout-content>
         <a-layout-footer style="text-align: center">
-          funy blog ©2021 Created by klskeleton
+          <a-row>
+            funy blog ©2021 Created by <a href="https://github.com/klskeleton/">klskeleton</a>
+          </a-row>
+
+          <a-row>
+            在线演示地址：<a href="http://funy.klweb.top/">http://funy.klweb.top/</a>
+          </a-row>
+
+          <a-row>
+            网站源码：<a href="https://github.com/klskeleton/funy-blog">https://github.com/klskeleton/funy-blog</a> <a-icon style="font-size: 20px" type="github" theme="filled" />
+          </a-row>
+
         </a-layout-footer>
       </a-layout>
     </template>
-
 
 
   </div>
@@ -61,15 +72,15 @@ export default {
     })
   },
 
-  methods:{
+  methods: {
     //检测用户是否存在，不存在则删除本地信息
-    checkUser(){
+    checkUser() {
       userApi.checkLogin().then((r) => {
         console.log(r)
-        if(r.data.status){
-          this.$store.dispatch('setUserInfo',undefined)
-        }else{
-          this.$store.dispatch('setUserInfo',r.data.data)
+        if (r.data.status) {
+          this.$store.dispatch('setUserInfo', undefined)
+        } else {
+          this.$store.dispatch('setUserInfo', r.data.data)
         }
       }).catch((err) => {
         console.error(err)
@@ -130,6 +141,38 @@ export default {
 
 
 <style>
+/* For demo */
+.ant-carousel >>> .slick-slide {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel >>> .custom-slick-arrow {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: #fff;
+  background-color: rgba(31, 45, 61, 0.11);
+  opacity: 0.3;
+}
+
+.ant-carousel >>> .custom-slick-arrow:before {
+  display: none;
+}
+
+.ant-carousel >>> .custom-slick-arrow:hover {
+  opacity: 0.5;
+}
+
+.ant-carousel >>> .slick-slide h3 {
+  color: #fff;
+}
+</style>
+
+<style>
 
 
 #app {
@@ -143,7 +186,7 @@ export default {
 }
 
 @media screen and (min-width: 801px) {
-  .index-content{
+  .index-content {
     padding: 20px 40px 40px 40px;
   }
 
@@ -178,7 +221,7 @@ export default {
     display: none;
   }
 
-  .index-content{
+  .index-content {
     padding: 5px;
   }
 }
