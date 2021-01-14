@@ -8,11 +8,8 @@
         </a-card>
       </a-col>
 
-      <a-col :span="16" class="adapt-item-width">
-
-
+      <a-col :offset="4" :span="13" class="adapt-item-width">
         <a-card >
-
           <template v-if="error">
             <a-empty description="此文章不存在" />
           </template>
@@ -20,14 +17,9 @@
           <template v-else-if="!blogInfo">
             <a-skeleton active />
           </template>
-
-
           <template v-else>
             <blog-header :blogInfo="blogInfo"></blog-header>
-
             <a-divider style="margin-top: 2px"/>
-
-
             <mavon-editor
                 :codeStyle="'gruvbox-dark'" class="blog-markdown" :value="blogInfo.body"
                 :subfield="false" :defaultOpen="'preview'"
@@ -35,7 +27,6 @@
                 :editable="false"
                 :scrollStyle="true"
                 :boxShadow="false"
-
                 :ishljs="true"
             />
           </template>
