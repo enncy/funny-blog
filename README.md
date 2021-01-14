@@ -1,6 +1,8 @@
 # funy-blog
 趣博客——开源的博客网站
 
+在线演示地址：http://funy.klweb.top
+
 ## quickly start
 
 ```javascript
