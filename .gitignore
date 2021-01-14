@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+#/dist
 
 # 忽略经过编译的 js 文件
 
