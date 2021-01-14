@@ -87,6 +87,14 @@ module.exports = {
         })
     },
 
+    //获取文章总数
+    getCount(){
+        return request({
+            method:'get',
+            url:blogURL+'/get/count',
+        })
+    }
+
 
 
 }

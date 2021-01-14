@@ -31,6 +31,26 @@ blogRouter.get('/get/some/:skip/:limit', async (req, res) => {
     res.send(formatUtil.format(blogs, {msg: blogs ? "获取文章列表成功！" : "获取文章列表失败！"}))
 })
 
+//通过作者获取文章并分页
+blogRouter.get('/get/name/:author/:skip/:limit', async (req, res) => {
+    let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
+    res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
+
+})
+
+//获取文章
+blogRouter.get('/get/count', async (req, res) => {
+     Blog.getCount((err,count)=>{
+
+        if(err){
+            res.send(formatUtil.formatError("查询数量错误！"))
+        }else{
+            res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "查询数量失败！"}))
+        }
+    })
+
+})
+
 
 //更新
 blogRouter.post('/update', async (req, res) => {
@@ -100,20 +120,7 @@ blogRouter.post('/remove', async (req, res) => {
 
 })
 
-//通过作者获取文章并分页
-blogRouter.get('/get/name/:author/:skip/:limit', async (req, res) => {
-    // let user = session.getUser(req)
-    // if (user && user.name === req.params.author) {
-    //     let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
-    //     res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
-    // } else {
-    //     res.send(formatUtil.formatError("你没有权限获取文章！"))
-    // }
 
-    let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
-    res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
-
-})
 
 
 export default blogRouter

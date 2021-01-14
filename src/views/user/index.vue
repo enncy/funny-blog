@@ -82,7 +82,9 @@ export default {
       userInfo: this.$store.state.userInfo,
       //发送请求中
       sending:false,
-
+      //分页
+      skip:0,
+      limit:10,
     }
   },
 

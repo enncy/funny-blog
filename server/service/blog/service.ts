@@ -92,6 +92,12 @@ class BlogService extends  Index {
         }))
     }
 
+
+    getCount(callback?: (err: any, count: number) => void){
+        return  this.mongooseModel.count(callback);
+    }
+
+
     removeByUid(uid:string,callback:(err: NativeError) => void){
         //findOneAndUpdate([conditions],[update],[options],[callback])
         return this.mongooseModel.remove({uid},callback)
