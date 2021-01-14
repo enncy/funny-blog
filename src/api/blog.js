@@ -30,7 +30,7 @@ module.exports = {
     getByAuthorAndPage(author,skip,limit){
         return request({
             method:'get',
-            url: blogURL+`/article/${author}/${skip}/${limit}`,
+            url: blogURL+`/get/name/${author}/${skip}/${limit}`,
         })
     },
 

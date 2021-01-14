@@ -59,10 +59,14 @@ const router = new VueRouter({
             path: config.router.register.path,  //用户页
             component: register
         },
-
         {
             path: '/error',
             component: pageNotFound
+        },
+        {
+            path: '/:name',
+            name:'home',
+            component: home
         },
         {
             path: '*',

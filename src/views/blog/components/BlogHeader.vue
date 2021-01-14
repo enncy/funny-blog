@@ -9,7 +9,7 @@
 
     <a-col style="display:flex;flex-wrap: wrap;width: 100%;">
       <a-col :span="12"  >
-          {{getTime(blogInfo.date)}}
+          {{utils.getTime(blogInfo.date)}}
       </a-col >
       <a-col :span="12" style="display: flex;justify-content: flex-end">
         <template v-if="blogInfo">
@@ -26,6 +26,7 @@
 <script>
 
 import BlogCardInfo from "@/views/components/BlogCardInfo";
+import utils from '@/utils/index'
 
 export default {
   name: "BlogHeader",
@@ -35,22 +36,14 @@ export default {
   components:{BlogCardInfo},
   data(){
     return{
+      utils,
       blogInfo:this.blogInfo,
       userInfo: this.blogInfo.author
     }
   },
   methods:{
 
-    //格式化时间
-    getTime(t) {
-      let  date=new Date(parseInt(t));
-      let year=date.getFullYear();
-      let mon = date.getMonth()+1;
-      let day = date.getDate();
-      let hours = date.getHours();
-      let minu = date.getMinutes();
-      return year+'年'+mon+'月'+day+'日  '+hours+':'+minu;
-    }
+
   },
   mounted() {
     console.log(new Date(this.blogInfo.date).getTime())

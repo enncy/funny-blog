@@ -11,8 +11,8 @@ userRouter.use((req, res, next) => {
 })
 
 //获取用户
-userRouter.get('/get/:uid', async (req, res) => {
-    let user = await User.findByUid(req.params.uid)
+userRouter.get('/get/:name', async (req, res) => {
+    let user = await User.findByName(req.params.name)
     res.send(formatUtil.format(user, {msg: user ? "查询用户成功！" : "此用户不存在"}))
 })
 
@@ -43,10 +43,10 @@ userRouter.post('/login', async (req, res) => {
 })
 
 //检测用户是否登录
-userRouter.post('/login/check', async (req, res) => {
+userRouter.get('/login/check', async (req, res) => {
     let user = session.getUser(req)
     if (user) {
-        res.send(formatUtil.format(user, {msg: '已经登录！'}))
+        res.send(formatUtil.format(User.format(user), {msg: '已经登录！'}))
     } else {
         res.send(formatUtil.formatError('未登录！'))
     }

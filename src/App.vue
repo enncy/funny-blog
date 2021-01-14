@@ -5,8 +5,12 @@
 <!--    沉浸式编辑体验-->
     <template v-if="$route.path==='/user/editor'">
       <router-view></router-view>
-
     </template>
+
+<!--    <template v-else-if="$route.name==='home'">-->
+<!--      <router-view></router-view>-->
+<!--    </template>-->
+
 
     <template v-else>
 
@@ -40,7 +44,7 @@
 <script>
 
 import Navigation from "@/views/components/Navigation";
-
+import userApi from '@/api/user'
 
 const api = require('@/api/index')
 
@@ -50,16 +54,31 @@ export default {
     Navigation
   },
   mounted() {
-
+    // this.checkUser()
     //监听刷新，刷新前保存数据
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('store', JSON.stringify(this.$store.state))
     })
   },
 
+  methods:{
+    //检测用户是否存在，不存在则删除本地信息
+    checkUser(){
+      userApi.checkLogin().then((r) => {
+        console.log(r)
+        if(r.data.status){
+          this.$store.dispatch('setUserInfo',undefined)
+        }else{
+          this.$store.dispatch('setUserInfo',r.data.data)
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+    }
+  },
+
   //以 json 的方式储存数据，以防丢失
   beforeCreate() {
-
     let store = localStorage.getItem('store')
     if (store) {
       this.$store.replaceState(Object.assign(this.$store.state, JSON.parse(store)))

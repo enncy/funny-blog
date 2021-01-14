@@ -20,8 +20,9 @@
     <mavon-editor style="margin-top: 20px" class="blog-markdown" :boxShadow="false" v-model="body"></mavon-editor>
 
     <a-modal :maskStyle="{'background-color':' rgba(0,0,0,.15)'}" v-model="modalVisible" cancelText="取消" okText="发布"
-             title="发布文章" @ok="()=>{
-               blogInfo?modify():publish()
+             title="发布文章"  @ok="()=>{
+               if(blogInfo)modify()
+               else publish()
              }">
       <a-descriptions :column="1">
         <a-descriptions-item label="标题">
@@ -122,14 +123,15 @@ export default {
     //修改文章
     modify() {
       if (this.validate()) {
-        blogApi.update(this.getData()).then((r) => {
+        let data = Object.assign({uid:this.blogInfo.uid },this.getData())
+        blogApi.update(data).then((r) => {
           if (r.data.status) {
             this.$message.success(r.data.msg)
             setTimeout(() => {
               this.$router.push('/user')
             }, 1000)
           } else {
-            this.$message.success(r.data.msg)
+            this.$message.error(r.data.msg)
           }
         }).catch((err) => {
           console.error(err)
@@ -165,14 +167,15 @@ export default {
     //发布文章
     publish() {
       if (this.validate()) {
-        blogApi.craete(this.getData()).then((r) => {
+        let data = Object.assign({author:this.userInfo.name },this.getData())
+        blogApi.craete(data).then((r) => {
           if (r.data.status) {
             this.$message.success(r.data.msg)
             setTimeout(() => {
               this.$router.push('/user')
             }, 1000)
           } else {
-            this.$message.success(r.data.msg)
+            this.$message.error(r.data.msg)
           }
         }).catch((err) => {
           console.error(err)
@@ -193,7 +196,6 @@ export default {
     //获取文章数据
     getData() {
       return {
-        uid:this.blogInfo.uid,
         title: this.title,
         body: this.body,
         public: this.public,
@@ -223,8 +225,8 @@ export default {
 <style scoped>
 .blog-markdown {
   z-index: 0;
-  height: 100%;
-  height: 90vh;
+
+  height: 85vh;
 
 }
 </style>

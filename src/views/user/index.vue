@@ -3,7 +3,7 @@
     <a-col class="adapt-item-width" :span="5"  >
       <a-row    >
         <a-card >
-          <user-profile :user-info="userInfo"></user-profile>
+          <user-profile :show-data="true" :show-profile="true" :user-info="userInfo"></user-profile>
         </a-card>
       </a-row>
 
@@ -67,6 +67,7 @@ import UserProfile from "@/views/user/components/UserProfile";
 
 import BlogCard from "@/views/components/BlogCard";
 import blogApi from "@/api/blog"
+import utils from '@/utils/index'
 
 export default {
   components:{
@@ -76,6 +77,7 @@ export default {
 
   data(){
     return {
+      utils,
       list:[],
       userInfo: this.$store.state.userInfo,
       //发送请求中

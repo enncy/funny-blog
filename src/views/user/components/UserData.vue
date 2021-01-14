@@ -43,7 +43,7 @@
     <a-col     v-if="fans_num||data">
       <a-statistic class="data-statistic" :valueStyle="size==='small'?{'font-size': '4px'}:''" title="粉丝" :value="fans_num||data.fans_num"  >
         <template #suffix>
-          <a-icon type="team"  :theme="theme" />
+          <a-icon type="heart"  :theme="theme" />
         </template>
       </a-statistic>
     </a-col>

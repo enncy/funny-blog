@@ -7,8 +7,8 @@
 
       </a-col>
       <a-col style="margin-top: 5px;  cursor: pointer;" @click="openBlog">
-        <a-avatar  icon="user"  :src="blogInfo.author.avatar"/>
-        <span style="font-weight: bold"> {{ blogInfo.author.name }}</span>
+        <a-avatar  icon="user"  :src="(blogInfo.author_info&&blogInfo.author_info.avatar) || ''"/>
+        <span style="font-weight: bold"> {{ blogInfo.author }}</span>
         <span>: <span style="font-size:8px">{{ formatBody(blogInfo.body) }}</span></span>
       </a-col>
       <a-col style="margin-top: 5px">

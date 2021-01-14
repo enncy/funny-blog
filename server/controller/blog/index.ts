@@ -54,7 +54,7 @@ blogRouter.post('/update', async (req, res) => {
 
 //创建文章
 blogRouter.post('/create', async (req, res) => {
-    let author_info = await User.findByName(req.body.author)
+    let author_info = await User.findByName(session.getUser(req).name)
     if (author_info) {
         if (req.body.title === '') req.body.title = '无标题'
         let new_blog = Blog.model(
@@ -73,6 +73,7 @@ blogRouter.post('/create', async (req, res) => {
                 console.log("发布时发生错误！:", err)
                 res.send(formatUtil.formatError("发布时发生错误！:" + err.message))
             } else {
+                console.log("发布文章：",new_blog)
                 res.send(formatUtil.format(Blog.format(new_blog), {msg: new_blog ? "发布成功！" : "发布失败！"}))
             }
         })
@@ -100,14 +101,17 @@ blogRouter.post('/remove', async (req, res) => {
 })
 
 //通过作者获取文章并分页
-blogRouter.get('/article/:author/:skip/:limit', async (req, res) => {
-    let user = session.getUser(req)
-    if (user && user.name === req.params.author) {
-        let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
-        res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
-    } else {
-        res.send(formatUtil.formatError("你没有权限获取文章！"))
-    }
+blogRouter.get('/get/name/:author/:skip/:limit', async (req, res) => {
+    // let user = session.getUser(req)
+    // if (user && user.name === req.params.author) {
+    //     let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
+    //     res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
+    // } else {
+    //     res.send(formatUtil.formatError("你没有权限获取文章！"))
+    // }
+
+    let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
+    res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
 
 })
 

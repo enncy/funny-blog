@@ -25,13 +25,13 @@
 
     <!--          简介-->
 
-    <a-row  class="adapt-item-hide">
+    <a-row v-if="showProfile"  class="adapt-item-hide">
       <a-divider/>
 
       <a-descriptions size="small" :column="1">
 
         <a-descriptions-item label="创建时间">
-          2017-01-10
+          {{utils.getTime(userInfo.date,true)}}
         </a-descriptions-item>
         <a-descriptions-item label="称号">
           入门新手
@@ -42,7 +42,7 @@
       </a-descriptions>
     </a-row>
 
-    <a-row style="margin-top: 10px;text-align: center">
+    <a-row v-if="showData" style="margin-top: 10px;text-align: center">
       <user-data :data="userInfo" theme="" size="small"></user-data>
     </a-row>
   </div>
@@ -54,15 +54,24 @@
 </template>
 
 <script>
-
+import utils from '@/utils/index'
 import UserData from "@/views/user/components/UserData";
 
 export default {
+
   components:{
     UserData
   },
+
+  data(){
+    return {
+      utils
+    }
+  },
   props:{
-    userInfo:Object
+    userInfo:Object,
+    showData:Boolean,
+    showProfile:Boolean,
   }
 }
 </script>

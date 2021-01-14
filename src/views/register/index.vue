@@ -1,5 +1,5 @@
 <template>
-  <a-row style="display: flex;justify-content: center">
+  <a-row style="display: flex;justify-content: center;margin-top: 50px">
     <a-col>
       <a-card    :bordered="false">
         <template slot="title">

@@ -60,6 +60,21 @@ module.exports = {
             method:"get",
             url:userURL+`/check/${name}`,
         })
+    },
+
+    //检测是否登录
+    checkLogin(){
+        return request({
+            method:"get",
+            url:userURL+`/login/check`,
+        })
+    },
+
+    getUserByNmae(name){
+        return request({
+            method:"get",
+            url:userURL+`/get/${name}`,
+        })
     }
 
 

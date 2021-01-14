@@ -18,7 +18,9 @@ module.exports = app => {
     app.use('/api/user', userRouter)
     app.use('/api/blog', blogRouter)
     app.use('/api/email', emailRouter)
-    app.use('/user/**', (req, res, next) => {
+
+    app.use('/user**', (req, res, next) => {
+        console.log("用户界面",req.url)
         let user  = session.getUser(req)
         if (!user) {
             res.redirect('/login')
@@ -26,6 +28,7 @@ module.exports = app => {
             next()
         }
     })
+
 
     //启用 connect-history-api-fallback 中间件
     app.use(history( ));
@@ -38,6 +41,7 @@ module.exports = app => {
         // console.log("404 not found")
         res.redirect('/')
     });
+
 
 
 

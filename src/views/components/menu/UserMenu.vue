@@ -88,7 +88,7 @@ export default {
     },
     //个人首页
     home(){
-      this.$router.push('/home/')
+      this.$router.push('/'+this.userInfo.name)
     }
   }
 }

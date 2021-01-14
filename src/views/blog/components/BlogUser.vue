@@ -2,7 +2,7 @@
   <div>
     <a-row style="display: flex;flex-wrap: wrap; align-items:center">
       <a-col>
-        <user-profile :user-info="userInfo"></user-profile>
+        <user-profile  :show-data="true" :show-profile="true" :user-info="userInfo"></user-profile>
       </a-col>
 
     </a-row>
