@@ -1,11 +1,11 @@
 # funny-blog
 趣博客——开源的博客网站
 
-在线演示地址：http://funny.klweb.top
+在线演示地址：https://funny.klweb.top
 
 ## quickly start
 
-```javascript
+```js
 
 //下载项目
 git clone git@github.com:klskeleton/funny-blog.git
@@ -23,9 +23,9 @@ npm run build
 
 ## 技术栈
 
-前端：  vue + ant design vue
+前端：  vue + ant design vue + vue-router + vuex
 
-后端:  nodejs + express + mongodb
+后端:  nodejs + express + mongodb + mongoose
 
 ## 项目结构
 
@@ -38,8 +38,8 @@ npm run build
     - router         路由模块
     - service        业务模块
     - session        session模块
-    - utils          工具模块
-    app.ts          服务器启动入口
+    - utils          工具模块 
+      app.ts          服务器启动入口
     
 - src           前端代码
     - api           接口模块
@@ -54,7 +54,10 @@ npm run build
         - index         网站首页
         - login         登录
         - register      注册
-        - user          用户页
-        App.vue         前端页面主入口
+        - user          用户页 
+          App.vue       前端页面主入口
+          main.js       主入口
+          
     
 - email.config.js       邮箱发送配置文件 (私有)
+- webpack.config.js     webpack 配置
