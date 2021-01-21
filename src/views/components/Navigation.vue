@@ -1,8 +1,6 @@
 <template>
 
-  <navigation-menu :list="list">
-
-  </navigation-menu>
+  <navigation-menu :list="list"> </navigation-menu>
 </template>
 
 <script>

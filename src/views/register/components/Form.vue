@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import BaseForm from "./BaseForm";
+import BaseForm from "@/views/register/components/BaseForm";
 
 const emailApi = require('@/api/email')
 const userApi = require('@/api/user')

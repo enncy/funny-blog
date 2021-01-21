@@ -1,6 +1,6 @@
 <template>
   <a-card>
-    <a-row>
+    <a-row style="display:flex;justify-content: flex-end">
       <a-button type="link" @click="$router.push('/')">返回首页</a-button>
       <a-button type="link" @click="$router.push('/user')">返回个人中心</a-button>
     </a-row>

@@ -9,9 +9,9 @@ const emailConfig = require('../../email.config.js');
 
 //域名
 const smtpHost = emailConfig.smtpHost   //'smtp.qq.com'
-//发送者
-const sender =  emailConfig.sender  //'xxxxxxxx@qq.com'
-// smtp 的 授权码 ， 在qq 邮箱的账户里面获取
+//发送者R
+const sender =  emailConfig.sender  //'你的qq号@qq.com'
+// smtp 的 授权码 ， 在qq 邮箱的设置->账户->里面获取
 const smtpPwd = emailConfig.smtpPassword // 'xxxxxxxxxxxxxxxx'
 
 /**
@@ -29,7 +29,7 @@ module.exports = {
      * @return {*}  Promise<Boolean>>
      */
     sendEmailCode(email,code){
-        return this.sendEmailTo(email,"邮箱验证","html",`<h1>funyblog:</h1> 你的邮箱验证码为: <a>${code}</a> ,请您尽快验证`)
+        return this.sendEmailTo(email,"邮箱验证","html",`<h1>funny-blog:</h1> 你的邮箱验证码为: <a>${code}</a> ,请您尽快验证`)
     },
 
 

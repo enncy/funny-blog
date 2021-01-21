@@ -1,47 +1,54 @@
 <template>
-  <a-row class="statistic-group" style="display: flex;flex-wrap: wrap;justify-content: center" >
-    <a-col    v-if="blog_num||data">
-      <a-statistic class="data-statistic"  :valueStyle="size==='small'?{'font-size': '4px'}:''"   title="文章数" :value="blog_num||data.blog_num" >
+  <a-row class="statistic-group  adapt-item-justify" style="display: flex;flex-wrap: wrap;"  >
+
+    <a-col v-if="userInfo.blog_num!==undefined" >
+      <a-statistic class="data-statistic"   :valueStyle="{'font-size':size==='small'?'4px':'16px'}"  title="文章数"
+                   :value="userInfo.blog_num" >
         <template #suffix>
           <a-icon type="book"  :theme="theme"  />
         </template>
       </a-statistic>
     </a-col>
 
-    <a-col    v-if="read_num||data">
-      <a-statistic class="data-statistic" :valueStyle="size==='small'?{'font-size': '4px'}:''" title="总访问" :value="read_num||data.read_num"  >
+    <a-col    v-if="userInfo.read_num!==undefined">
+      <a-statistic class="data-statistic" :valueStyle="{'font-size':size==='small'?'4px':'16px'}" title="总访问"
+                   :value="userInfo.read_num"  >
         <template #suffix>
           <a-icon type="eye" :theme="theme"/>
         </template>
       </a-statistic>
     </a-col>
 
-    <a-col    v-if="star_num||data">
-      <a-statistic class="data-statistic" :valueStyle="size==='small'?{'font-size': '4px'}:''" title="收藏" :value="star_num||data.star_num"  >
+    <a-col    v-if="userInfo.star_num!==undefined">
+      <a-statistic class="data-statistic" :valueStyle="{'font-size':size==='small'?'4px':'16px'}" title="收藏"
+                   :value="userInfo.star_num"  >
         <template #suffix>
           <a-icon type="star"  :theme="theme" />
         </template>
       </a-statistic>
     </a-col>
 
-    <a-col    v-if="like_num||data">
-      <a-statistic class="data-statistic" :valueStyle="size==='small'?{'font-size': '4px'}:''" title="获赞" :value="like_num||data.like_num"  >
+    <a-col    v-if="userInfo.like_num!==undefined">
+      <a-statistic class="data-statistic" :valueStyle="{'font-size':size==='small'?'4px':'16px'}" title="获赞"
+                   :value="userInfo.like_num"  >
         <template #suffix>
           <a-icon type="like"  :theme="theme" />
         </template>
       </a-statistic>
     </a-col>
 
-    <a-col   v-if="comments_num||data">
-      <a-statistic class="data-statistic" :valueStyle="size==='small'?{'font-size': '4px'}:''" title="评论" :value="comments_num||data.comments_num"  >
+    <a-col   v-if="userInfo.comments_num!==undefined">
+      <a-statistic class="data-statistic" :valueStyle="{'font-size':size==='small'?'4px':'16px'}" title="评论"
+                   :value="userInfo.comments_num"  >
         <template #suffix>
           <a-icon type="message"  :theme="theme" />
         </template>
       </a-statistic>
     </a-col>
 
-    <a-col     v-if="fans_num||data">
-      <a-statistic class="data-statistic" :valueStyle="size==='small'?{'font-size': '4px'}:''" title="粉丝" :value="fans_num||data.fans_num"  >
+    <a-col     v-if="userInfo.fans_num!==undefined">
+      <a-statistic class="data-statistic" :valueStyle="{'font-size':size==='small'?'4px':'16px'}" title="粉丝"
+                   :value="userInfo.fans_num"  >
         <template #suffix>
           <a-icon type="heart"  :theme="theme" />
         </template>
@@ -68,6 +75,22 @@ export default {
     size:String,
     theme:String ,
 
+  },
+
+  data(){
+    return{
+      userInfo: this.data || {
+        star_num:this.star_num,//收藏数
+        blog_num:this.blog_num,//文章数
+        fans_num:this.fans_num,//粉丝量
+        like_num:this.like_num, //点赞量
+        read_num:this.read_num,//阅读量
+        comments_num:this.comments_num,  //评论数量
+      }
+    }
+  },
+  mounted() {
+    console.log(this.userInfo)
   }
 }
 </script>

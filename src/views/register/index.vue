@@ -13,7 +13,7 @@
 
 <script>
 
-import RegisterForm from "./components/Form";
+import RegisterForm from "@/views/register/components/Form";
 
 export default {
   components:{

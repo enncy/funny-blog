@@ -1,8 +1,10 @@
 <template>
-  <a-row style="display: flex;flex-wrap: wrap">
-    <a-col class="adapt-item-width" :span="5"  >
-      <a-row    >
+  <a-row style="display: flex;" class="adapt-item-wrap">
+    <a-col class="adapt-item-width"  :span="5" style="min-width: 300px" >
+      <a-row  >
         <a-card >
+          <user-avatar :user-info="userInfo"></user-avatar>
+          <a-divider/>
           <user-profile :show-data="true" :show-profile="true" :user-info="userInfo"></user-profile>
         </a-card>
       </a-row>
@@ -13,19 +15,19 @@
         </a-card>
       </a-row>
 
-      <a-row class="adapt-item-hide card-item"  >
+      <a-row class="adapt-item-big-show card-item"  >
         <a-card title="置顶文章"  size="small">
           暂无
         </a-card>
       </a-row>
 
-      <a-row class="adapt-item-hide card-item" >
+      <a-row class="adapt-item-big-show card-item" >
         <a-card title="文章分类"  size="small">
           暂无
         </a-card>
       </a-row>
 
-      <a-row class="adapt-item-hide card-item"  >
+      <a-row class="adapt-item-big-show card-item"  >
         <a-card title="热门文章"  size="small">
           暂无
         </a-card>
@@ -34,7 +36,7 @@
 
 
     </a-col>
-    <a-col :span="17" :offset="1" class="adapt-item-width" >
+    <a-col :span="18"    class="blog-list adapt-item-width " >
       <a-card>
 <!--        <user-profile></user-profile>-->
         <a-breadcrumb>
@@ -54,6 +56,9 @@
         <template >
           <blog-card show-operation="true" v-for="(item,index) in list" :blogInfo="item" :index="index" @remove="remove"></blog-card>
         </template>
+
+        <user-pagination :user-info="userInfo" @listUpdate="listUpdate"  @sendApi="sendApi" @finishSendApi="finishSendApi"></user-pagination>
+
       </a-card>
 
     </a-col>
@@ -64,14 +69,16 @@
 <script>
 import  UserData from '@/views/user/components/UserData';
 import UserProfile from "@/views/user/components/UserProfile";
-
+import UserAvatar from "@/views/user/components/UserAvatar";
+import UserPagination from "@/views/user/components/UserPagination";
 import BlogCard from "@/views/components/BlogCard";
 import blogApi from "@/api/blog"
 import utils from '@/utils/index'
 
 export default {
   components:{
-    UserData,UserProfile,
+    UserAvatar,
+    UserData,UserProfile,UserPagination,
     BlogCard
   },
 
@@ -82,9 +89,6 @@ export default {
       userInfo: this.$store.state.userInfo,
       //发送请求中
       sending:false,
-      //分页
-      skip:0,
-      limit:10,
     }
   },
 
@@ -102,25 +106,26 @@ export default {
       this.list = this.list.filter(blog=>blog.uid!==blogInfo.uid)
     },
 
-
-    //获取用户博客
-    getUserBlog(skip,limit){
-      blogApi.getByAuthorAndPage(this.userInfo.name,skip,limit).then((r) => {
-        console.log(r)
-        if(r.data.status){
-          this.list = r.data.data
-        }else{
-          this.$message.error(r.data.msg)
-        }
-      }).catch((err) => {
-        console.error(err)
-      })
+    //文章更新
+    listUpdate(list){
+      this.list = list
     },
+    //发送 api监听
+    sendApi(){
+      this.sending = true
+    },
+    // api 发送完成监听
+    finishSendApi(){
+      this.sending = false
+    },
+    //搜索文章
+    onSearch(){
+
+    }
   },
 
   mounted() {
-    console.log(this.$store)
-    this.getUserBlog(0,10)
+
   }
 
 }
@@ -130,4 +135,15 @@ export default {
 .card-item{
   margin: 5px 0px 5px 0px;
 }
+.blog-list{
+  margin: 0px 0px 0px 10px
+}
+
+
+@media screen and (max-width: 800px) {
+  .blog-list{
+    margin: 0px 0px 0px 0px
+  }
+}
+
 </style>

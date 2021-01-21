@@ -8,6 +8,7 @@ import store from './store/index'
 // import 'mavon-editor/dist/css/index.css'
 
 
+import MetaInfo from 'vue-meta-info'
 import router from './router'
 const event = require('events')
 const emitter = new event.EventEmitter()
@@ -19,7 +20,7 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 
-
+Vue.use(MetaInfo)
 Vue.use(MavonEditor)
 Vue.use(antd);
 Vue.config.productionTip = false

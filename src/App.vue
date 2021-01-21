@@ -14,13 +14,17 @@
 
     <template v-else>
 
+
+
       <a-layout id="components-layout-demo-top" class="layout">
         <!--    固定导航栏-->
         <a-affix style="    width: 100%;">
-          <a-layout-header class="index-header">
-            <div class="logo">
-              <img width="150px" style="    margin:0px 0px 20px 10px" src="/logo.png">
-            </div>
+          <a-layout-header class="index-header" >
+            <span class="logo" @click="$router.push('/')">
+              <span  >
+                <span style="color: #1890ff; ">趣</span>博客
+              </span>
+            </span>
             <!--      导航-->
             <navigation class="index-menu"></navigation>
           </a-layout-header>
@@ -33,15 +37,15 @@
         </a-layout-content>
         <a-layout-footer style="text-align: center">
           <a-row>
-            funy blog ©2021 Created by <a href="https://github.com/klskeleton/">klskeleton</a>
+            funny blog ©2021 Created by <a href="https://github.com/klskeleton/" target="_blank">klskeleton</a>
           </a-row>
 
           <a-row>
-            在线演示地址：<a href="http://funy.klweb.top/">http://funy.klweb.top/</a>
+            在线演示地址：<a href="http://funny.klweb.top/" target="_blank">http://funny.klweb.top/</a>
           </a-row>
 
           <a-row>
-            网站源码：<a href="https://github.com/klskeleton/funy-blog">https://github.com/klskeleton/funy-blog</a> <a-icon style="font-size: 20px" type="github" theme="filled" />
+            网站源码：<a href="https://github.com/klskeleton/funny-blog" target="_blank">https://github.com/klskeleton/funny-blog</a> <a-icon style="font-size: 20px" type="github" theme="filled" />
           </a-row>
 
         </a-layout-footer>
@@ -103,9 +107,14 @@ export default {
 
 <style>
 #components-layout-demo-top .logo {
-  height: 31px;
+  height: 50px;
+  cursor: pointer;
+  position: absolute;
+  top: -10px;
+  margin-left: 20px;
   background: rgba(255, 255, 255, 0.2);
   float: left;
+  font-size: 20px;
 }
 
 .layout {
@@ -190,13 +199,32 @@ export default {
     padding: 20px 40px 40px 40px;
   }
 
+  /*自适应隐藏效果，大屏幕显示，小屏幕隐藏*/
+  .adapt-item-big-show {
+    display: block;
+  }
 
-  .adapt-item-show {
+  /*自适应隐藏效果，大屏幕隐藏，小屏幕显示*/
+  .adapt-item-big-hide {
     display: none;
   }
 
-  .adapt-item-hide {
-    display: block;
+  /*自适应子元素的排列方式，大屏幕不自动换行，小屏幕自动换行*/
+  .adapt-item-wrap{
+    flex-wrap: nowrap;
+  }
+
+  /*自适应子元素位置，如何屏幕够大则左侧排列，小屏幕则居中显示*/
+  .adapt-item-justify{
+    justify-content: start;
+  }
+
+  /*文字自适应大小*/
+  .adapt-item-text{
+    font-size: 15px;
+  }
+  .adapt-item-title{
+    font-size: 17px;
   }
 
 }
@@ -213,12 +241,29 @@ export default {
     padding: 0;
   }
 
-  .adapt-item-show {
+  .adapt-item-big-show {
+    display: none;
+  }
+
+  .adapt-item-big-hide {
     display: block;
   }
 
-  .adapt-item-hide {
-    display: none;
+  .adapt-item-wrap{
+    flex-wrap: wrap;
+  }
+
+  .adapt-item-justify{
+    justify-content: center;
+  }
+
+
+  .adapt-item-text{
+    font-size: 14px;
+  }
+
+  .adapt-item-title{
+    font-size: 15px;
   }
 
   .index-content {

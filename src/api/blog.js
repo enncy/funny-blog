@@ -8,6 +8,19 @@ const blogURL = '/api/blog'
 
 module.exports = {
 
+
+    /**
+     * 通过 uid 查询文章
+     * @param uid
+     * @return {*}
+     */
+    getByUid(uid){
+        return request({
+            method:'get',
+            url: blogURL+`/get/one/${uid}`,
+        })
+    },
+
     /**
      * 分页获取文章
      * @param skip
@@ -30,21 +43,28 @@ module.exports = {
     getByAuthorAndPage(author,skip,limit){
         return request({
             method:'get',
-            url: blogURL+`/get/name/${author}/${skip}/${limit}`,
+            url: blogURL+`/get/by/author/${author}/${skip}/${limit}`,
         })
     },
 
-    /**
-     * 通过 uid 查询文章
-     * @param uid
-     * @return {*}
-     */
-    getByUid(uid){
+
+    //获取文章总数
+    getCount(){
         return request({
             method:'get',
-            url: blogURL+`/get/one/${uid}`,
+            url:blogURL+'/get/count/by/all',
         })
     },
+
+    //获取作者文章总数
+    getCountByAuthor(author){
+        return request({
+            method:'get',
+            url:blogURL+`/get/count/by/author/${author}`,
+        })
+    },
+
+
 
     /**
      * 创建文章
@@ -86,14 +106,6 @@ module.exports = {
             data:blog
         })
     },
-
-    //获取文章总数
-    getCount(){
-        return request({
-            method:'get',
-            url:blogURL+'/get/count',
-        })
-    }
 
 
 

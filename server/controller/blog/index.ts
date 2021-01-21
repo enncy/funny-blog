@@ -6,6 +6,17 @@ const blogRouter = express.Router()
 const formatUtil = require("../../utils/format")
 const session = require('../../session')
 
+const api = {
+    getOneBlog:'/get/one/:uid',
+    getSomeBlog:'/get/some/:skip/:limit',
+    getBlogByName:'/get/by/author/:author/:skip/:limit',
+    getBlogAllCount:'/get/count/by/all',
+    getBlogCountByAuthor:'/get/count/by/author/:author',
+    updateBlog:'/update',
+    createBlog:'/create',
+    removeBlog:'/remove',
+}
+
 blogRouter.use((req, res, next) => {
 
     if (req.url.match('/get/')) {
@@ -20,40 +31,45 @@ blogRouter.use((req, res, next) => {
 })
 
 //获取文章
-blogRouter.get('/get/one/:uid', async (req, res) => {
+blogRouter.get(api.getOneBlog, async (req, res) => {
     let blog = await Blog.findByUid(req.params.uid)
     res.send(formatUtil.format(blog, {msg: blog ? "查询文章成功！" : "此文章不存在"}))
 })
 
 //分页获取文章
-blogRouter.get('/get/some/:skip/:limit', async (req, res) => {
+blogRouter.get(api.getSomeBlog, async (req, res) => {
     let blogs = await Blog.findByPage(parseInt(req.params.skip), parseInt(req.params.limit))
     res.send(formatUtil.format(blogs, {msg: blogs ? "获取文章列表成功！" : "获取文章列表失败！"}))
 })
 
 //通过作者获取文章并分页
-blogRouter.get('/get/name/:author/:skip/:limit', async (req, res) => {
+blogRouter.get(api.getBlogByName, async (req, res) => {
     let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
     res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
 
 })
 
-//获取文章
-blogRouter.get('/get/count', async (req, res) => {
-     Blog.getCount((err,count)=>{
-
-        if(err){
-            res.send(formatUtil.formatError("查询数量错误！"))
-        }else{
-            res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "查询数量失败！"}))
-        }
+//获取文章数量
+blogRouter.get(api.getBlogAllCount, async (req, res) => {
+    console.log(req.url)
+    Blog.getCount((err, count) => {
+        if (err) res.send(formatUtil.formatError("查询数量错误！"))
+        else res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "查询数量失败！"}))
     })
-
 })
 
+//获取作者文章的数量
+blogRouter.get(api.getBlogCountByAuthor, async (req, res) => {
+    console.log(req.url)
+    Blog.getCountByAuthor(req.params.author,(err, count) => {
+
+        if (err) res.send(formatUtil.formatError("查询数量错误！"))
+        else res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "查询数量失败！"}))
+    })
+})
 
 //更新
-blogRouter.post('/update', async (req, res) => {
+blogRouter.post(api.updateBlog, async (req, res) => {
     let blog = await Blog.findByUid(req.body.uid)
     if (blog) {
         let new_blog = Blog.update(
@@ -73,7 +89,7 @@ blogRouter.post('/update', async (req, res) => {
 })
 
 //创建文章
-blogRouter.post('/create', async (req, res) => {
+blogRouter.post(api.createBlog, async (req, res) => {
     let author_info = await User.findByName(session.getUser(req).name)
     if (author_info) {
         if (req.body.title === '') req.body.title = '无标题'
@@ -93,7 +109,7 @@ blogRouter.post('/create', async (req, res) => {
                 console.log("发布时发生错误！:", err)
                 res.send(formatUtil.formatError("发布时发生错误！:" + err.message))
             } else {
-                console.log("发布文章：",new_blog)
+                console.log("发布文章：", new_blog)
                 res.send(formatUtil.format(Blog.format(new_blog), {msg: new_blog ? "发布成功！" : "发布失败！"}))
             }
         })
@@ -104,7 +120,7 @@ blogRouter.post('/create', async (req, res) => {
 })
 
 //删除文章
-blogRouter.post('/remove', async (req, res) => {
+blogRouter.post(api.removeBlog, async (req, res) => {
     let blog = await Blog.findByUid(req.body.uid)
     if (blog) {
         Blog.removeByUid(req.body.uid, (err) => {
@@ -119,8 +135,6 @@ blogRouter.post('/remove', async (req, res) => {
     }
 
 })
-
-
 
 
 export default blogRouter

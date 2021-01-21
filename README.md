@@ -1,14 +1,14 @@
-# funy-blog
+# funny-blog
 趣博客——开源的博客网站
 
-在线演示地址：http://funy.klweb.top
+在线演示地址：http://funny.klweb.top
 
 ## quickly start
 
 ```javascript
 
 //下载项目
-git clone git@github.com:klskeleton/funy-blog.git
+git clone git@github.com:klskeleton/funny-blog.git
 //安装依赖
 npm install
 //启动项目

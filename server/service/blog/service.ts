@@ -92,10 +92,23 @@ class BlogService extends  Index {
         }))
     }
 
-
+    /**
+     * 获取文章总数
+     * @param callback
+     */
     getCount(callback?: (err: any, count: number) => void){
         return  this.mongooseModel.count(callback);
     }
+
+    /**
+     * 获取作者文章总数
+     * @param author 作者名
+     * @param callback
+     */
+    getCountByAuthor(author,callback?: (err: any, count: number) => void){
+        return  this.mongooseModel.count({ author },callback);
+    }
+
 
 
     removeByUid(uid:string,callback:(err: NativeError) => void){

@@ -3,20 +3,23 @@
 
     <a-row style="padding: 5px; " :style="{'border-top': index!==0?'1px solid #e8e8e8':''}">
       <a-col style="display: flex;flex-wrap: nowrap;  cursor: pointer;" @click="openBlog" >
-        <span style="font-weight: 900;font-size: 15px" >{{ blogInfo.title }}</span>
+        <span style="font-weight: 900;"  class="adapt-item-title" >{{ blogInfo.title }}</span>
+      </a-col>
 
-      </a-col>
       <a-col style="margin-top: 5px;  cursor: pointer;" @click="openBlog">
-        <a-avatar  icon="user"  :src="(blogInfo.author_info&&blogInfo.author_info.avatar) || ''"/>
+<!--        <a-avatar  icon="user"  :src="(blogInfo.author_info&&blogInfo.author_info.avatar) || ''"/>-->
         <span style="font-weight: bold"> {{ blogInfo.author }}</span>
-        <span>: <span style="font-size:8px">{{ formatBody(blogInfo.body) }}</span></span>
+        <span>:
+          <span  class="adapt-item-text" >{{ utils.formatBlogBody(blogInfo.body) }}</span>
+        </span>
       </a-col>
-      <a-col style="margin-top: 5px">
-        <a-row style="display:flex;flex-wrap: nowrap">
-          <a-col :span="6" style="  cursor: default;">
+
+      <a-col  >
+        <a-row style="display:flex;flex-wrap: nowrap;justify-content: flex-end">
+          <a-col   style="  cursor: default;padding-top: 6px;">
             <blog-card-info :blogInfo="blogInfo"></blog-card-info>
           </a-col>
-          <a-col :span="18" style="display:flex;justify-content: flex-end" v-if="showOperation">
+          <a-col  style="display:flex;justify-content: flex-end" v-if="showOperation">
             <a-button type="link">置顶</a-button>
             <a-button type="link" @click="edit">编辑</a-button>
 
@@ -44,8 +47,10 @@
 
 <script>
 
+
 import BlogCardInfo from "@/views/components/BlogCardInfo";
 import blogApi from '@/api/blog'
+import utils from '@/utils/index'
 
 export default {
   props: {
@@ -61,18 +66,13 @@ export default {
 
   data(){
     return {
+      utils,
       blogInfo:this.blogInfo,
     }
   },
 
   methods: {
-    //格式化博客内容
-    formatBody(body) {
-      let newBody = body.length > 100 ? body.substr(0, 100) + ' ...' : body
-      //消除 markdown 字体
-      newBody = newBody.replace(/(#|-|\*|>|)/g, "").replace(/@\[TOC\]\(.*\)/, "")
-      return newBody
-    },
+
     //打开博客
     openBlog(){
       console.log(this.blogInfo)
