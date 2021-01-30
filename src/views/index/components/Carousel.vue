@@ -1,20 +1,20 @@
 <template>
 
-  <a-carousel arrows ref="carousel">
+  <a-carousel  arrows ref="carousel"     >
 
     <div
         slot="prevArrow"
         slot-scope="props"
         class="custom-slick-arrow"
-        style="left: 10px;z-index: 1"
+        style="left: 10px;z-index: 1;"
     >
       <a-icon type="left-circle" />
     </div>
     <div slot="nextArrow" slot-scope="props" class="custom-slick-arrow" style="right: 10px">
       <a-icon type="right-circle" />
     </div>
-    <template v-for="index in imgLength" >
-      <img  :src="`https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg${index}.png`" :key="index"/>
+    <template v-for="index in imgs" >
+      <img    :src="`https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg${index}.png`" :key="index"/>
     </template>
   </a-carousel>
 </template>
@@ -25,8 +25,8 @@ import api from  '@/api/index'
 export default {
   data(){
     return {
-      carousel:'100%',
-      imgLength:4,
+
+      imgs:[4,3,2,1],
       //文案
       comments:'',
     }
@@ -37,7 +37,10 @@ export default {
   mounted() {
 
     this.$nextTick(()=>{
-      this.carousel = this.$refs.carousel?.$el?.clientWidth+'px'
+      setInterval(()=>{
+        this.$refs.carousel.next()
+      },5000)
+
     })
   }
 };
@@ -45,8 +48,7 @@ export default {
 <style scoped>
 /* For demo */
 .ant-carousel >>> .slick-slide {
-   height: 250px;
-
+   height: 350px;
 }
 
 .ant-carousel >>> .custom-slick-arrow {

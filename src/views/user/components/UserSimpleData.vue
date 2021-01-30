@@ -2,7 +2,7 @@
   <div>
 
     <a-row class="d-flex-nowrap-ali-center">
-      <a-col :span="24/statistics.length" v-for="(item,index) in statistics" class="font-small" style="text-align: center">
+      <a-col :span="24/statistics.length" v-for="(item,index) in statistics" class="font-small" :key="index" style="text-align: center">
         <a-row>
           <a-col>
             {{item.data}}

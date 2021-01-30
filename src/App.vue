@@ -2,8 +2,17 @@
 
   <div id="app">
     <template >
+      <!--首页铺满展示-->
+      <div v-if="this.$route.name==='home'">
+        <router-view style="width: 100%;height: 100%;" ></router-view>
+        <!--底部footer-->
+        <a-layout-footer style="background-color: white;  margin-top: 50px;">
+          <index-footer></index-footer>
+        </a-layout-footer>
+      </div>
 
-      <a-layout id="components-layout-demo-top" class="layout">
+
+      <a-layout v-else id="components-layout-demo-top" class="layout">
         <!--固定导航栏-->
         <a-affix style="    width: 100%;">
           <a-layout-header class="index-header">
@@ -17,8 +26,9 @@
         </a-affix>
 
         <a-layout-content class="index-content">
+
           <!--  router-views  网页内容显示 -->
-          <keep-alive include="index,user,login,register">
+          <keep-alive  include="index,user,login,register">
             <router-view  style="min-height: 700px"></router-view>
           </keep-alive>
           <!--<router-view></router-view>-->

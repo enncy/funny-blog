@@ -1,9 +1,9 @@
 <template>
-  <a-row class="d-flex-wrap" :gutter="20">
+  <a-row class="d-flex-nowrap  big-no-warp" :gutter="20">
 
-    <a-col :span="14"  :offset="3" class="adapt-item-width" style="min-width: 570px">
-      <a-row lass="d-flex-wrap"  >
-        <a-col class="adapt-item-big-show"  :span="4" >
+    <a-col :span="16"  :offset="2" class="adapt-item-width" style="min-width: 570px">
+      <a-row class="d-flex-nowrap"  >
+        <a-col class="adapt-item-big-show"  :span="3" >
           <a-affix :offset-top="60">
             <blog-section style="min-width: 110px" title="热门标签" color="orange">
               <template v-for="(item,index) in hot_tags">
@@ -15,12 +15,12 @@
           </a-affix>
         </a-col>
 
-        <a-col :span="19" class="adapt-item-width" :offset="1" >
+        <a-col :span="20" class="adapt-item-width  index-main" >
 
           <a-row :gutter="[0,10]">
             <!--走马灯-->
             <a-col>
-              <carousel></carousel>
+              <carousel ></carousel>
             </a-col>
             <!--面包屑-->
             <a-col>
@@ -66,11 +66,16 @@
       <blog-section title="你的喜欢" color="blue">
         暂无
       </blog-section>
-      <blog-section   color="red" >
-          <span slot="title">
-            网抑云 <a-button type="link" icon="redo" @click="changeMusic"></a-button>
+      <blog-section   color="red" title="网抑云">
+          <span slot="operation">
+            <a-button type="link" icon="redo" @click="changeMusic"></a-button>
           </span>
         <cloud-music :indexEmitter="indexEmitter"></cloud-music>
+      </blog-section>
+      <blog-section title="趣博客" color="blue">
+        <div class="div-card font-small">
+          <website-info></website-info>
+        </div>
       </blog-section>
     </a-col>
   </a-row>
@@ -85,6 +90,7 @@ import Breadcrumb from "@/views/index/components/Breadcrumb";
 import CloudMusic from "@/views/index/components/CloudMusic";
 import UserSimpleData from "@/views/user/components/UserSimpleData";
 import UserAvatar from "@/views/user/components/UserAvatar";
+import WebsiteInfo from "@/views/index/components/WebsiteInfo";
 
 const events = require('events')
 const indexEmitter = new events.EventEmitter();
@@ -92,13 +98,15 @@ const indexEmitter = new events.EventEmitter();
 export default {
   name:"index",
   components: {
-    BlogCard, Pagination, BlogSection, Carousel,Breadcrumb,CloudMusic,UserSimpleData,UserAvatar
+    BlogCard, Pagination, BlogSection, Carousel,Breadcrumb,CloudMusic,UserSimpleData,UserAvatar,WebsiteInfo
   },
   data() {
 
     let hot_tags = ['java','js','vue','spring','express','springboot']
 
     return {
+      indexEmitter,
+
       //全部文章
       list: [],
       //热门标签
@@ -108,7 +116,6 @@ export default {
       //你喜欢的文章
       fav_blog: [],
 
-      indexEmitter,
       sending: false,
 
       //用户信息
@@ -144,10 +151,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
-.blog-col {
-
+.index-main{
+  margin-left: 30px;
 }
 
 

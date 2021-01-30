@@ -38,7 +38,7 @@
                   <span> {{ showOperation?"我":blogInfo.author }}</span>
                 </a-col>
                 <a-col>
-                  <span><a-badge status="default"/>{{ utils.getElapsedTime(blogInfo.update_date) }}</span>
+                  <span><a-badge status="default"/>{{ utils.getElapsedTime(blogInfo.update_date) }}前</span>
                 </a-col>
               </a-row>
             </a-col>

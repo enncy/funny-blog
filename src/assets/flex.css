@@ -30,3 +30,23 @@
 }
 
 
+/*小屏幕*/
+@media screen  and (max-width: 800px){
+    .big-no-warp{
+        flex-wrap: wrap;
+    }
+
+    .big-warp{
+        flex-wrap: nowrap;
+    }
+}
+
+/*大屏幕*/
+@media screen  and (min-width: 801px){
+    .big-no-warp{
+        flex-wrap: nowrap;
+    }
+    .big-warp{
+        flex-wrap: wrap;
+    }
+}

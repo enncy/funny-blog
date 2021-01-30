@@ -4,8 +4,8 @@
       <!--头像和名字-->
       <a-row >
         <a-col>
-          <a-avatar  :size="40" icon="user" />
-          <span class="font-x-large" style="font-weight: bold"> {{ userInfo.name}}</span>
+          <a-avatar  :size="avatarSize" icon="user" />
+          <span :style="Object.assign({fontSize:fontSize+'px'},textStyle)" style="font-weight: bold"  > {{ userInfo.name}}</span>
         </a-col>
       </a-row>
     </div>
@@ -29,7 +29,29 @@
 export default {
   name: "UserAvatar",
   props:{
-    userInfo:Object
+    userInfo:Object,
+    size:String,
+    textStyle:Object,
+  },
+  data(){
+    return {
+      avatarSize:40,
+      fontSize:16,
+    }
+  },
+  mounted() {
+    if(this.size==='large'){
+      this.avatarSize=80
+      this.fontSize=30
+    }
+    if(this.size==='middle'){
+      this.avatarSize=60
+      this.fontSize=20
+    }
+    if(this.size==='small'){
+      this.avatarSize=40
+      this.fontSize=16
+    }
   }
 }
 </script>

@@ -14,7 +14,7 @@
     </a-col>
 
     <!--文章标签-->
-    <a-col>
+    <a-col v-if="blogInfo.tags.length!==0">
       <a-icon type="tags" style="margin-right: 5px"/>
       <template v-for="(item,index) in blogInfo.tags">
         <a-button type="link" :size="'small'" color="blue" >#{{item}}</a-button>
@@ -26,7 +26,7 @@
       <a-col :span="18"  class="blog-font">
         {{userInfo.name}} 发布于:{{ utils.getTime(blogInfo.date,true) }}
         <a-badge status="default"/>
-        最近更新:{{utils.getElapsedTime(blogInfo.date)}}
+        最近更新:{{utils.getElapsedTime(blogInfo.date)}}前
       </a-col>
       <a-col :span="6" style="display: flex;justify-content: flex-end">
         <template v-if="blogInfo">
