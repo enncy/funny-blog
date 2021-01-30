@@ -10,7 +10,7 @@ const api = {
     getOneBlog:'/get/one/:uid',
     getSomeBlog:'/get/some/:skip/:limit',
     getBlogByName:'/get/by/author/:author/:skip/:limit',
-    getBlogAllCount:'/get/count/by/blogs',
+    getBlogAllCount:'/get/count/by/all',
     getBlogCountByAuthor:'/get/count/by/author/:author',
     updateBlog:'/update',
     createBlog:'/create',
@@ -56,7 +56,7 @@ blogRouter.get(api.getBlogAllCount, async (req, res) => {
     console.log(req.url)
     Blog.getCount((err, count) => {
         if (err) res.send(formatUtil.formatError("查询数量错误！"))
-        else res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "查询数量失败！"}))
+        else res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "文章数量为0！"}))
     })
 })
 
@@ -64,8 +64,14 @@ blogRouter.get(api.getBlogAllCount, async (req, res) => {
 blogRouter.get(api.getBlogCountByAuthor, async (req, res) => {
     console.log(req.url)
     Blog.getCountByAuthor(req.params.author,(err, count) => {
-        if (err) res.send(formatUtil.formatError("查询数量错误！"))
-        else res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "查询数量失败！"}))
+        if (err) {
+            console.log(err)
+            res.send(formatUtil.formatError("查询数量错误！"))
+        }
+        else {
+            console.log(count)
+            res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "文章数量为0！"}))
+        }
     })
 })
 

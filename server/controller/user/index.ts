@@ -44,10 +44,15 @@ userRouter.post('/login', async (req, res) => {
 
 //检测用户是否登录
 userRouter.get('/login/check', async (req, res) => {
-    let user = session.getUser(req)
-    if (user) {
-        res.send(formatUtil.format(User.format(user), {msg: '已经登录！'}))
-    } else {
+    let sessionUser = session.getUser(req)
+    if(sessionUser){
+        let user = await User.findByName(sessionUser.name)
+        if (user) {
+            res.send(formatUtil.format(User.format(user), {msg: '已经登录！'}))
+        } else {
+            res.send(formatUtil.formatError('未登录！'))
+        }
+    }else{
         res.send(formatUtil.formatError('未登录！'))
     }
 })

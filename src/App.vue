@@ -98,7 +98,7 @@ export default {
     }
   },
   mounted() {
-    this.checkUser()
+    // this.checkUser()
     //监听刷新，刷新前保存数据
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('store', JSON.stringify(this.$store.state))
