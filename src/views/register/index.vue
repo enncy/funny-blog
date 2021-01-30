@@ -16,6 +16,7 @@
 import RegisterForm from "@/views/register/components/Form";
 
 export default {
+  name:"register",
   components:{
     RegisterForm
   }

@@ -1,6 +1,7 @@
 import userRouter from "../controller/user";
 import emailRouter from "../controller/email";
 import blogRouter from "../controller/blog";
+import otherRouter from "../controller/other";
 import app from "../app";
 const path = require('path')
 const express = require('express');
@@ -18,6 +19,7 @@ module.exports = app => {
     app.use('/api/user', userRouter)
     app.use('/api/blog', blogRouter)
     app.use('/api/email', emailRouter)
+    app.use('/api/other',otherRouter)
 
     app.use('/user**', (req, res, next) => {
         console.log("用户界面",req.url)

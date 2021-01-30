@@ -10,7 +10,7 @@ const api = {
     getOneBlog:'/get/one/:uid',
     getSomeBlog:'/get/some/:skip/:limit',
     getBlogByName:'/get/by/author/:author/:skip/:limit',
-    getBlogAllCount:'/get/count/by/all',
+    getBlogAllCount:'/get/count/by/blogs',
     getBlogCountByAuthor:'/get/count/by/author/:author',
     updateBlog:'/update',
     createBlog:'/create',
@@ -33,6 +33,7 @@ blogRouter.use((req, res, next) => {
 //获取文章
 blogRouter.get(api.getOneBlog, async (req, res) => {
     let blog = await Blog.findByUid(req.params.uid)
+
     res.send(formatUtil.format(blog, {msg: blog ? "查询文章成功！" : "此文章不存在"}))
 })
 
@@ -45,6 +46,7 @@ blogRouter.get(api.getSomeBlog, async (req, res) => {
 //通过作者获取文章并分页
 blogRouter.get(api.getBlogByName, async (req, res) => {
     let blogs = await Blog.findByAuthorAndPage(req.params.author, parseInt(req.params.skip), parseInt(req.params.limit))
+    console.log("blogs",blogs)
     res.send(formatUtil.format(blogs, {msg: blogs ? "获取用户文章列表成功！" : "获取用户文章列表失败！"}))
 
 })
@@ -62,7 +64,6 @@ blogRouter.get(api.getBlogAllCount, async (req, res) => {
 blogRouter.get(api.getBlogCountByAuthor, async (req, res) => {
     console.log(req.url)
     Blog.getCountByAuthor(req.params.author,(err, count) => {
-
         if (err) res.send(formatUtil.formatError("查询数量错误！"))
         else res.send(formatUtil.format(count, {msg: count ? "查询数量成功！" : "查询数量失败！"}))
     })
@@ -77,7 +78,7 @@ blogRouter.post(api.updateBlog, async (req, res) => {
             req.body.title,
             req.body.body,
             req.body.tags,
-            req.body.public,
+            req.body.publish,
             req.body.original,
             req.body.original_url,
             req.body.category
@@ -95,11 +96,10 @@ blogRouter.post(api.createBlog, async (req, res) => {
         if (req.body.title === '') req.body.title = '无标题'
         let new_blog = Blog.model(
             req.body.author,
-            author_info,
             req.body.title,
             req.body.body,
             req.body.tags,
-            req.body.public,
+            req.body.publish,
             req.body.original,
             req.body.original_url,
             req.body.category

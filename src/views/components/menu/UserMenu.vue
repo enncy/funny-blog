@@ -14,17 +14,17 @@
           <span>个人首页</span>
         </a-menu-item>
 
-        <a-menu-item @click="open(config.router.user.path)" :key="'个人中心'">
+        <a-menu-item @click="open('/user/blogs')" :key="'个人中心'">
           <a-icon type="user"/>
           <span>个人中心</span>
         </a-menu-item>
 
-        <a-menu-item @click="open(config.router.user.editor.path)" :key="'写博客'">
+        <a-menu-item @click="open('/user/editor')" :key="'写博客'">
           <a-icon type="edit"/>
           <span>写博客</span>
         </a-menu-item>
 
-        <a-menu-item @click="open(config.router.user.star.path)"  :key="'我的收藏'">
+        <a-menu-item @click="open('/user/star')"  :key="'我的收藏'">
           <a-icon type="star"/>
           <span>我的收藏</span>
         </a-menu-item>
@@ -37,11 +37,11 @@
       </template>
 
       <template v-else>
-        <a-menu-item @click="open(config.router.login.path)" :key="'登录'">
+        <a-menu-item @click="open('/login')" :key="'登录'">
           <a-icon type="login"/>
           <span>登录</span>
         </a-menu-item>
-        <a-menu-item @click="open(config.router.register.path)"  :key="'注册'">
+        <a-menu-item @click="open('/register')"  :key="'注册'">
           <a-icon type="form"/>
           <span>注册</span>
         </a-menu-item>

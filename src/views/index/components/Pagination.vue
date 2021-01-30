@@ -1,8 +1,7 @@
 <template>
-  <a-row style="text-align: center;margin: 40px 0px 40px 0px">
+  <a-row style="text-align: center; margin-bottom: 20px">
     <a-pagination
 
-        style="margin-top: 40px"
         show-size-changer
         :default-current="1"
         :show-total="total => `共 ${total} 个文章`"

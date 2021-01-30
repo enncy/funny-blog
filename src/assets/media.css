@@ -1,0 +1,76 @@
+@media screen and (min-width: 801px) {
+    .index-content {
+        padding: 20px 40px 40px 40px;
+    }
+
+    /*自适应隐藏效果，大屏幕显示，小屏幕隐藏*/
+    .adapt-item-big-show {
+        display: block;
+    }
+
+    /*自适应隐藏效果，大屏幕隐藏，小屏幕显示*/
+    .adapt-item-big-hide {
+        display: none;
+    }
+
+    /*自适应子元素的排列方式，大屏幕不自动换行，小屏幕自动换行*/
+    .adapt-item-wrap{
+        flex-wrap: nowrap;
+    }
+
+    /*自适应子元素位置，如何屏幕够大则左侧排列，小屏幕则居中显示*/
+    .adapt-item-justify{
+        justify-content: start;
+    }
+
+    /*文字自适应大小*/
+    .adapt-item-text{
+        font-size: 14px;
+    }
+    .adapt-item-title{
+        font-size: 17px;
+    }
+
+}
+
+/*自适应*/
+@media screen and (max-width: 800px) {
+    .adapt-item {
+        width: 100%;
+    }
+
+    .adapt-item-width {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .adapt-item-big-show {
+        display: none;
+    }
+
+    .adapt-item-big-hide {
+        display: block;
+    }
+
+    .adapt-item-wrap{
+        flex-wrap: wrap;
+    }
+
+    .adapt-item-justify{
+        justify-content: center;
+    }
+
+
+    .adapt-item-text{
+        font-size: 14px;
+    }
+
+    .adapt-item-title{
+        font-size: 15px;
+    }
+
+    .index-content {
+        padding: 5px;
+    }
+}

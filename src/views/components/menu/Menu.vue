@@ -5,7 +5,6 @@
         <a-menu
             :inline-collapsed="collapsed"
             mode="horizontal"
-
             class="index-menu-item"
         >
           <template v-for="item in list">
@@ -13,8 +12,10 @@
               <a-icon :type=" (item&&item.icon) || ''"/>
               <span>{{ item.title }}</span>
             </a-menu-item>
+            <!--递归显示菜单-->
             <sub-menu v-else :key="item.key" :menu-info="item" @click="open(item.path)"/>
           </template>
+          <!--搜索框-->
           <a-menu-item :key="'search-menu'">
             <a-input-search placeholder="搜索博客文章" style="width: 200px" @search="onSearch"/>
           </a-menu-item>

@@ -1,15 +1,15 @@
 <template>
-  <div v-if="userInfo">
+  <div v-if="userInfo" >
 
 
     <!--          简介-->
     <a-row v-if="showProfile"   >
 
-      <a-descriptions size="small" :column="1">
+      <a-descriptions size="small" :column="1"   >
 
         <a-descriptions-item >
           <template slot="label">
-            <a-icon style="font-size: 16px" type="form" />
+            <a-icon style="font-size: 13px" type="form" />
           </template>
           <span title="注册时间" >
             {{utils.getTime(userInfo.date,true)}}
@@ -17,16 +17,16 @@
         </a-descriptions-item>
         <a-descriptions-item  >
           <template slot="label">
-            <a-icon style="font-size: 16px" type="tag" />
+            <a-icon style="font-size: 13px" type="tag" />
           </template>
-          <span title="称号">
+          <span title="称号" >
             入门新手
           </span>
 
         </a-descriptions-item>
         <a-descriptions-item  >
           <template slot="label">
-            <a-icon  style="font-size: 16px" type="profile" />
+            <a-icon  style="font-size: 13px" type="profile" />
           </template>
           <span  title="简介">
             用一句话介绍你自己~
@@ -35,9 +35,9 @@
       </a-descriptions>
     </a-row>
 
-    <a-row v-if="showData" style="margin-top: 10px;text-align: center">
-      <user-data :data="userInfo" theme="" size="small"></user-data>
-    </a-row>
+    <!--<a-row v-if="showData" style="margin-top: 10px;text-align: center">-->
+    <!--  <user-data  :data="userInfo" theme="" size="small"></user-data>-->
+    <!--</a-row>-->
   </div>
 
   <div v-else>

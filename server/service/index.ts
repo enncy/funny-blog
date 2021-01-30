@@ -32,8 +32,8 @@ abstract class Index {
     }
 
     //根据 uid 查找
-    findByUid(uid:String) : Query<Document<any>, Document<any>> {
-        return this.format(this.mongooseModel.findOne({uid}))
+    async findByUid(uid:String) : Promise<Query<Document<any>, Document<any>>> {
+        return this.format( await this.mongooseModel.findOne({uid}))
     }
 
     /**

@@ -1,5 +1,5 @@
 <template>
-  <span style="display: flex;flex-wrap: nowrap;align-items: baseline;text-align: center">
+  <span class="d-flex-nowrap" style="align-items: baseline;text-align: center">
        <template v-if="blogInfo">
         <span title="点赞" class="blog-info" >
           <a-icon  style="margin-top: 3px"  type="like"/>
@@ -16,7 +16,6 @@
           <a-icon style="margin-top: 3px" type="message"/>
            <span style="margin-left: 4px">{{ blogInfo.comments.length }}</span>
         </span>
-        <a-divider type="vertical"></a-divider>
        </template>
   </span>
 </template>

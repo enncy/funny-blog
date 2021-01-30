@@ -1,65 +1,59 @@
 <template>
-  <a-row style="display: flex;" class="adapt-item-wrap">
-    <a-col class="adapt-item-width"  :span="5" style="min-width: 300px" >
-      <a-row  >
-        <a-card >
-          <user-avatar :user-info="userInfo"></user-avatar>
-          <a-divider/>
-          <user-profile :show-data="true" :show-profile="true" :user-info="userInfo"></user-profile>
-        </a-card>
-      </a-row>
+  <a-row v-if="userInfo" style="display: flex;" class="adapt-item-wrap">
+    <a-col class="adapt-item-width"  :span="4" :offset="2" style="min-width: 250px">
 
-      <a-row  class="card-item">
-        <a-card size="small" title="搜索文章"  >
-          <a-input-search placeholder="搜索此页面的文章"   @search="onSearch" />
-        </a-card>
-      </a-row>
+      <div style="min-width: 250px" >
+        <a-row>
+          <blog-section title="个人信息">
+            <div class="div-card">
+              <user-avatar  :user-info="userInfo"></user-avatar>
+              <a-divider style="margin-top: 10px"/>
+              <user-profile :show-data="true" :show-profile="true" :user-info="userInfo"></user-profile>
+            </div>
+          </blog-section>
+        </a-row>
 
-      <a-row class="adapt-item-big-show card-item"  >
-        <a-card title="置顶文章"  size="small">
-          暂无
-        </a-card>
-      </a-row>
+        <a-row>
+          <!--数据统计-->
+          <blog-section :padding="6">
+            <user-simple-data v-if="userInfo" :data="userInfo"></user-simple-data>
+          </blog-section>
+        </a-row>
 
-      <a-row class="adapt-item-big-show card-item" >
-        <a-card title="文章分类"  size="small">
-          暂无
-        </a-card>
-      </a-row>
+        <a-row  class="card-item">
+          <blog-section   title="搜索文章"  >
+            <a-input-search placeholder="搜索此页面的文章"   @search="onSearch" />
+          </blog-section>
+        </a-row>
 
-      <a-row class="adapt-item-big-show card-item"  >
-        <a-card title="热门文章"  size="small">
-          暂无
-        </a-card>
-      </a-row>
+        <a-row class="adapt-item-big-show card-item"  >
+          <blog-section title="置顶文章"   >
+            暂无
+          </blog-section>
+        </a-row>
+
+        <a-row class="adapt-item-big-show card-item" >
+          <blog-section title="文章分类"  >
+            暂无
+          </blog-section>
+        </a-row>
+
+        <a-row class="adapt-item-big-show card-item"  >
+          <blog-section title="热门文章"   >
+            暂无
+          </blog-section>
+        </a-row>
+      </div>
+
+
 
 
 
     </a-col>
-    <a-col :span="18"    class="blog-list adapt-item-width " >
-      <a-card>
-<!--        <user-profile></user-profile>-->
-        <a-breadcrumb>
-          <a-breadcrumb-item>全部文章</a-breadcrumb-item>
-        </a-breadcrumb>
-
-        <a-divider/>
-
-        <template v-if="sending">
-          <a-skeleton/>
-        </template>
-
-        <template v-else-if="list.length===0">
-          <a-empty description="空空如也~"/>
-        </template>
-
-        <template >
-          <blog-card show-operation="true" v-for="(item,index) in list" :blogInfo="item" :index="index" @remove="remove"></blog-card>
-        </template>
-
-        <user-pagination :user-info="userInfo" @listUpdate="listUpdate"  @sendApi="sendApi" @finishSendApi="finishSendApi"></user-pagination>
-
-      </a-card>
+    <a-col :span="14"    class="blog-list adapt-item-width " >
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
 
     </a-col>
 
@@ -70,25 +64,23 @@
 import  UserData from '@/views/user/components/UserData';
 import UserProfile from "@/views/user/components/UserProfile";
 import UserAvatar from "@/views/user/components/UserAvatar";
-import UserPagination from "@/views/user/components/UserPagination";
-import BlogCard from "@/views/components/BlogCard";
+import UserBlogs from '@/views/user/blogs/index'
 import blogApi from "@/api/blog"
 import utils from '@/utils/index'
+import BlogSection from "@/views/components/BlogSection";
+import UserSimpleData from "@/views/user/components/UserSimpleData";
 
 export default {
+  name:"user",
   components:{
     UserAvatar,
-    UserData,UserProfile,UserPagination,
-    BlogCard
+    UserData,UserProfile,BlogSection,UserBlogs,UserSimpleData
   },
 
   data(){
     return {
       utils,
-      list:[],
       userInfo: this.$store.state.userInfo,
-      //发送请求中
-      sending:false,
     }
   },
 
@@ -101,23 +93,7 @@ export default {
 
   methods:{
 
-    //删除事件
-    remove(blogInfo){
-      this.list = this.list.filter(blog=>blog.uid!==blogInfo.uid)
-    },
 
-    //文章更新
-    listUpdate(list){
-      this.list = list
-    },
-    //发送 api监听
-    sendApi(){
-      this.sending = true
-    },
-    // api 发送完成监听
-    finishSendApi(){
-      this.sending = false
-    },
     //搜索文章
     onSearch(){
 

@@ -1,6 +1,7 @@
 <template>
-
-  <navigation-menu :list="list"> </navigation-menu>
+  <div style="box-shadow: 1px 1px 1px rgba(0,0,0,0.1)">
+    <navigation-menu :list="list"> </navigation-menu>
+  </div>
 </template>
 
 <script>

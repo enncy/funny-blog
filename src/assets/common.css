@@ -1,0 +1,29 @@
+@import "./media.css";
+@import "./flex.css";
+@import "./font.css";
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    height: auto;
+    width: 100%;
+    min-height: 900px;
+}
+
+
+
+#app div,span,p{
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,sans-serif;
+}
+
+.div-card {
+    padding: 10px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+
+.pointer{
+    cursor: pointer;
+}

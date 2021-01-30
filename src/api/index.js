@@ -7,11 +7,20 @@
 
 const request  = require('@/utils/request.js')
 
+const otherURL  = '/api/other'
+
 module.exports = {
     apiTest(){
         return request({
             methods:'get',
             url:'https://www.baidu.com/',
+        })
+    },
+    //网易云热评
+    getCloudMusicHotComments(){
+        return request({
+            methods:'post',
+            url:otherURL+'/cloud/music/comments',
         })
     }
 }

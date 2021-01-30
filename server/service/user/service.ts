@@ -31,6 +31,20 @@ class UserService extends  Index {
     }
 
     /**
+     * 修改公共信息
+     * @param name  名字
+     * @param avatar
+     * @param profile
+     */
+    async updateCommon(name:string,avatar:string, profile:string){
+        //findOneAndUpdate([conditions],[update],[options],[callback])
+        return this.format(await this.mongooseModel.findOneAndUpdate({name},{
+            avatar,
+            profile,
+        }))
+    }
+
+    /**
      * 通过名字获取用户
      * @param name  名字
      * @param show_pwd  是否返回密码字段
@@ -57,9 +71,6 @@ class UserService extends  Index {
         if(!user)return null
         user.set('uid',undefined)
         user.set('email',undefined)
-        user.set('fans',undefined)
-        user.set('top_blogs',undefined)
-        user.set('favorites_uid',undefined)
         if(!show_pwd)user.set('pwd',undefined)
         return user
     }

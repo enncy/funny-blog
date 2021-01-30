@@ -1,10 +1,6 @@
 <template>
   <a-card>
-    <a-row style="display:flex;justify-content: flex-end">
-      <a-button type="link" @click="$router.push('/')">返回首页</a-button>
-      <a-button type="link" @click="$router.push('/user')">返回个人中心</a-button>
-    </a-row>
-    <a-input-group compact style="display: flex;flex-wrap: nowrap; ">
+    <a-input-group compact style="display: flex;flex-wrap: nowrap" >
 
       <a-input addon-before="文章标题" v-model="title">
 
@@ -14,7 +10,8 @@
         </a-tooltip>
 
       </a-input>
-      <a-button type="primary" @click="confirm">发布
+      <a-button type="primary" @click="confirm">
+        发布
       </a-button>
     </a-input-group>
     <mavon-editor style="margin-top: 20px" class="blog-markdown" :boxShadow="false" v-model="body"></mavon-editor>
@@ -22,7 +19,7 @@
     <a-modal :maskStyle="{'background-color':' rgba(0,0,0,.15)'}" v-model="modalVisible" cancelText="取消" okText="发布"
              title="发布文章"  @ok="()=>{
                if(blogInfo)modify()
-               else publish()
+               else publishBlog()
              }">
       <a-descriptions :column="1">
         <a-descriptions-item label="标题">
@@ -32,13 +29,13 @@
           <edit-blog-tags @tagsChange="tagsChange" :blog-tags="tags"></edit-blog-tags>
         </a-descriptions-item>
         <a-descriptions-item label="公开">
-          <a-switch checked-children="所有人可见" un-checked-children="仅自己可见" default-checked v-model="public"/>
+          <a-switch checked-children="所有人可见" un-checked-children="仅自己可见" default-checked v-model="publish"/>
         </a-descriptions-item>
 
       </a-descriptions>
 
 
-      <a-row style="display: flex;flex-wrap: nowrap;width: 100%;">
+      <a-row class="d-flex-nowrap" style=" width: 100%;">
         <a-col :span="2" style="    color: rgba(0,0,0,.85);
     font-weight: 400;
     font-size: 14px;
@@ -72,7 +69,7 @@ import EditBlogSelect from "@/views/user/editor/components/EditBlogSelect";
 
 
 export default {
-  name: "index",
+  name:"editor",
   components: {
     EditBlogTags,EditBlogSelect
   },
@@ -98,7 +95,7 @@ export default {
       //文章分类
       category: [],
       //是否公开
-      public: true,
+      publish: true,
       //是否原创
       original: true,
       //搬运地址
@@ -165,12 +162,13 @@ export default {
     },
 
     //发布文章
-    publish() {
+    publishBlog() {
       if (this.validate()) {
         let data = Object.assign({author:this.userInfo.name },this.getData())
         blogApi.craete(data).then((r) => {
           if (r.data.status) {
             this.$message.success(r.data.msg)
+            this.modalVisible = false
             setTimeout(() => {
               this.$router.push('/user')
             }, 1000)
@@ -198,7 +196,7 @@ export default {
       return {
         title: this.title,
         body: this.body,
-        public: this.public,
+        publish: this.publish,
         tags: this.tags,
         category: this.category,
         original: this.original,
@@ -210,7 +208,7 @@ export default {
 
       this.title = blogInfo.title
       this.body = blogInfo.body
-      this.public = blogInfo.public
+      this.publish = blogInfo.publish
       this.tags = blogInfo.tags
       this.original = blogInfo.original
       this.original_url = blogInfo.original_url

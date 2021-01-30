@@ -8,24 +8,17 @@
     </template>
 
     <template v-else>
-      <a-card>
-        <a-row>
-          <a-col :span="3" class="adapt-item-width">
-            <user-avatar :user-info="userInfo"></user-avatar>
-          </a-col>
+      <a-row>
+        <a-col   class="adapt-item-width">
+          <user-avatar style="color: white" :user-info="userInfo"></user-avatar>
+        </a-col>
 
-          <a-col  :span="8"  style="margin-left: 10px;margin-top: 10px"  class="adapt-item-width">
-            <user-profile :show-profile="true" :show-data="false" :user-info="userInfo"></user-profile>
-          </a-col>
+      </a-row>
 
-          <a-col  :span="12"  style="margin-top: 10px"  class="adapt-item-width">
-            <user-data  :data="userInfo" :theme="'twoTone'"></user-data>
-          </a-col>
-        </a-row>
-
-        <a-row>
-          <a-tabs default-active-key="1" @change="callback">
-            <a-tab-pane key="1" tab="他的文章">
+      <a-row>
+        <a-col  :span="16" :offset="4" class="adapt-item-width">
+          <a-tabs  class="div-card " default-active-key="1" @change="callback">
+            <a-tab-pane key="0" tab="他的文章">
               <template v-if="sendingGetBlog">
                 <a-card>
                   <a-skeleton></a-skeleton>
@@ -40,6 +33,19 @@
               </template>
             </a-tab-pane>
 
+            <a-tab-pane key="1" tab="资料">
+              <a-empty v-if="!userInfo"  description="暂无资料"/>
+              <a-row v-else>
+                <a-col   style="margin-left: 10px;margin-top: 10px"  class="adapt-item-width">
+                  <user-profile :show-profile="true" :show-data="false" :user-info="userInfo"></user-profile>
+                </a-col>
+
+                <a-col    style="margin-top: 10px"  class="adapt-item-width">
+                  <user-data size="small" :data="userInfo" :theme="'twoTone'"></user-data>
+                </a-col>
+              </a-row>
+            </a-tab-pane>
+
             <a-tab-pane key="2" tab="收藏">
               <a-empty  description="暂无收藏"/>
             </a-tab-pane>
@@ -52,12 +58,9 @@
             <a-tab-pane key="4" tab="分栏">
               <a-empty  description="暂无分栏"/>
             </a-tab-pane>
-
-
           </a-tabs>
-        </a-row>
-
-      </a-card>
+        </a-col>
+      </a-row>
     </template>
   </div>
 

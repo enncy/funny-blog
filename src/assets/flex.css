@@ -1,0 +1,32 @@
+.d-flex-nowrap{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.d-flex-wrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.d-flex-nowrap-center{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.d-flex-wrap-center{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.d-flex-nowrap-ali-center{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.d-flex-wrap-ali-center{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+

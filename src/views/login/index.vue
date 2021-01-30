@@ -16,6 +16,7 @@
 import LoginForm from "./components/Form";
 
 export default {
+  name:"login",
   components:{
     LoginForm
   }
