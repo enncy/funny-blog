@@ -40,7 +40,7 @@ module.exports = {
      * @param skip
      * @param limit
      */
-    getByAuthorAndPage(author,skip,limit){
+    getPageByAuthor(author,skip,limit){
         return request({
             method:'get',
             url: blogURL+`/get/by/author/${author}/${skip}/${limit}`,

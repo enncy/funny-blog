@@ -62,16 +62,19 @@ let routes = [
             },
             {
                 path: "star",  //收藏
-                component: star
+                name:'user-star',
+                component: star,
+                meta:{ title: "个人收藏——趣博客" }
             },
+            {
+                path: "setting",   //设置
+                name:'user-setting',
+                component: setting,
+                meta:{ title: "个人设置——趣博客" }
+            }
         ]
     },
-    {
-        path: "/user/setting",   //设置
-        name:'setting',
-        component: setting,
-        meta:{ title: "个人设置——趣博客" }
-    },
+
     {
         path: "/user/editor",    //写博客页
         name:'editor',

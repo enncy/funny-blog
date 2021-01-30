@@ -13,12 +13,22 @@
       </div>
     </a-col>
 
+
     <!--文章标签-->
-    <a-col v-if="blogInfo.tags.length!==0">
-      <a-icon type="tags" style="margin-right: 5px"/>
-      <template v-for="(item,index) in blogInfo.tags">
+    <a-col >
+      <a-icon type="tags" class="font-small" style="margin-right: 5px"/>
+      <template v-if="blogInfo.publish" >
+        <span style="margin-right: 4px;color: orange">#原创</span>
+      </template>
+      <template v-else>
+        <span style="margin-right: 4px;color: gray">#搬运</span>
+      </template>
+      <span v-if="blogInfo.tags.length!==0">
+              <template v-for="(item,index) in blogInfo.tags">
         <a-button type="link" :size="'small'" color="blue" >#{{item}}</a-button>
       </template>
+      </span>
+
     </a-col>
 
     <!--文章基本信息-->

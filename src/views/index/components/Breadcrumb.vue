@@ -1,11 +1,17 @@
 <template>
-  <a-breadcrumb class="div-card">
-    <a-breadcrumb-item>全部文章</a-breadcrumb-item>
-  </a-breadcrumb>
+  <blog-section title="全部文章">
+    <a-breadcrumb >
+      <a-breadcrumb-item></a-breadcrumb-item>
+    </a-breadcrumb>
+  </blog-section>
 </template>
 <script>
+import BlogSection from "@/views/components/BlogSection";
 export default {
-name: "Breadcrumb"
+name: "Breadcrumb",
+  components:{
+    BlogSection
+  }
 }
 </script>
 

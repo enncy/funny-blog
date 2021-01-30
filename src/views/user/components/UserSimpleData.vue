@@ -29,12 +29,12 @@ export default {
     return {
 
       statistics: [
-        {title: "文章", data: this.data?.fav_num},
-        {title: "访客", data: this.data?.blog_num},
-        {title: "收藏", data: this.data?.fans_num},
+        {title: "文章", data: this.data?.blog_num},
+        {title: "访客", data: this.data?.read_num},
+        {title: "收藏", data: this.data?.fav_num},
         {title: "获赞", data: this.data?.like_num},
-        {title: "评论", data: this.data?.read_num},
-        {title: "粉丝", data: this.data?.comments_num},
+        {title: "评论", data: this.data?.comments_num},
+        {title: "粉丝", data: this.data?.fans_num},
       ],
 
       font: {'font-size': this.size === 'small' ? '13px' : '16px'},

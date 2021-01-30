@@ -1,8 +1,8 @@
 <template>
   <!--index 分页子组件-->
   <blog-pagination
-      :count="count"
-      @getPage="getPage"
+    :count="count"
+    @getPage="getPage"
   />
 </template>
 
@@ -10,9 +10,6 @@
 import BlogPagination from "@/views/components/BlogPagination";
 import blogApi from "@/api/blog";
 export default {
-  props:{
-    userInfo:Object
-  },
   components:{
     BlogPagination
   },
@@ -25,7 +22,7 @@ export default {
   methods:{
     //获取文章总数
     getCount() {
-      blogApi.getCountByAuthor(this.userInfo.name).then((r) => {
+      blogApi.getCount().then((r) => {
         if (r.data.status) {
           console.log(r)
           this.count = r.data.data
@@ -40,7 +37,7 @@ export default {
     //获取文章
     getPage(skip,limit) {
       this.$emit('sendApi')
-      blogApi.getPageByAuthor(this.userInfo.name,skip, limit).then((r) => {
+      blogApi.getByPage(skip, limit).then((r) => {
         console.log(r)
         if (r.data.status) {
           this.$emit('listUpdate', r.data.data)

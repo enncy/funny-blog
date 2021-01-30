@@ -31,7 +31,7 @@ export default {
 <style scoped>
 .div-section{
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 4px;
   background-color: white;
   margin-bottom: 10px;
 }

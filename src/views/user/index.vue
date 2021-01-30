@@ -4,7 +4,7 @@
 
       <div style="min-width: 250px" >
         <a-row>
-          <blog-section title="个人信息">
+          <blog-section title="个人信息" color="black">
             <div class="div-card">
               <user-avatar  :user-info="userInfo"></user-avatar>
               <a-divider style="margin-top: 10px"/>
@@ -21,25 +21,25 @@
         </a-row>
 
         <a-row  class="card-item">
-          <blog-section   title="搜索文章"  >
+          <blog-section   title="搜索文章"  color="blue">
             <a-input-search placeholder="搜索此页面的文章"   @search="onSearch" />
           </blog-section>
         </a-row>
 
         <a-row class="adapt-item-big-show card-item"  >
-          <blog-section title="置顶文章"   >
+          <blog-section title="置顶文章"  color="orange" >
             暂无
           </blog-section>
         </a-row>
 
         <a-row class="adapt-item-big-show card-item" >
-          <blog-section title="文章分类"  >
+          <blog-section title="文章分类"  color="volcano">
             暂无
           </blog-section>
         </a-row>
 
         <a-row class="adapt-item-big-show card-item"  >
-          <blog-section title="热门文章"   >
+          <blog-section title="热门文章"   color="red">
             暂无
           </blog-section>
         </a-row>

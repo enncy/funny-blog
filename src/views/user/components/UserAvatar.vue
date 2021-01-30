@@ -1,11 +1,15 @@
 <template>
-  <a-row v-if="userInfo">
+  <a-row>
     <div>
       <!--头像和名字-->
       <a-row >
-        <a-col>
-          <a-avatar  :size="avatarSize" icon="user" />
-          <span :style="Object.assign({fontSize:fontSize+'px'},textStyle)" style="font-weight: bold"  > {{ userInfo.name}}</span>
+        <a-col  v-if="userInfo" class="pointer" @click="$router.push('/'+userInfo.name)">
+          <a-avatar  :size="avatarSize" icon="user" style="margin-right: 10px"/>
+          <span :style="Object.assign({fontSize:fontSize+'px'},textStyle)" style="font-weight: bold;"   >{{userInfo.name}}</span>
+        </a-col>
+        <a-col  v-else class="pointer" >
+          <a-avatar  :size="avatarSize" icon="user" style="margin-right: 10px"/>
+          <span :style="Object.assign({fontSize:fontSize+'px'},textStyle)" style="font-weight: bold;"   >未登录</span>
         </a-col>
       </a-row>
     </div>
@@ -29,7 +33,6 @@
 export default {
   name: "UserAvatar",
   props:{
-    userInfo:Object,
     size:String,
     textStyle:Object,
   },
@@ -37,6 +40,7 @@ export default {
     return {
       avatarSize:40,
       fontSize:16,
+      userInfo:this.$store?.state?.userInfo
     }
   },
   mounted() {

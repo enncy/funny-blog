@@ -20,7 +20,7 @@ const   blogsSchemaType : SchemaDefinition=  {
     date: { type: Number, default: Date.now },    //创建时间
     update_date:{ type: Number, default: Date.now },    //最近更新时间
     fav_num:{type:Number , default:0},  //收藏数量
-    like:{type:Number , default:0},    //点赞数据
+    like_num:{type:Number , default:0},    //点赞数据
     read_num:{type:Number ,default:0 } ,   //访问数量
     comments: [String],   //评论
 

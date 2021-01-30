@@ -8,7 +8,10 @@
       稳定运行 ： {{ utils.getElapsedTime(new Date(config.createTime).getTime()) }}
     </a-row>
     <a-row>
-      累计用户 ： {{ utils.getElapsedTime(new Date(config.createTime).getTime()) }}
+      累计用户 ： 0
+    </a-row>
+    <a-row>
+      在线人数 ： 0
     </a-row>
   </div>
 </template>

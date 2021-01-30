@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="adapt-item-width blog-card">
+    <div class="adapt-item-width blog-card shadow" style="margin-bottom: 10px">
 
       <a-row style="padding: 5px;">
         <!--博客卡片的标题-->
@@ -10,18 +10,29 @@
 
         <!--博客简介-->
         <a-col style="margin-top: 5px;  cursor: pointer;" @click="openBlog">
+          <!--<img src="https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg3.png" width="270"  height="150"/>-->
           <span class="adapt-item-text"  style="color: gray">{{ utils.mdToText(blogInfo.body) }}</span>
         </a-col>
 
 
         <!--博客卡片标签-->
         <a-col >
-          <a-row v-if="blogInfo.tags.length!==0" class="d-flex-nowrap-ali-center " >
+          <a-row  class="d-flex-nowrap-ali-center font-small" >
             <a-icon type="tags" style="margin-right: 5px"/>
-            <template v-for="(item,index) in blogInfo.tags">
-              <a-badge v-if="index!==0" color="blue"/>
-              <span style="margin-right: 4px;" class="font-small" :key="index"> {{item}}</span>
+            <template v-if="blogInfo.publish" >
+              <span style="margin-right: 4px;">原创 </span>
+              <a-badge  color="orange" />
             </template>
+            <template v-else>
+              <span style="margin-right: 4px;">搬运 </span>
+              <a-badge/>
+            </template>
+            <span v-if="blogInfo.tags.length!==0">
+                          <template  v-for="(item,index) in blogInfo.tags">
+              <a-badge v-if="index!==0" color="blue"/>
+              <span style="margin-right: 4px;"  :key="index"> {{item}}</span>
+            </template>
+            </span>
           </a-row>
         </a-col>
 
@@ -84,7 +95,7 @@
 
 <script>
 
-
+import Pagination from "@/views/index/components/IndexPagination";
 import BlogCardInfo from "@/views/components/BlogCardInfo";
 import blogApi from '@/api/blog'
 
@@ -99,7 +110,7 @@ export default {
 
   },
   components: {
-    BlogCardInfo
+    BlogCardInfo,Pagination
   },
   created() {
     window.addEventListener('resize',()=>{
@@ -171,8 +182,9 @@ export default {
 .blog-card {
   background-color: white;
   padding: 10px 10px 0px 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+
+  margin: 10px 10px 10px 10px;
+  border-radius: 4px;
 
 }
 

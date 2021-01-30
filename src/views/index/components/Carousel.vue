@@ -14,7 +14,7 @@
       <a-icon type="right-circle" />
     </div>
     <template v-for="index in imgs" >
-      <img    :src="`https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg${index}.png`" :key="index"/>
+      <img   style="max-height: 350px"  :src="`https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg${index}.png`" :key="index"/>
     </template>
   </a-carousel>
 </template>
@@ -38,7 +38,7 @@ export default {
 
     this.$nextTick(()=>{
       setInterval(()=>{
-        this.$refs.carousel.next()
+        this.$refs?.carousel?.next()
       },5000)
 
     })
@@ -46,10 +46,7 @@ export default {
 };
 </script>
 <style scoped>
-/* For demo */
-.ant-carousel >>> .slick-slide {
-   height: 350px;
-}
+
 
 .ant-carousel >>> .custom-slick-arrow {
   width: 25px;

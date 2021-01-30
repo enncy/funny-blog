@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row class="d-flex-nowrap" style="justify-content: center">
+    <a-row class="d-flex-wrap" style="justify-content: center">
 
       <!--      <a-col class="adapt-item-big-hide adapt-item-width"  >-->
       <!--        <a-card v-if="blogInfo">-->
@@ -40,20 +40,41 @@
       </a-col>
 
       <!--作者信息展示-->
-      <a-col  :span="4" style="margin-left: 20px;min-width: 260px" class="adapt-item-width adapt-item-big-show ">
-        <blog-section  title="作者">
-          <div  v-if="blogInfo" class="div-card">
+      <a-col  v-if="blogInfo" :span="4" style=" min-width: 260px" class=" adapt-item-width offset-small">
+        <blog-section  title="作者" color="black" class="adapt-item-big-show ">
+          <div    class="div-card">
             <user-avatar :user-info="blogInfo.author_info"></user-avatar>
             <a-divider style="margin-top: 10px"/>
             <user-profile :show-data="true" :show-profile="true"  :user-info="blogInfo.author_info"></user-profile>
           </div>
-          <a-skeleton v-else avatar/>
+
         </blog-section >
         <!--数据统计-->
-        <blog-section :padding="6">
+        <blog-section :padding="6" class="adapt-item-big-show ">
           <user-simple-data v-if="blogInfo&&blogInfo.author_info" :data="blogInfo.author_info"></user-simple-data>
         </blog-section>
 
+        <blog-section title="搜索" color="blue" >
+          <a-input-search   :placeholder="`搜索${blogInfo.author}的文章`"   @search="onSearch" />
+        </blog-section>
+
+        <blog-section title="他的文章" color="red" >
+          暂无
+        </blog-section>
+
+        <a-affix :offset-top="60">
+          <blog-section title="趣博客"  >
+            <div class="div-card font-small">
+              <website-info></website-info>
+            </div>
+          </blog-section>
+        </a-affix>
+
+      </a-col>
+      <a-col v-else>
+        <div class="div-card">
+          <a-skeleton  avatar/>
+        </div>
       </a-col>
 
       <a-back-top/>
@@ -71,11 +92,12 @@ import UserSimpleData from "@/views/user/components/UserSimpleData";
 import UserProfile from "@/views/user/components/UserProfile";
 import blogApi from '@/api/blog'
 import utils from '@/utils/index'
+import WebsiteInfo from "@/views/index/components/WebsiteInfo";
 
 export default {
   name: "blog",
   components: {
-    BlogHeader,BlogSection,UserProfile,UserAvatar,UserSimpleData
+    BlogHeader,BlogSection,UserProfile,UserAvatar,UserSimpleData,WebsiteInfo
   },
   data() {
     return {
@@ -139,7 +161,6 @@ export default {
 
 
 <style scoped>
-
 
 
 .blog-card-body {

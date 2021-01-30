@@ -3,7 +3,7 @@
        <template v-if="blogInfo">
         <span title="点赞" class="blog-info" >
           <a-icon  style="margin-top: 3px"  type="like"/>
-          <span style="margin-left: 4px">{{ blogInfo.like }}</span>
+          <span style="margin-left: 4px">{{ blogInfo.like_num }}</span>
         </span>
         <a-divider type="vertical"></a-divider>
         <span title="收藏" class="blog-info">

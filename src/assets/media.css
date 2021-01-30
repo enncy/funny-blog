@@ -1,3 +1,5 @@
+
+
 @media screen and (min-width: 801px) {
     .index-content {
         padding: 20px 40px 40px 40px;
@@ -39,7 +41,7 @@
         width: 100%;
     }
 
-    .adapt-item-width {
+    #app .adapt-item-width {
         width: 100%;
         margin: 0;
         padding: 0;

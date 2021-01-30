@@ -16,7 +16,7 @@
     </template>
 
     <template v-for="(item,index) in list">
-      <blog-card class="div-card" show-operation="true"  :blogInfo="item" :index="index" @remove="remove"></blog-card>
+      <blog-card  show-operation="true"  :blogInfo="item" :index="index" @remove="remove"></blog-card>
     </template>
 
     <user-pagination :user-info="userInfo" @listUpdate="listUpdate"  @sendApi="sendApi" @finishSendApi="finishSendApi"></user-pagination>

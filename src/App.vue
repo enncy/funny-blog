@@ -16,7 +16,7 @@
         <!--固定导航栏-->
         <a-affix style="    width: 100%;">
           <a-layout-header class="index-header">
-              <span class="logo">
+              <span class="logo  pointer text-shadow-dark" style="z-index: 9999">
                 <logo></logo>
               </span>
 

@@ -5,31 +5,24 @@
     <a-sub-menu>
       <span slot="title">
         <a-icon type="user"/>
-        {{userInfo?userInfo.name:'未登录'}}
+        {{ userInfo ? userInfo.name : '未登录' }}
       </span>
       <template v-if="userInfo">
 
-        <a-menu-item @click="home()" :key="'个人首页'">
+        <a-menu-item @click="open(`/${userInfo.name}`)" :key="'个人首页'">
           <a-icon type="home"/>
           <span>个人首页</span>
         </a-menu-item>
 
-        <a-menu-item @click="open('/user/blogs')" :key="'个人中心'">
-          <a-icon type="user"/>
-          <span>个人中心</span>
-        </a-menu-item>
+        <template v-for="(item,index) in userMenu">
 
-        <a-menu-item @click="open('/user/editor')" :key="'写博客'">
-          <a-icon type="edit"/>
-          <span>写博客</span>
-        </a-menu-item>
+          <a-menu-item @click="open(item.path)" :key="index">
+            <a-icon :type="item.icon"/>
+            <span>{{item.name}}</span>
+          </a-menu-item>
+        </template>
 
-        <a-menu-item @click="open('/user/star')"  :key="'我的收藏'">
-          <a-icon type="star"/>
-          <span>我的收藏</span>
-        </a-menu-item>
-
-        <a-menu-item @click="quit()"  :key="'注册'">
+        <a-menu-item @click="quit()" :key="'退出'">
           <a-icon type="logout"/>
           <span>退出</span>
         </a-menu-item>
@@ -41,7 +34,7 @@
           <a-icon type="login"/>
           <span>登录</span>
         </a-menu-item>
-        <a-menu-item @click="open('/register')"  :key="'注册'">
+        <a-menu-item @click="open('/register')" :key="'注册'">
           <a-icon type="form"/>
           <span>注册</span>
         </a-menu-item>
@@ -53,17 +46,30 @@
 <script>
 import config from "@/config";
 import userApi from '@/api/user'
+
 export default {
   name: "UserMenu",
   data() {
+
+    let userMenu = [
+
+      {name: '个人中心', path: '/user/blogs',icon:'user'},
+      {name: '写博客', path: '/user/editor',icon:'edit'},
+      {name: '我的收藏', path: '/user/star',icon:'star'},
+      {name: '设置', path: '/user/setting',icon:'setting'},
+
+    ]
+
+
     return {
       config,
+      userMenu,
       userInfo: this.$store.state.userInfo
     }
   },
   mounted() {
-    this.$emitter.on('login',userInfo=>{
-      console.log("用户登录：",userInfo)
+    this.$emitter.on('login', userInfo => {
+      console.log("用户登录：", userInfo)
       this.userInfo = userInfo
     })
   },
@@ -71,14 +77,14 @@ export default {
     open(path) {
       this.$router.push(path)
     },
-    quit(){
-      this.$store.dispatch('setUserInfo',undefined)
+    quit() {
+      this.$store.dispatch('setUserInfo', undefined)
       this.userInfo = undefined
       userApi.quit().then((r) => {
-        if(r.data.status){
+        if (r.data.status) {
           this.$message.success(r.data.msg)
           this.$router.push('/login')
-        }else{
+        } else {
           this.$message.error(r.data.msg)
         }
       }).catch((err) => {
@@ -86,10 +92,7 @@ export default {
       })
 
     },
-    //个人首页
-    home(){
-      this.$router.push('/'+this.userInfo.name)
-    }
+
   }
 }
 </script>

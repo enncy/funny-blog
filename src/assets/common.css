@@ -1,6 +1,8 @@
 @import "./media.css";
 @import "./flex.css";
 @import "./font.css";
+
+
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -11,19 +13,44 @@
     min-height: 900px;
 }
 
-
-
+/*通用文字*/
 #app div,span,p{
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,sans-serif;
 }
 
+/*通用卡片样式*/
 .div-card {
     padding: 10px;
     background-color: white;
     margin-bottom: 10px;
 }
 
-
+/*指针*/
 .pointer{
     cursor: pointer;
+}
+
+/*通用阴影*/
+.shadow{
+    box-shadow: 1px 1px 8px rgba(100,100,100,0.1);
+}
+.shadow-dark{
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
+}
+.text-shadow{
+    text-shadow: 1px 1px 8px  rgba(100,100,100,0.1);
+}
+.text-shadow-dark{
+    text-shadow: 1px 1px 8px rgba(0,0,0,0.3);
+}
+
+/*偏移*/
+.offset-small{
+    margin-left: 10px;
+}
+.offset-middle{
+    margin-left: 20px;
+}
+.offset-large{
+    margin-left: 30px;
 }
