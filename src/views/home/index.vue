@@ -1,7 +1,7 @@
 <template>
-  <div style="  background-color: white;">
+  <div :style="{backgroundImage,minHeight}" class="background-image">
     <a-affix>
-      <logo style="position: absolute;z-index: 999;color: white;font-size: 25px;top: 10px;left: 20px" class="text-shadow-dark"></logo>
+      <logo :color="'white'" class="text-shadow-dark home-logo"></logo>
     </a-affix>
     <template v-if="sending">
       <a-card>
@@ -12,21 +12,24 @@
 
     <template v-else>
       <!--背景图，以及名字-->
-      <a-row :style="{backgroundImage}"  class="  background-image">
+      <!---->
+      <a-row
+          style="  align-content:center;align-items: center;display: flex;justify-content: center;flex-wrap: nowrap;padding:50px 0px 20px 0px;text-align: center">
+
         <a-col>
-          <user-avatar style="color: white" size="large" :user-info="userInfo"
-                       :text-style="{textShadow:'1px 1px 6px rgba(0,0,0,0.5)'}"></user-avatar>
+          <a-row>
+            <a-col>
+              <user-avatar style="color: white" size="large" :user-info="userInfo"
+                           :text-style="{textShadow:'1px 1px 6px rgba(0,0,0,0.5)',color:'white'}"></user-avatar>
+            </a-col>
+          </a-row>
         </a-col>
-        <a-col style="display: flex;justify-content: center;margin-top: 10px;">
-          <blog-section style="width: 300px;" class="shadow-dark" padding="2">
-            <user-simple-data :data="userInfo"></user-simple-data>
-          </blog-section>
-        </a-col>
+
 
       </a-row>
 
       <a-row>
-        <a-col :span="14" :offset="5" class="adapt-item-width card-container" style="position: relative;top: -80px">
+        <a-col :span="14" :offset="5" class="adapt-item-width card-container ">
           <a-tabs type="card" default-active-key="0" @change="callback">
             <a-tab-pane key="0" tab="他的文章">
               <home-blogs :user-info="userInfo"></home-blogs>
@@ -73,6 +76,7 @@ import UserSimpleData from "@/views/user/components/UserSimpleData";
 import HomeUserProfile from "@/views/home/components/HomeUserProfile";
 import Logo from "@/views/components/Logo";
 import userApi from '@/api/user'
+import utils from '@/utils/index'
 
 
 export default {
@@ -86,9 +90,10 @@ export default {
       userInfo: undefined,
       sending: false,
       name: this.$route.params.name,
-
+      utils,
       //背景样式
-      backgroundImage: `url('https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg3.png')`
+      backgroundImage: `url('https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg3.png')`,
+      minHeight: '300px',
     }
   },
   methods: {
@@ -98,6 +103,8 @@ export default {
         if (r.data.status) {
           this.userInfo = r.data.data
           console.log(this.userInfo)
+          //设置标题
+          this.setMetaInfo()
         } else {
           this.$message.error(r.data.msg)
           this.$router.push('/error')
@@ -110,30 +117,51 @@ export default {
     callback(key) {
       console.log(key);
     },
+    setMetaInfo() {
+      this.$route.meta.title = this.userInfo.name + '的博客-趣博客'
+      this.$route.meta.keywords = this.userInfo.name + '的博客,趣博客'
+      this.$route.meta.description = this.userInfo.name + '的博客,' + (this.userInfo?.profile === '' ? '此人很懒，什么都没有留下 ~' : this.userInfo?.profile)
+      utils.setMeta(this.$route)
+    }
   },
   mounted() {
     this.sending = true
     this.getInfo()
+
+    //自适应图片
+
+    utils.listenResize(window, platform => {
+      console.log("platform", platform)
+      if (platform === 'mobile') {
+        this.minHeight = '100vh'
+      }
+    })
+
+
   }
 }
 </script>
 
 <style scoped>
-body, html {
-  background-color: white;
-
-}
 
 .background-image {
   width: 100%;
-  text-align: center;
+
   position: relative;
-  padding: 140px 50px 140px 50px;
-  box-shadow: 0px -100px 100px -100px rgb(249, 249, 249) inset;
+  /*box-shadow: inset 0 -100px 100px -100px #f9f9f9;*/
   background-repeat: no-repeat;
-  background-color: white;
-  background-size: 100% 60%;
+
+  background-size: 100% 100%;
   background-attachment: fixed;
+}
+
+.home-logo {
+  position: absolute;
+  z-index: 999;
+  color: white;
+  font-size: 25px;
+  top: 10px;
+  left: 20px
 }
 </style>
 

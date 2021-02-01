@@ -1,5 +1,8 @@
 <template>
-  <div v-if="userInfo" >
+  <div v-if="userInfo"  >
+    <blog-section  title="数据统计" color="red">
+      <user-simple-data   :data="userInfo"></user-simple-data>
+    </blog-section>
     <blog-section title="基本信息" icon="user" color="blue">
       <div class="div-card  ">
         <a-row>

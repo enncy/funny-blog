@@ -3,6 +3,7 @@
   <blog-pagination
       :count="count"
       @getPage="getPage"
+      :color="color"
   />
 </template>
 
@@ -11,7 +12,8 @@ import BlogPagination from "@/views/components/BlogPagination";
 import blogApi from "@/api/blog";
 export default {
   props:{
-    userInfo:Object
+    userInfo:Object,
+    color:String,
   },
   components:{
     BlogPagination

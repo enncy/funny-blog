@@ -24,7 +24,6 @@ export default {
     getCount() {
       blogApi.getCount().then((r) => {
         if (r.data.status) {
-          console.log(r)
           this.count = r.data.data
         } else {
           this.$message.error(r.data.msg)
@@ -38,7 +37,6 @@ export default {
     getPage(skip,limit) {
       this.$emit('sendApi')
       blogApi.getByPage(skip, limit).then((r) => {
-        console.log(r)
         if (r.data.status) {
           this.$emit('listUpdate', r.data.data)
           this.$emit('finishSendApi')

@@ -14,7 +14,7 @@
     </template>
 
     <!--分页组件-->
-    <user-pagination v-if="userInfo" style="margin-top: 20px" @listUpdate="listUpdate"  :user-info="userInfo" ></user-pagination>
+    <user-pagination class="text-shadow-dark "  :color="'white'"  v-if="userInfo"  @listUpdate="listUpdate"  :user-info="userInfo" ></user-pagination>
   </div>
 </template>
 

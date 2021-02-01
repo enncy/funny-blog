@@ -1,5 +1,5 @@
 <template>
-  <div class="div-section" :style="{padding:padding?padding+'px':'10px'}">
+  <div class="div-section" :style="{padding:padding?padding+'px':'10px',backgroundColor:ghost?'rgba(0,0,0,0)':'white'}">
     <!--如果自定义了 title 那么，则覆盖 slot 里面的内容-->
     <a-row  >
       <a-badge v-if="title" :color="color || '#d9d9d9'" />
@@ -24,6 +24,7 @@ export default {
     title:String,
     padding:Number,
     icon:String,
+    ghost:Boolean,
   }
 }
 </script>

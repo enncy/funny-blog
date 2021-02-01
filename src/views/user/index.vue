@@ -101,7 +101,7 @@ export default {
   },
 
   mounted() {
-
+    if(!this.userInfo)  this.$message.warn("您还未登录")
   }
 
 }

@@ -4,18 +4,18 @@
     <a-col :span="16"  :offset="2" class="adapt-item-width"  >
       <a-row class="d-flex-nowrap"  >
         <a-col class="adapt-item-big-show"  :span="3" >
-          <a-affix :offset-top="60" style="min-width: 130px">
+          <a-affix :offset-top="70" style="min-width: 130px">
             <blog-section   title="热门标签" color="orange">
               <template v-for="(item,index) in hot_tags">
                 <a-row>
-                  <a-button  type="link" size="small" :key="index">{{item}}</a-button>
+                  <a :href="'#'+item">{{item}}</a>
                 </a-row>
               </template>
             </blog-section>
             <blog-section  title="排行榜" color="yellow">
               <template v-for="(item,index) in hot_user">
                 <a-row>
-                  <a-button  type="link" size="small" :key="index">{{item}}</a-button>
+                  <a :href="'#'+item">{{item}}</a>
                 </a-row>
               </template>
             </blog-section>

@@ -1,11 +1,12 @@
 <template>
-  <div class="menu">
-    <a-row class="index-menu-row">
-      <a-col>
+  <div class="menu" >
+    <a-row   >
+      <a-col :span="10">
         <a-menu
             :inline-collapsed="collapsed"
             mode="horizontal"
             class="index-menu-item"
+
         >
           <template v-for="item in list">
             <a-menu-item v-if="!item.children" :key="item.key" @click="open(item.path)">
@@ -21,11 +22,13 @@
           </a-menu-item>
 
         </a-menu>
+
+
       </a-col>
-      <!--      用户菜单栏-->
-      <a-col class="index-user-menu">
-        <user-menu></user-menu>
+      <a-col  :span="12" style="display: flex;justify-content: flex-end" class="user-menu">
+        <user-menu style="display:flex;"></user-menu>
       </a-col>
+
     </a-row>
   </div>
 </template>
@@ -61,41 +64,17 @@ export default {
 </script>
 <style scoped>
 /*响应式*/
-.index-menu-item {
-
-}
-
-.index-user-menu {
-  justify-content: flex-end;
-  width: 100%;
-  display: flex;
-}
 
 @media screen and (min-width: 801px) {
-  .index-menu-item {
-    display: block;
+  .menu .index-menu-item{
+    width: 100%;
   }
-
-
-  .index-menu-row {
-    display: flex;
-    flex-wrap: nowrap;
-    padding: 0px 100px 0px 100px
-  }
-
 
 }
 
-/*当屏幕小于 575 时，隐藏*/
 @media screen and (max-width: 800px) {
-  .index-menu-item {
-    display: none;
-  }
-
-  .index-menu-row {
-    display: flex;
-    flex-wrap: nowrap;
-
+  .menu .index-menu-item{
+    width: 60px;
   }
 
 }

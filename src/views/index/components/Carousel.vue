@@ -14,7 +14,7 @@
       <a-icon type="right-circle" />
     </div>
     <template v-for="index in imgs" >
-      <img   style="max-height: 350px"  :src="`https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg${index}.png`" :key="index"/>
+      <img   style="max-height: 350px"  :src="`https://cdn.jsdelivr.net/gh/klskeleton/cdn@1.0.1/src/img/bg${index}.png`" :key="index"/>
     </template>
   </a-carousel>
 </template>
@@ -26,7 +26,7 @@ export default {
   data(){
     return {
 
-      imgs:[4,3,2,1],
+      imgs:[8,7,6,5,4,3,2,1],
       //文案
       comments:'',
     }

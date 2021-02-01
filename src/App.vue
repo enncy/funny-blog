@@ -3,7 +3,7 @@
   <div id="app">
     <template >
       <!--首页铺满展示-->
-      <div v-if="this.$route.name==='home'">
+      <div v-if="this.$route.name==='home' && !readMode">
         <router-view style="width: 100%;height: 100%;" ></router-view>
         <!--底部footer-->
         <a-layout-footer style="background-color: white;  margin-top: 50px;">
@@ -14,14 +14,14 @@
 
       <a-layout v-else id="components-layout-demo-top" class="layout">
         <!--固定导航栏-->
-        <a-affix style="    width: 100%;">
+        <a-affix style="    width: 100%;" v-if="!readMode" >
           <a-layout-header class="index-header">
-              <span class="logo  pointer text-shadow-dark" style="z-index: 9999">
+              <span class="logo  pointer text-shadow-dark" style="z-index: 9999;">
                 <logo></logo>
               </span>
 
             <!--导航-->
-            <navigation class="index-menu"></navigation>
+            <navigation  class="index-menu"></navigation>
           </a-layout-header>
         </a-affix>
 
@@ -29,13 +29,13 @@
 
           <!--  router-views  网页内容显示 -->
           <keep-alive  include="index,user,login,register">
-            <router-view  style="min-height: 700px"></router-view>
+            <router-view  @openReadMode="openReadMode" style="min-height: 700px"></router-view>
           </keep-alive>
           <!--<router-view></router-view>-->
 
         </a-layout-content>
         <!--底部footer-->
-        <a-layout-footer style="background-color: white;  margin-top: 50px;">
+        <a-layout-footer v-if="!readMode" style="background-color: white;  margin-top: 50px;">
           <index-footer></index-footer>
         </a-layout-footer>
       </a-layout>
@@ -52,6 +52,7 @@ import IndexFooter from "@/views/components/IndexFooter";
 import Logo from "@/views/components/Logo";
 import userApi from '@/api/user'
 import Index from "@/views/register";
+import utils from '@/utils/index'
 import config from "@/config/index"
 const api = require('@/api/index')
 
@@ -61,44 +62,23 @@ export default {
     Index,
     Navigation, IndexFooter, Logo
   },
-  //seo优化
-  metaInfo() {
-    return {
-      title: this.title,
-      meta: [   // set meta
-        {
-          name: 'keywords',
-          content: this.keywords
-        },
-        {
-          name: 'description',
-          content: this.description
-        }
-      ]
-    }
-  },
-
   data(){
     return {
-      title: "趣博客",
-      keywords: '趣博客',
-      description:config.profile,
+      //阅读模式
+      readMode:false,
     }
-
   },
   //监听路由
   watch:{
     $route(to,from){
-      //console.log("[路由监听]:",to,from);
-      let title = to?.meta?.title || to?.name || '趣博客'
-      window.document.title = title
-      this.title= title
-      this.keywords = title
-      this.description= config.profile
+      utils.setMeta(to)
     }
   },
+  created() {
+    utils.setMeta(this.$route)
+  },
   mounted() {
-    // this.checkUser()
+    this.checkUser()
     //监听刷新，刷新前保存数据
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('store', JSON.stringify(this.$store.state))
@@ -111,16 +91,27 @@ export default {
       userApi.checkLogin().then((r) => {
         console.log(r)
         if (r.data.status) {
-          this.$store.dispatch('setUserInfo', undefined)
-        } else {
           this.$store.dispatch('setUserInfo', r.data.data)
+          // this.$message.warn("您还未登录")
+          // this.$store.dispatch('setUserInfo', undefined)
+        } else {
+
+          this.$store.dispatch('setUserInfo', undefined)
         }
       }).catch((err) => {
         console.error(err)
       })
+    },
+    //阅读模式
+    openReadMode(readMode){
+      this.readMode = readMode
+      if(readMode){
+        utils.fullScreen()
+      }else{
+        utils.exitScreen()
+      }
     }
   },
-
   //以 json 的方式储存数据，以防丢失
   beforeCreate() {
     let store = localStorage.getItem('store')
@@ -137,4 +128,16 @@ export default {
 <style>
 @import "./assets/app.css";
 @import "./assets/common.css";
+@media screen and  (min-width: 801px){
+  .index-menu{
+    margin-left: 300px;
+  }
+}
+@media screen and  (max-width: 800px){
+  .index-menu{
+    margin-left:100px;
+  }
+}
+
+
 </style>

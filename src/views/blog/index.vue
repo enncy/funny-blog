@@ -1,53 +1,16 @@
 <template>
   <div>
-    <a-row class="d-flex-wrap" style="justify-content: center">
-
-      <!--      <a-col class="adapt-item-big-hide adapt-item-width"  >-->
-      <!--        <a-card v-if="blogInfo">-->
-      <!--      -->
-      <!--          <blog-user v-if="blogInfo" :blogInfo="blogInfo"></blog-user>-->
-      <!--        </a-card>-->
-      <!--      </a-col>-->
-
-      <a-col :offset="3" :span="13"  class="adapt-item-width  index-blog-col">
-        <div class="blog-card-body">
-          <!--判空-->
-          <template v-if="error">
-            <a-empty description="此文章不存在"/>
-          </template>
-          <!--骨架-->
-          <template v-else-if="!blogInfo">
-            <a-skeleton active/>
-          </template>
-          <template v-else>
-            <!--博客头部-->
-            <blog-header :blogInfo="blogInfo"></blog-header>
-            <a-divider style="margin-top: 2px"/>
-            <!--博客显示内容-->
-            <mavon-editor
-
-                ref="md"
-                :codeStyle="'gruvbox-dark'" class="blog-markdown" :value="blogInfo.body"
-                :subfield="false" :defaultOpen="'preview'"
-                :toolbarsFlag="false"
-                :editable="false"
-                :scrollStyle="true"
-                :boxShadow="false"
-                :ishljs="true"
-            />
-          </template>
-        </div>
-      </a-col>
+    <a-row class="d-flex-nowrap big-no-warp" style="justify-content: center">
 
       <!--作者信息展示-->
-      <a-col  v-if="blogInfo" :span="4" style=" min-width: 260px" class=" adapt-item-width offset-small">
-        <blog-section  title="作者" color="black" class="adapt-item-big-show ">
+      <a-col  v-if="blogInfo && !readMode" :span="4" style=" min-width: 260px" class=" adapt-item-width adapt-item-big-show ">
+
+        <blog-section  title="作者" color="black" >
           <div    class="div-card">
             <user-avatar :user-info="blogInfo.author_info"></user-avatar>
             <a-divider style="margin-top: 10px"/>
             <user-profile :show-data="true" :show-profile="true"  :user-info="blogInfo.author_info"></user-profile>
           </div>
-
         </blog-section >
         <!--数据统计-->
         <blog-section :padding="6" class="adapt-item-big-show ">
@@ -63,19 +26,84 @@
         </blog-section>
 
         <a-affix :offset-top="60">
-          <blog-section title="趣博客"  >
-            <div class="div-card font-small">
+          <blog-section title="趣博客" class="adapt-item-big-show" style=" min-width: 260px" >
+            <div class="div-card font-small  ">
               <website-info></website-info>
             </div>
           </blog-section>
         </a-affix>
 
       </a-col>
+
       <a-col v-else>
-        <div class="div-card">
+        <div  v-if=" !readMode" class="div-card">
           <a-skeleton  avatar/>
         </div>
       </a-col>
+
+
+      <!--沉浸模式阅读-->
+      <a-col  v-if="readMode" :span="12" :offset="6">
+        <!--博客显示内容-->
+        <blog-markdown ref="md" :body="blogInfo.body"></blog-markdown>
+      </a-col>
+
+      <!--文章显示区域-->
+      <a-col v-if=" !readMode"  :span="12"  class="adapt-item-width  index-blog-col offset-small" style="margin-bottom: 10px" >
+
+        <img   src="https://cdn.jsdelivr.net/gh/klskeleton/cdn@1.0.1/src/img/bg6.png" style="width: 100%;" height="300"/>
+
+        <div class="div-card">
+          <!--判空-->
+          <template v-if="error">
+            <a-empty description="此文章不存在"/>
+          </template>
+          <!--骨架-->
+          <template v-else-if="!blogInfo">
+            <a-skeleton active/>
+          </template>
+          <template v-else>
+            <!--博客头部-->
+            <blog-header :blogInfo="blogInfo"></blog-header>
+            <a-divider style="margin-top: 2px"/>
+            <!--博客显示内容-->
+            <blog-markdown ref="md" :body="blogInfo.body"></blog-markdown>
+          </template>
+        </div>
+
+        <!--发表评论-->
+        <div class="div-card" style="margin-top: 10px">
+          <publish-comments></publish-comments>
+        </div>
+
+        <!--博客的评论-->
+        <blog-comments ></blog-comments>
+      </a-col>
+
+
+
+
+
+      <!--右边栏-->
+      <a-col  :span="4" style="min-width: 260px;" class="offset-small adapt-item-width" >
+        <a-affix :offset-top="readMode?20:60">
+
+          <blog-section      class="adapt-item-width">
+            <blog-operation @openReadMode="openReadMode"  v-if="body!==''"></blog-operation>
+          </blog-section>
+
+          <blog-catalog  class="adapt-item-big-show"> </blog-catalog>
+        </a-affix>
+
+        <template v-if=" !readMode">
+
+          <blog-section    title="相似文章" color="orange" class="adapt-item-width">
+            暂无
+          </blog-section>
+        </template>
+
+      </a-col>
+
 
       <a-back-top/>
     </a-row>
@@ -85,6 +113,10 @@
 
 <script>
 
+import BlogOperation from "@/views/blog/components/BlogOperation";
+import PublishComments from "@/views/blog/components/PublishComments";
+import BlogCatalog from "@/views/blog/components/BlogCatalog";
+import BlogMarkdown from "@/views/blog/components/BlogMarkdown";
 import BlogHeader from "@/views/blog/components/BlogHeader";
 import BlogSection from "@/views/components/BlogSection";
 import UserAvatar from "@/views/user/components/UserAvatar";
@@ -93,11 +125,12 @@ import UserProfile from "@/views/user/components/UserProfile";
 import blogApi from '@/api/blog'
 import utils from '@/utils/index'
 import WebsiteInfo from "@/views/index/components/WebsiteInfo";
-
+import config from '@/config/index'
+import BlogComments from "@/views/blog/components/BlogComments";
 export default {
   name: "blog",
   components: {
-    BlogHeader,BlogSection,UserProfile,UserAvatar,UserSimpleData,WebsiteInfo
+    BlogHeader,BlogSection,UserProfile,UserAvatar,UserSimpleData,WebsiteInfo,BlogMarkdown,BlogCatalog,BlogComments,PublishComments,BlogOperation
   },
   data() {
     return {
@@ -105,20 +138,31 @@ export default {
       error: false,
       body: '',
 
+      //阅读模式
+      readMode:false,
     }
   },
   mounted() {
+    console.log("Blog页面 mounted")
     this.getBlogInfo(this.$route.params.uid)
 
   },
 
+
+
   methods: {
+
+    openReadMode(readMode){
+      this.readMode = readMode
+      this.$emit('openReadMode',this.readMode)
+    },
+
     getBlogInfo(uid) {
       let blogInfo = this.getBlogInfoByStore(uid)
       if (blogInfo) {
         console.log("读取缓存信息：", blogInfo)
         this.blogInfo = blogInfo
-        this.getFormatBlogBody()
+        this.setFormatBlogBody()
       } else {
         this.getBlogInfoByApi(uid)
       }
@@ -133,7 +177,7 @@ export default {
       blogApi.getByUid(uid).then((r) => {
         if (r.data.status) {
           this.blogInfo = r.data.data
-          this.getFormatBlogBody()
+          this.setFormatBlogBody()
           //保存信息
           this.$store.dispatch('addBlog', this.blogInfo)
           console.log("读取服务器信息：", this.blogInfo)
@@ -146,13 +190,22 @@ export default {
       })
     },
     //格式化获取文章内容
-    getFormatBlogBody(){
+    setFormatBlogBody(){
       this.$nextTick(() => {
-        this.body = utils.formatBlogBody(this?.$refs?.md?.$el)
-        console.log(this.body)
-      })
-    }
 
+        this.body = utils.formatBlogBody(this?.$refs?.md?.$el)
+        //刷新 seo 信息
+        this.$route.meta.description = this.blogInfo.body
+        this.$route.meta.title = this.blogInfo.title
+        this.$route.meta.keywords = this.blogInfo.title
+        this.blogInfo.tags.forEach(tag=>{
+          this.$route.meta.keywords+= ','+tag
+        })
+        this.$route.meta.keywords+= " | " + config.title
+        this.$route.meta.title+= " | " + config.title
+        utils.setMeta(this.$route)
+      })
+    },
 
   },
 }
@@ -161,12 +214,6 @@ export default {
 
 
 <style scoped>
-
-
-.blog-card-body {
-  padding: 15px;
-  background-color: white;
-}
 
 .blog-markdown {
   z-index: 0;
@@ -181,7 +228,7 @@ export default {
 
 @media screen and (min-width: 801px) {
   .index-blog-col{
-    min-width: 600px;
+    min-width: 500px;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <a-select mode="tags" style="width: 100%" placeholder="输入分类回车创建，或者选择分类加入" @change="handleChange"   :value="list">
     <a-select-option v-for="(item,index) in category" :key="index">
-      {{item}}
+      <span :key="index">{{item}}</span>
     </a-select-option>
   </a-select>
 

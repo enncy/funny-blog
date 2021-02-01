@@ -27,7 +27,7 @@ export default {
           title: '推荐',
           icon: 'star',
 
-        },
+        }
       ],
     }
   }

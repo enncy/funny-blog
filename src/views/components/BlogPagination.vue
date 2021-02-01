@@ -3,6 +3,7 @@
 
   <a-row style="text-align: center; margin-bottom: 20px">
     <a-pagination
+        :style="{color}"
         show-size-changer
         :default-current="1"
         :show-total="total => `共 ${total} 个文章`"
@@ -33,6 +34,7 @@
 export default {
   props:{
     count:Number,
+    color:String,
   },
   data() {
     return {

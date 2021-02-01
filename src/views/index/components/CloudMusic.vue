@@ -107,7 +107,7 @@ export default {
         let music = this.$refs.music
         if(music.networkState===3)this.$message.error("找不到音频文件:"+this.music.music_url)
         else{
-          console.log(music)
+          // console.log(music)
           if (value) {
             this.$refs.music.play();
           } else {
@@ -123,7 +123,7 @@ export default {
     this.getComments()
     //加载网抑云热评和歌曲
     this.indexEmitter.on('changeMusic', () => {
-      console.log("changeMusic")
+      // console.log("changeMusic")
       this.play = false
       this.getComments()
 
@@ -140,17 +140,17 @@ export default {
     },
     //进度条发生改变
     audioValueChange(e) {
-      console.log("audioValueChange",e)
+      // console.log("audioValueChange",e)
       this.$refs.music.currentTime = e
     },
     //总时长发生变化
     durationchange(e){
-      console.log("durationchange",e.target)
+      // console.log("durationchange",e.target)
       this.duration = e.target.duration
     },
     //时间发生变化
     timeupdate(e){
-      console.log("timeupdate",e)
+      // console.log("timeupdate",e)
       let currentTime = e.target.currentTime
       this.currentTime = currentTime
       this.minutes = new Date(currentTime * 1000).getMinutes();
@@ -165,7 +165,7 @@ export default {
     getComments() {
 
       api.getCloudMusicHotComments().then((r) => {
-        console.log(r.data)
+        // console.log(r.data)
         if(r.data.data.comments===null)this.$message.warn("操作频繁，请稍后再试")
         else{
           this.music = r.data.data;

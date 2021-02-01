@@ -1,5 +1,7 @@
 <template>
   <a-card>
+
+    <!--发布文章的标题-->
     <a-input-group compact style="display: flex;flex-wrap: nowrap" >
 
       <a-input addon-before="文章标题" v-model="title">
@@ -14,8 +16,13 @@
         发布
       </a-button>
     </a-input-group>
+
+    <!--编辑器-->
     <mavon-editor style="margin-top: 20px" class="blog-markdown" :boxShadow="false" v-model="body"></mavon-editor>
 
+
+
+    <!--发布的弹窗-->
     <a-modal :maskStyle="{'background-color':' rgba(0,0,0,.15)'}" v-model="modalVisible" cancelText="取消" okText="发布"
              title="发布文章"  @ok="()=>{
                if(blogInfo)modify()
