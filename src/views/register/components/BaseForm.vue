@@ -5,7 +5,7 @@
       :rules="rules"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-
+      class="base-form"
 
   >
     <a-form-model-item ref="name" label="用户名" prop="name">
@@ -50,7 +50,7 @@
     </a-form-model-item>
 
     <a-form-model-item ref="email" label="qq邮箱" prop="email">
-      <a-input-group style="display: flex;flex-wrap: nowrap" compact>
+      <a-input-group class="email-group" compact>
         <a-input
             v-model="form.email"
             :title="'邮箱用于找回账号密码'"
@@ -73,15 +73,15 @@
 
     </a-form-model-item>
 
-    <a-form-model-item :wrapper-col="{ span: 22  ,offset:1 }">
-      <a-row style="display: flex;flex-wrap: nowrap;width: 100%;">
+    <a-form-model-item :wrapper-col="{ span:21  ,offset:1 }">
+      <a-row  class="reset-row">
         <a-col  >
           <a-button @click="resetForm">
             重置
           </a-button>
         </a-col>
-        <a-col   class="base-btn">
-          <a-button style="width: 100%;margin-left: 10px;" type="primary" @click="submit"  :disabled="!emailIsValidate">
+        <a-col  class="register-col">
+          <a-button class="register-btn" type="primary" @click="submit"  :disabled="!emailIsValidate">
             注册
           </a-button>
         </a-col>
@@ -103,8 +103,8 @@ export default {
     return {
       validateUtils,
 
-      labelCol: {span: 6},
-      wrapperCol: {span: 18},
+      labelCol: {span: 4},
+      wrapperCol: {span: 19},
       other: '',
       form: {
         name: '',
@@ -206,7 +206,7 @@ export default {
 
 
     },
-
+    //名字焦点事件
     nameFieldBlur(){
       console.log(this.$refs.name)
       this.$refs.name.onFieldBlur()
@@ -217,6 +217,7 @@ export default {
       this.$emit('validateFinish',this.form)
       console.log('validateFinish')
     },
+    //验证失败
     validateError(){
       this.$emit('validateError')
       console.log('validateError')
@@ -227,24 +228,5 @@ export default {
 };
 </script>
 
-<style>
-
-/*响应式*/
-@media screen and (min-width: 575px) {
-  .base-form {
-    min-width: 450px;
-  }
-  .base-btn{
-    width: 100%;
-  }
-}
-
-/*当屏幕小于 575 时，消除 css 样式*/
-@media screen and (max-width: 575px) {
-  .base-form { }
-  .base-btn{
-    width: 50%;
-  }
-}
-
+<style scoped>
 </style>

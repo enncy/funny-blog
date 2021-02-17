@@ -1,21 +1,23 @@
 @import "./media.css";
 @import "./flex.css";
 @import "./font.css";
-
+@import "./common/theme.css";
+@import "./common/transition.css";
 
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+
     height: auto;
     width: 100%;
     min-height: 900px;
 }
 
 /*通用文字*/
-#app div,span,p{
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,sans-serif;
+#app div, span, p {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, sans-serif;
 }
 
 /*通用卡片样式*/
@@ -26,51 +28,90 @@
 }
 
 /*指针*/
-.pointer{
+.pointer {
     cursor: pointer;
 }
 
 /*通用阴影*/
-.shadow{
-    box-shadow: 1px 1px 8px rgba(100,100,100,0.1);
+.shadow {
+    box-shadow: 1px 1px 10px rgba(200,200,200,0.3);
 }
-.shadow-dark{
-    box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
+
+.shadow-dark {
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
 }
-.text-shadow{
-    text-shadow: 1px 1px 8px  rgba(100,100,100,0.1);
+
+.text-shadow {
+    text-shadow: 1px 1px 8px rgba(100, 100, 100, 0.1);
 }
-.text-shadow-dark{
-    text-shadow: 1px 1px 8px rgba(0,0,0,0.3);
+
+.text-shadow-dark {
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 /*偏移*/
-.offset-small{
+.offset-x-small {
+    margin-left: 4px;
+}
+.offset-small {
     margin-left: 10px;
 }
-.offset-middle{
+
+.offset-middle {
     margin-left: 20px;
 }
-.offset-large{
+
+.offset-large {
     margin-left: 30px;
 }
 
 /*原生样式修改*/
-#app h1{
+#app h1 {
     font-size: 24px;
 }
-#app h2{
+
+#app h2 {
     font-size: 22px;
 }
-#app h3{
+
+#app h3 {
     font-size: 20px;
 }
-#app h4{
+
+#app h4 {
     font-size: 18px;
 }
-#app h5{
+
+#app h5 {
     font-size: 16px;
 }
-#app h6{
+
+#app h6 {
     font-size: 14px;
+}
+
+/*浏览器滚动条样式*/
+
+/*滚动条的宽度*/
+::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+}
+
+/*//滚动条凹槽的颜色，还可以设置边框属性*/
+::-webkit-scrollbar-track-piece {
+
+    border-radius: 2px;
+}
+
+/*//滚动条的设置*/
+::-webkit-scrollbar-thumb {
+    background-color: lightgrey;
+    background-clip: padding-box;
+    min-height: 28px;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
 }

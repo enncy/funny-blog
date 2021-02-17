@@ -2,7 +2,7 @@ const uuid = require('uuid');
 
 /**
  * 工具模块
- * @author  klskeleton
+ * @author  enncy
  * @date  2021/1/10 : 0:47
  */
 module.exports = {

@@ -8,7 +8,7 @@
 ```js
 
 //下载项目
-git clone git@github.com:klskeleton/funny-blog.git
+git clone git@github.com:enncy/funny-blog.git
 //安装依赖
 npm install
 //启动项目

@@ -1,0 +1,41 @@
+.register-index {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  /*响应式*/
+  /*当屏幕小于 575 时，消除 css 样式*/
+}
+.register-index .base-form .reset-row {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+.register-index .base-form .register-col {
+  width: 100%;
+}
+.register-index .base-form .register-btn {
+  width: 100%;
+  margin-left: 10px;
+}
+.register-index .base-form .email-group {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.register-index .form .password-group {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 20px;
+}
+@media screen and (min-width: 801px) {
+  .register-index .base-form {
+    min-width: 450px;
+  }
+  .register-index .base-form .register-col {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 800px) {
+  .register-index .base-form .register-col {
+    width: 50%;
+  }
+}

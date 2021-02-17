@@ -4,7 +4,7 @@
     <a-col :span="16"  :offset="2" class="adapt-item-width"  >
       <a-row class="d-flex-nowrap"  >
         <a-col class="adapt-item-big-show"  :span="3" >
-          <a-affix :offset-top="70" style="min-width: 130px">
+          <a-affix :offset-top="70" style="min-width: 130px;max-width: 200px">
             <blog-section   title="热门标签" color="orange">
               <template v-for="(item,index) in hot_tags">
                 <a-row>
@@ -117,7 +117,7 @@ export default {
   data() {
 
     let hot_tags = ['java','js','vue','spring','express','springboot']
-    let hot_user = ['klskeleton','skeleton','张三','李四','王五']
+    let hot_user = ['enncy','skeleton','张三','李四','王五']
 
     return {
       indexEmitter,

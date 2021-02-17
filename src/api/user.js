@@ -1,9 +1,10 @@
 
-const request  = require('@/utils/request.js')
+const request = require('@/utils/request.js')
+
 
 const userURL = '/api/user'
 
-module.exports = {
+module.exports ={
 
     /**
      * 账号登录

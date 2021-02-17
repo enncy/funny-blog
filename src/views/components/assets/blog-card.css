@@ -1,0 +1,32 @@
+.blog-card {
+  background-color: white;
+  padding: 10px 10px 0px 10px;
+  margin: 10px 10px 10px 10px;
+  border-radius: 4px;
+}
+.blog-card:hover {
+  box-shadow: 1px 1px 10px rgba(200, 200, 200, 0.8);
+}
+.blog-card .profile {
+  margin-top: 5px;
+  cursor: pointer;
+}
+.blog-card .title {
+  font-weight: bold;
+  color: black;
+}
+.blog-card .detail {
+  color: gray;
+}
+.blog-card .data {
+  cursor: default;
+  padding-top: 6px;
+  display: flex;
+  color: gray;
+  font-size: 13px;
+  justify-content: flex-end;
+}
+.blog-card .operation {
+  display: flex;
+  justify-content: flex-end;
+}

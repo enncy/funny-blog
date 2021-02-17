@@ -1,47 +1,49 @@
 <template>
-  <BaseForm :emailIsValidate="emailIsValidate" @validateFinish="validateFinish" @validateError="validateError"
-            @clear="clear" @register="register">
-    <template slot="email-btn">
-      <a-button slot="email-btn-send" type="primary" v-show="canSend" :disabled="!isValidateFinish || sending"
-                @click="sendEmail">
-        {{
-          sending
-              ? '正在发送...'
-              : sendCount > 0
-              ? "重新发送"
-              : "验证"
-        }}
-      </a-button>
-      <a-button v-show="!canSend" type="primary" :disabled="count!==60">
-        {{ count }} s
-      </a-button>
-    </template>
-    <template v-if="sendFinish " slot="email-validate">
-      <a-input-group style="display: flex;flex-wrap: nowrap;margin-top: 20px" compact>
-        <a-input
-            placeholder="输入4位数验证码"
-            type="text"
-            v-model="emailCode"
-        >
+  <a-row class="form">
+    <BaseForm :emailIsValidate="emailIsValidate" @validateFinish="validateFinish" @validateError="validateError"
+              @clear="clear" @register="register">
+      <template slot="email-btn">
+        <a-button slot="email-btn-send" type="primary" v-show="canSend" :disabled="!isValidateFinish || sending"
+                  @click="sendEmail">
+          {{
+            sending
+                ? '正在发送...'
+                : sendCount > 0
+                ? "重新发送"
+                : "验证"
+          }}
+        </a-button>
+        <a-button v-show="!canSend" type="primary" :disabled="count!==60">
+          {{ count }} s
+        </a-button>
+      </template>
+      <template v-if="sendFinish " slot="email-validate">
+        <a-input-group class="password-group"  compact>
+          <a-input
+              placeholder="输入4位数验证码"
+              type="text"
+              v-model="emailCode"
+          >
 
-          <template v-show="sendFinish ">
-            <template slot="suffix">
-              <a-icon v-show="emailIsValidate" type="check-circle" theme="filled" style="color:#52c41a;"/>
-              <a-button type="link" @click="checkEmailCode">点击验证</a-button>
+            <template v-show="sendFinish ">
+              <template slot="suffix">
+                <a-icon v-show="emailIsValidate" type="check-circle" theme="filled" class="link-color"/>
+                <a-button type="link" @click="checkEmailCode">点击验证</a-button>
+              </template>
+
             </template>
 
-          </template>
+
+          </a-input>
 
 
-        </a-input>
+        </a-input-group>
 
+        <span class="error-color">{{ errorMsg }}</span>
 
-      </a-input-group>
-
-      <span style="color: #f5222d">{{ errorMsg }}</span>
-
-    </template>
-  </BaseForm>
+      </template>
+    </BaseForm>
+  </a-row>
 </template>
 
 <script>

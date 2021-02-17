@@ -1,22 +1,40 @@
 <template>
-  <a-card style="text-align: center">
-    <a-empty description="找不到页面"/>
-    <h1 style="font-size: xxx-large">404 not found</h1>
+  <div class="div-card" style="text-align: center">
+
+
+    <img class="adapt-item-width  error-img" src="/static/resource/404.png" />
+
+    <h1 style="color: gray">{{msg || '此页面走丢了...'}}</h1>
 
     <a-row >
-      <a-button @click="back">
+      <a-button   @click="back">
         返回上一页
       </a-button>
-      <a-button style="margin-left: 20px" type="primary" @click="index">
+      <a-button    style="margin-left: 20px" type="primary" @click="index">
         首页
       </a-button>
     </a-row>
-  </a-card>
+  </div>
 </template>
 
 <script>
 export default {
   name: "pageNotFound",
+  props:{
+    title:String,
+    href:'',
+  },
+
+  data(){
+    return{
+      msg: this.title
+    }
+  },
+  mounted() {
+
+    console.log(this.$route)
+    this.msg  = this.$route?.params?.title
+  },
   methods:{
     index(){
       this.$router.push('/')
@@ -29,5 +47,7 @@ export default {
 </script>
 
 <style scoped>
-
+.error-img{
+  width: 40%;
+}
 </style>

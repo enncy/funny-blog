@@ -2,14 +2,17 @@
   <mavon-editor
 
       ref="markdown"
-      :codeStyle="'gruvbox-dark'" class="blog-markdown" :value="body"
-      :subfield="false" :defaultOpen="'preview'"
+      :codeStyle="'gruvbox-dark'"
+      class="blog-markdown  "
+      :value="body"
+      :subfield="false"
+      :defaultOpen="'preview'"
       :toolbarsFlag="false"
       :editable="false"
       :scrollStyle="true"
       :boxShadow="false"
       :ishljs="true"
-      :previewBackground="'white'"
+      :previewBackground="'ghostwhite'"
 
   />
 </template>

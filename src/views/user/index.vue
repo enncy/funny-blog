@@ -1,5 +1,5 @@
 <template>
-  <a-row v-if="userInfo" style="display: flex;" class="adapt-item-wrap">
+  <a-row   v-if="userInfo" style="display: flex;" class="adapt-item-wrap user-index">
     <a-col class="adapt-item-width"  :span="4" :offset="2" style="min-width: 250px">
 
       <div style="min-width: 250px" >
@@ -51,9 +51,11 @@
 
     </a-col>
     <a-col :span="14"    class="blog-list adapt-item-width " >
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <transition name="page-fade">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </transition>
 
     </a-col>
 
@@ -86,7 +88,7 @@ export default {
 
   beforeCreate() {
     if (! this.$store.state.userInfo) {
-      this.$message.error("您还未登录！")
+      this.$message.warn("您还未登录！")
       // this.$router.push('/login')
     }
   },
@@ -101,13 +103,23 @@ export default {
   },
 
   mounted() {
-    if(!this.userInfo)  this.$message.warn("您还未登录")
+    if(!this.userInfo){
+      this.$router.push({
+        name:'404',
+        params:{
+          title:'您还未登录',
+        }
+      })
+    }
   }
 
 }
 </script>
 
 <style scoped>
+
+@import "./assets/index.css";
+
 .card-item{
   margin: 5px 0px 5px 0px;
 }

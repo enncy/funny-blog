@@ -14,7 +14,7 @@
       <a-icon type="right-circle" />
     </div>
     <template v-for="index in imgs" >
-      <img   style="max-height: 350px"  :src="`https://cdn.jsdelivr.net/gh/klskeleton/cdn@1.0.1/src/img/bg${index}.png`" :key="index"/>
+      <img   style="max-height: 350px"  :src="`https://cdn.jsdelivr.net/gh/enncy/cdn@1.0.1/src/img/bg${index}.png`" :key="index"/>
     </template>
   </a-carousel>
 </template>

@@ -1,14 +1,13 @@
 <template>
-  <a-card>
+  <a-card class="user-editor-container">
 
     <!--发布文章的标题-->
-    <a-input-group compact style="display: flex;flex-wrap: nowrap" >
+    <a-input-group compact class="title" >
 
       <a-input addon-before="文章标题" v-model="title">
 
         <a-tooltip slot="suffix" title="标题字数">
-          <span style="background-color: white"
-                :style="{'color':title.length>title_max_len?'red':''}">{{ title.length }}/{{ title_max_len }}</span>
+          <span style="background-color: white"  :class="title.length>title_max_len?'error-color':''" >{{ title.length }}/{{ title_max_len }}</span>
         </a-tooltip>
 
       </a-input>
@@ -18,12 +17,12 @@
     </a-input-group>
 
     <!--编辑器-->
-    <mavon-editor style="margin-top: 20px" class="blog-markdown" :boxShadow="false" v-model="body"></mavon-editor>
+    <mavon-editor  class="markdown" :boxShadow="false" v-model="body"></mavon-editor>
 
 
 
     <!--发布的弹窗-->
-    <a-modal :maskStyle="{'background-color':' rgba(0,0,0,.15)'}" v-model="modalVisible" cancelText="取消" okText="发布"
+    <a-modal  class="modal"  v-model="modalVisible" cancelText="取消" okText="发布"
              title="发布文章"  @ok="()=>{
                if(blogInfo)modify()
                else publishBlog()
@@ -42,11 +41,9 @@
       </a-descriptions>
 
 
-      <a-row class="d-flex-nowrap" style=" width: 100%;">
-        <a-col :span="2" style="    color: rgba(0,0,0,.85);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.5;padding-right: 4px">类型 :
+      <a-row class="d-flex-nowrap" style="width: 100%;">
+        <a-col :span="2"  class="blog-type-text">
+          类型 :
         </a-col>
         <a-col :span="4">
           <a-switch checked-children="原创" un-checked-children="搬运" default-checked v-model="original"/>
@@ -58,7 +55,6 @@
 
       <a-row>
         <a-divider/>
-
          将此文章加入以下分类(最多3个)：
         <a-row>
           <edit-blog-select @categoryChange="categoryChange" :category="category"></edit-blog-select>
@@ -172,7 +168,7 @@ export default {
     publishBlog() {
       if (this.validate()) {
         let data = Object.assign({author:this.userInfo.name },this.getData())
-        blogApi.craete(data).then((r) => {
+        blogApi.create(data).then((r) => {
           if (r.data.status) {
             this.$message.success(r.data.msg)
             this.modalVisible = false
@@ -228,10 +224,6 @@ export default {
 </script>
 
 <style scoped>
-.blog-markdown {
-  z-index: 0;
+@import "./assets/index.css";
 
-  height: 85vh;
-
-}
 </style>

@@ -1,14 +1,7 @@
 
-
-
-const request  = require('@/utils/request.js')
-
-
+const request = require('@/utils/request.js')
 const blogURL = '/api/blog'
-
 module.exports = {
-
-
     /**
      * 通过 uid 查询文章
      * @param uid
@@ -20,7 +13,6 @@ module.exports = {
             url: blogURL+`/get/one/${uid}`,
         })
     },
-
     /**
      * 分页获取文章
      * @param skip
@@ -33,7 +25,6 @@ module.exports = {
             url: blogURL+`/get/some/${skip}/${limit}`,
         })
     },
-
     /**
      * 获取用户文章并且分页
      * @param author
@@ -46,8 +37,6 @@ module.exports = {
             url: blogURL+`/get/by/author/${author}/${skip}/${limit}`,
         })
     },
-
-
     //获取文章总数
     getCount(){
         return request({
@@ -63,22 +52,18 @@ module.exports = {
             url:blogURL+`/get/count/by/author/${author}`,
         })
     },
-
-
-
     /**
      * 创建文章
      * @param blog  文章信息
      * @return {*}
      */
-    craete(blog){
+    create(blog){
         return request({
             method:'post',
             url:blogURL+'/create',
             data:blog
         })
     },
-
     /**
      * 删除文章
      * @param uid      文章uid
@@ -93,7 +78,6 @@ module.exports = {
             }
         })
     },
-
     /**
      * 修改文章
      * @param blog
@@ -106,8 +90,6 @@ module.exports = {
             data:blog
         })
     },
-
-
 
 }
 

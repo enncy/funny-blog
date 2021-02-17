@@ -1,7 +1,7 @@
 <template>
   <a :href="'/'">
       <span class="blog-logo">
-        <span style="color: #1890ff; ">趣</span>
+        <span style="color: #1890ff;font-size: 26px ">趣</span>
         <span :style="{color:color?color:'black'}">博客</span>
      </span>
   </a>
@@ -16,7 +16,7 @@ export default {
     color:String,
   },
   mounted() {
-    // console.log(this.color)
+    // console.log(this.theme.less)
   }
 }
 </script>

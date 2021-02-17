@@ -1,7 +1,7 @@
 <template>
   <div class="menu" >
     <a-row   >
-      <a-col :span="10">
+      <a-col :span="18">
         <a-menu
             :inline-collapsed="collapsed"
             mode="horizontal"
@@ -25,7 +25,7 @@
 
 
       </a-col>
-      <a-col  :span="12" style="display: flex;justify-content: flex-end" class="user-menu">
+      <a-col  :span="4" style="display: flex;justify-content: flex-end" class="user-menu">
         <user-menu style="display:flex;"></user-menu>
       </a-col>
 

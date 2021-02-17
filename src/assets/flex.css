@@ -1,3 +1,8 @@
+
+.d-flex{
+    display: flex;
+}
+
 .d-flex-nowrap{
     display: flex;
     flex-wrap: nowrap;

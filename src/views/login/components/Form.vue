@@ -56,15 +56,14 @@ export default {
   data() {
     return {
 
-      validate
+      validate,
+
     }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, {name: 'normal_login'});
   },
-  mounted() {
 
-  },
   methods: {
     //账号组件包装
     nameDecorator() {
@@ -88,14 +87,17 @@ export default {
       this.form.validateFields((err, form) => {
         if (!err) {
           userApi.login(form.name, form.password).then((r) => {
-            console.log("请求返回", r)
+            console.log("登录请求返回", r)
             if (r.data.status) {
               let userInfo =   r.data.data
               this.$message.success(r.data.msg)
               this.$store.dispatch('setUserInfo',userInfo)
               this.$emitter.emit('login',userInfo)
               setTimeout(()=>{
-                this.$router.push('/user')
+                if(window.history.length > 1){
+                  //跳转去上一个路由
+                  this.$router.back()
+                }else this.$router.push('/user')
               },1000)
             } else {
               this.$message.error(r.data.msg)
@@ -103,10 +105,14 @@ export default {
           }).catch((err) => {
             console.error(err)
           })
+        }else{
+          console.log(err)
         }
       });
     },
+
   },
+
 };
 </script>
 <style>

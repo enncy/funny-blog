@@ -1,0 +1,64 @@
+
+.register-index {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+
+  .base-form {
+
+    .reset-row {
+      display: flex;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .register-col {
+      width: 100%;
+    }
+
+    .register-btn {
+      width: 100%;
+      margin-left: 10px;
+    }
+
+    .email-group {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+
+  }
+
+
+  .form {
+    .password-group {
+      display: flex;
+      flex-wrap: nowrap;
+      margin-top: 20px
+    }
+  }
+
+  /*响应式*/
+  @media screen and (min-width: 801px) {
+    .base-form {
+      min-width: 450px;
+
+      .register-col {
+        width: 100%;
+      }
+    }
+
+  }
+
+  /*当屏幕小于 575 时，消除 css 样式*/
+  @media screen and (max-width: 800px) {
+    .base-form {
+      .register-col {
+        width: 50%;
+      }
+    }
+
+  }
+
+}
+

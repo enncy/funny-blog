@@ -1,13 +1,14 @@
-import Index from "../index";
+import BaseService from "../index";
 import {Document, SchemaDefinition} from "mongoose";
 
 
 const utils = require('../../utils')
 
-class UserService extends  Index {
+class UserService extends  BaseService {
 
     initSchema(): void {
         this.schema.index({uid: 1});
+        this.schema.index({name: 1});
         //保存后置钩子
         this.schema.post('save', function(error, doc, next)  {
 
@@ -29,6 +30,7 @@ class UserService extends  Index {
             name,pwd,email , uid ,date
         });
     }
+
 
     /**
      * 修改公共信息

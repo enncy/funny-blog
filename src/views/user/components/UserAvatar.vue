@@ -86,7 +86,7 @@ export default {
   },
   mounted() {
     this.autoSize()
-    utils.listenResize(window,(platform)=>{
+    utils.listenResize((platform)=>{
       this.autoSize()
     })
 

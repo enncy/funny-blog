@@ -11,7 +11,6 @@ import store from './store/index'
 import MetaInfo from 'vue-meta-info'
 import router from './router'
 
-console.log("store",store)
 
 //防止路由重复点击的报错信息
 const originalPush = VueRouter.prototype.push

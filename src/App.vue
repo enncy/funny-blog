@@ -11,15 +11,23 @@
         </a-layout-footer>
       </div>
 
+      <div v-else-if="this.$route.name==='error'||this.$route.name==='404'">
+        <logo  class="text-shadow" style="position: relative;top: 20px;left: 20px"></logo>
+        <router-view ></router-view>
+        <!--底部footer-->
+        <a-layout-footer style="background-color: white;  margin-top: 200px;">
+          <index-footer></index-footer>
+        </a-layout-footer>
+      </div>
+
 
       <a-layout v-else id="components-layout-demo-top" class="layout">
         <!--固定导航栏-->
         <a-affix style="    width: 100%;" v-if="!readMode" >
-          <a-layout-header class="index-header">
+          <a-layout-header  class="index-header">
               <span class="logo  pointer text-shadow-dark" style="z-index: 9999;">
                 <logo></logo>
               </span>
-
             <!--导航-->
             <navigation  class="index-menu"></navigation>
           </a-layout-header>
@@ -28,9 +36,14 @@
         <a-layout-content class="index-content">
 
           <!--  router-views  网页内容显示 -->
-          <keep-alive  include="index,user,login,register">
-            <router-view  @openReadMode="openReadMode" style="min-height: 700px"></router-view>
-          </keep-alive>
+
+            <keep-alive  include="index,user,login,register">
+              <transition name="page-fade">
+                <router-view  @openReadMode="openReadMode" ></router-view>
+              </transition>
+
+            </keep-alive>
+
           <!--<router-view></router-view>-->
 
         </a-layout-content>
@@ -89,7 +102,6 @@ export default {
     //检测用户是否存在，不存在则删除本地信息
     checkUser() {
       userApi.checkLogin().then((r) => {
-        console.log(r)
         if (r.data.status) {
           this.$store.dispatch('setUserInfo', r.data.data)
           // this.$message.warn("您还未登录")

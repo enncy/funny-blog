@@ -2,14 +2,45 @@
 
 
 
+const formatUtils = require('../utils/format')
 
 
 
 module.exports = {
 
-    //验证用户是否存在
-    valid(req){
-        return !!this.getUser(req);
+    /**
+     * 操作是否需要用户权限，需要则验证用户
+     * @param match_path       匹配的路由
+     * @param req
+     * @param res
+     * @param next
+     * @param diyValid {    自定义验证方法
+     *          pass:boolean    是否通过
+     *          ,errMsg:string  未通过消息
+     *          }
+     */
+    valid(match_path,req,res,next,diyValid){
+        if(req.url.match(match_path)){
+            if(this.getUser(req)){
+                if(diyValid){
+                    let valid = diyValid()
+                    if(valid.pass){
+                        next()
+                    }else{
+                        res.send(formatUtils.formatError(valid.errMsg))
+                    }
+                }else{
+                    next()
+                }
+            }else{
+                res.send(formatUtils.formatError("未登录"))
+            }
+        }else{
+            next()
+        }
+    },
+    hasUser(req){
+        return !!this.getUser(req)
     },
 
     /**
@@ -26,7 +57,7 @@ module.exports = {
      * @param req   请求
      */
     getUser(req){
-        return  req.session.user
+        return  req?.session?.user
     },
 
     /**
@@ -47,7 +78,7 @@ module.exports = {
      * @param req   请求
      */
     getEmail(req){
-        return  req.session.emailInfo
+        return  req?.session?.emailInfo
     }
 
 

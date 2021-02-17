@@ -1,5 +1,5 @@
 <template>
-  <div style="box-shadow: 1px 1px 1px rgba(0,0,0,0.1)">
+  <div >
     <navigation-menu :list="list"> </navigation-menu>
   </div>
 </template>

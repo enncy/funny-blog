@@ -10,7 +10,7 @@
     </template>
 
     <template v-if="list">
-      <blog-card v-for="(item,index) in list"   :blog-info="item"  :index="index"></blog-card>
+      <blog-card v-for="(item,index) in list"  :key="index" :blog-info="item"  :index="index"></blog-card>
     </template>
 
     <!--分页组件-->

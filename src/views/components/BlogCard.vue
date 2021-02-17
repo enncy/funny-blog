@@ -1,16 +1,16 @@
 <template>
 
-  <a-row   class=" adapt-item-width blog-card shadow "  style="margin-bottom: 10px;padding: 10px">
+  <a-row   class=" adapt-item-width blog-card shadow"  style="margin-bottom: 10px;padding: 10px">
     <!--博客卡片的标题-->
     <a :href="'/blog/' + blogInfo.uid">
       <a-col class="d-flex-nowrap" style="cursor: pointer;"  >
-        <span style="font-weight: bold;color: black" class="adapt-item-title font-large" >{{ blogInfo.title }}</span>
+        <span   class="adapt-item-title title font-large" >{{ blogInfo.title }}</span>
       </a-col>
 
       <!--博客简介-->
-      <a-col style="margin-top: 5px;  cursor: pointer;"  >
-        <!--<img src="https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg3.png" width="270"  height="150"/>-->
-        <span class="adapt-item-text"  style="color: gray">{{ utils.mdToText(blogInfo.body) }}</span>
+      <a-col  class="profile">
+        <!--<img src="https://cdn.jsdelivr.net/gh/enncy/cdn/src/img/bg3.png" width="270"  height="150"/>-->
+        <span class="adapt-item-text text-color" >{{ utils.mdToText(blogInfo.body) }}</span>
       </a-col>
     </a>
 
@@ -51,7 +51,7 @@
       <a-row class="d-flex-nowrap-ali-center">
 
         <!--博客作者，以及更新时间-->
-        <a-col class="blog-card-detail"  :span="platform==='pc'?18:12"  >
+        <a-col class="detail"  :span="platform==='pc'?18:12"  >
           <a-row style="display: flex" :gutter="10">
             <a-col>
               <a-icon type="user"/>
@@ -64,14 +64,14 @@
         </a-col>
 
         <!--博客点赞，收藏，评论-->
-        <a-col  :span="platform==='pc'?6:12" class="blog-card-blogInfo">
+        <a-col  :span="platform==='pc'?6:12" class="data">
           <a-row class="d-flex-nowrap-ali-center">
             <!--博客点赞，收藏，评论-->
             <a-col>
               <blog-card-info :blogInfo="blogInfo"></blog-card-info>
             </a-col>
             <!--博客置顶，编辑，删除-->
-            <a-col   class="blog-card-operation" v-if="showOperation">
+            <a-col   class="operation" v-if="showOperation">
               <a-button type="link">置顶</a-button>
               <a-button type="link" @click="edit">编辑</a-button>
               <a-popconfirm
@@ -131,7 +131,7 @@ export default {
   },
   mounted() {
 
-     // utils.listenResize(window,(p)=>{
+     // utils.listenResize((p)=>{
      //   this.platform = p;
      //   console.log( this.platform)
      // })
@@ -180,48 +180,5 @@ export default {
 </script>
 
 <style scoped>
-
-.blog-card {
-  background-color: white;
-  padding: 10px 10px 0px 10px;
-
-  margin: 10px 10px 10px 10px;
-  border-radius: 4px;
-
-}
-
-.blog-card :hover {
-  background-color: rgba(250, 250, 250, 0.8);
-}
-
-.blog-card-detail {
-  color: gray;
-}
-
-.blog-card-operation {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.blog-card-blogInfo {
-  cursor: default;
-  padding-top: 6px;
-  display: flex;
-  color: gray;
-  font-size: 13px;
-  justify-content: flex-end
-}
-
-
-.blog-info {
-  cursor: default;
-}
-
->>> .ant-tag{
-  padding: 0 4px;
-  font-size: 12px;
-
-  line-height: 16px;
-}
-
+@import "./assets/blog-card.css";
 </style>

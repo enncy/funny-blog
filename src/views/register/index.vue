@@ -1,5 +1,5 @@
 <template>
-  <a-row style="display: flex;justify-content: center;margin-top: 50px">
+  <a-row class="register-index">
     <a-col>
       <a-card    :bordered="false">
         <template slot="title">
@@ -23,5 +23,5 @@ export default {
 };
 </script>
 <style scoped>
-
+@import "./assets/index.css";
 </style>

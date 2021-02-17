@@ -16,7 +16,7 @@ const smtpPwd = emailConfig.smtpPassword // 'xxxxxxxxxxxxxxxx'
 
 /**
  * 邮件发送模块
- * @author  klskeleton
+ * @author  enncy
  * @date  2021/1/11 : 15:34
  */
 

@@ -93,7 +93,7 @@ export default {
   },
   methods: {},
   mounted() {
-    console.log(new Date(this.blogInfo.date).getTime())
+    // console.log(new Date(this.blogInfo.date).getTime())
   }
 }
 </script>

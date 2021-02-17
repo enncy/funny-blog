@@ -1,37 +1,37 @@
-import index from "@/views/index";
-import blog from "@/views/blog";
-import login from "@/views/login";
-import user from "@/views/user";
-import setting from "@/views/user/setting";
-import star from "@/views/user/star";
-import editor from "@/views/user/editor";
-import register from "@/views/register";
-import pageNotFound from "@/views/components/pageNotFound";
-import home from "@/views/home";
-import userBlogs from "@/views/user/blogs"
+// import index from "@/views/index";
+// import blog from "@/views/blog";
+// import login from "@/views/login";
+// import user from "@/views/user";
+// import setting from "@/views/user/setting"
+// import star from "@/views/user/star"
+// import editor from "@/views/user/editor"
+// import register from "@/views/register"
+// import pageNotFound from "@/views/components/pageNotFound"
+// import home from "@/views/home"
+// import userBlogs from "@/views/user/blogs"
 const config = require('@/config/index')
 let routes = [
     {
         path: '/',  //博客内容
-        component: index,
+        component: ()=>import("@/views/index"),
         meta:{ title: config.title },
         name:'index',
     },
     {
         path: '/index',  //博客内容
-        component: index,
+        component: ()=>import("@/views/index"),
         name:'index',
         meta:{ title:config.title }
     },
     {
         path: "/blog/:uid",  //博客内容
-        component: blog,
+        component: ()=>import("@/views/blog"),
         name:'blog',
         meta:{ title: "文章-趣博客" }
     },
     {
         path: "/login", //登录
-        component: login,
+        component: ()=>import("@/views/login"),
         name:'login',
         meta:{ title: "登录-趣博客" }
     },
@@ -39,13 +39,13 @@ let routes = [
         path: "/user",  //用户页
         redirect:'/user/blogs',
         name:'user',
-        component: user,
+        component: ()=>import("@/views/user"),
         meta:{ title: "个人中心-趣博客" },
         children:[
             {
                 path: "blogs",  //收藏
                 name:'user-blogs',
-                component: userBlogs,
+                component: ()=>import("@/views/user/blogs"),
                 meta: {
                     title: '全部文章',
                     breadcrumb:[
@@ -63,13 +63,13 @@ let routes = [
             {
                 path: "star",  //收藏
                 name:'user-star',
-                component: star,
+                component: ()=>import("@/views/user/star"),
                 meta:{ title: "个人收藏-趣博客" }
             },
             {
                 path: "setting",   //设置
                 name:'user-setting',
-                component: setting,
+                component: ()=>import( "@/views/user/setting"),
                 meta:{ title: "个人设置-趣博客" }
             }
         ]
@@ -78,30 +78,33 @@ let routes = [
     {
         path: "/user/editor",    //写博客页
         name:'editor',
-        component: editor,
+        component: ()=>import("@/views/user/editor"),
         meta:{ title: "写博客-趣博客" }
     },
     {
         path: "/register",  //用户页
         name:'register',
-        component: register,
+        component: ()=>import( "@/views/register"),
         meta:{ title: "注册-趣博客" }
     },
     {
         path: '/error',
         name:'error',
-        component: pageNotFound,
+        component: ()=>import("@/views/components/pageNotFound"),
         meta:{ title: "找不到页面-趣博客" }
     },
     {
         path: '/:name',
-        component: home,
+        component: ()=>import("@/views/home"),
         name:'home',
         meta:{ title: "个人首页-趣博客" }
     },
+
     {
         path: '*',
-        component: pageNotFound
+        name:'404',
+        component: ()=>import("@/views/components/pageNotFound"),
+        meta:{ title: "找不到页面404-趣博客" }
     },
 
 ]

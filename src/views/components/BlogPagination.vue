@@ -1,7 +1,7 @@
 <template>
   <!--深度封装分页组件，公共分页组件-->
 
-  <a-row style="text-align: center; margin-bottom: 20px">
+  <a-row class="blog-pagination">
     <a-pagination
         :style="{color}"
         show-size-changer
@@ -18,23 +18,30 @@
   </a-row>
 </template>
 
+<style scoped>
+.blog-pagination {
+  text-align: center;
+  margin-bottom: 20px
+}
+</style>
+
 <script>
 /**
-     此组件负责分页逻辑
-     子组件负责业务处理
-     父组件负责数据展示
+ 此组件负责分页逻辑
+ 子组件负责业务处理
+ 父组件负责数据展示
 
-     1.任意页面使用此组件的时候，需要定义一个子组件，名字为  "页面+Pagination"
-     2.子组件只需要传递给 BlogPagination 2个方法 get-count-event 获取数量的 api 请求方法
-     和 get-page-event 获取文章的 api 请求方法，即可，
-     3. 子组件通过 emitter 绑定 listUpdate 事件， 吧 list 文章列表传递给父组件即可
+ 1.任意页面使用此组件的时候，需要定义一个子组件，名字为  "页面+Pagination"
+ 2.子组件只需要传递给 BlogPagination 2个方法 get-count-event 获取数量的 api 请求方法
+ 和 get-page-event 获取文章的 api 请求方法，即可，
+ 3. 子组件通过 emitter 绑定 listUpdate 事件， 吧 list 文章列表传递给父组件即可
  */
 
 
 export default {
-  props:{
-    count:Number,
-    color:String,
+  props: {
+    count: Number,
+    color: String,
   },
   data() {
     return {
@@ -50,18 +57,18 @@ export default {
       this.skip = page * pageSize - pageSize
       this.limit = pageSize
       this.sending = true
-      this.$emit('getPage',this.skip, this.limit)
+      this.$emit('getPage', this.skip, this.limit)
 
     },
     onShowSizeChange(current, pageSize) {
       this.skip = current * pageSize - pageSize
       this.limit = pageSize
       this.sending = true
-      this.$emit('getPage',this.skip, this.limit)
+      this.$emit('getPage', this.skip, this.limit)
     },
   },
   mounted() {
-    this.$emit('getPage',this.skip, this.limit)
+    this.$emit('getPage', this.skip, this.limit)
   }
 }
 </script>

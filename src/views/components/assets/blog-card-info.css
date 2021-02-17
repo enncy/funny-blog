@@ -1,0 +1,14 @@
+.blog-card-info {
+  align-items: baseline;
+  text-align: center;
+}
+.blog-card-info .text {
+  margin-left: 4px;
+}
+.blog-card-info .icon {
+  margin-top: 3px;
+}
+.blog-card-info .blog-info {
+  display: flex;
+  flex-wrap: nowrap;
+}

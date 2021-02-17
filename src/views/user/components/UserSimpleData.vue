@@ -41,7 +41,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.statistics)
+    console.log("[用户数据统计]",this.statistics)
   }
 }
 </script>

@@ -1,6 +1,6 @@
 /**
  * 统一格式化请求的响应数据
- * @author  klskeleton
+ * @author  enncy
  * @date  2021/1/11 : 15:33
  */
 
@@ -8,11 +8,11 @@ module .exports = {
     /**
      * 格式化响应数据
      * @param data  数据
-     * @param options :{msg,operation_name}  msg: 额外信息 ， 如果msg为空，则使用operation_name代替操作信息
+     * @param options   msg: 额外信息 ， 如果msg为空，则使用operation_name代替操作信息
      */
-    format(data: any, options: { msg, operation_name }) {
+    format(data: any, options: { msg, operation_name: string }) {
         return {
-            status: data ? 1 : 0,
+            status: data!==undefined && data!==null ? 1 : 0,
             data,
             msg: options ?
                 options.msg ?

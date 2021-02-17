@@ -8,7 +8,7 @@ axios.defaults.withCredentials=true; //跨域携带cookie
 /**
  * request 是 axios 的封装，封装了简单的请求拦截器功能 <br/>
  * 官方文档 : http://www.axios-js.com/zh-cn/docs/#%E6%8B%A6%E6%88%AA%E5%99%A8
- * @author  klskeleton
+ * @author  enncy
  * @date  2021/1/7 : 23:52
  */
 

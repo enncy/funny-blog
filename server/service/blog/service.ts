@@ -1,13 +1,15 @@
-import Index from "../index";
+import BaseService from "../index";
 import {Document, NativeError, Query} from "mongoose";
 import User from "../user";
+import Comments from "../comments";
 
 const utils = require('../../utils')
 
-class BlogService extends Index {
+class BlogService extends BaseService {
 
     initSchema(): void {
         this.schema.index({uid: 1});
+        this.schema.index({author: 1});
         //保存后置钩子
         this.schema.post('save', function (error, doc, next) {
             //重复的值出现
@@ -39,23 +41,28 @@ class BlogService extends Index {
         });
     }
 
+
     async  findByUid(uid: String): Promise<Query<Document<any>, Document<any>>> {
+        console.log("findByUid:",uid)
         let blog:any = await this.mongooseModel.findOne({uid});
-        let author_info = await User.findByName(blog.author, false)
+        let author_info = await User.findByName(blog?.author, false)
+
         return this.format(blog,author_info)
     }
 
     //分页查找
     async findByPage(skip: number, limit: number) {
         let blogs = await this.mongooseModel.find({}).skip(skip).limit(limit)
-        blogs = blogs.map(blog => this.format(blog))
+        for (let i=0;i<blogs.length;i++) {
+            blogs[i] =await this.format(blogs[i])
+        }
         return blogs
     }
 
     //根据标题查找
     async findByTitle(title: string) {
         let blog: any = await this.mongooseModel.findOne({title})
-        let author_info = await User.findByName(blog.author, false)
+        let author_info = await User.findByName(blog?.author, false)
         return this.format(blog, author_info)
     }
 
@@ -63,7 +70,9 @@ class BlogService extends Index {
     async findByAuthor(author: string) {
         let author_info = await User.findByName(author, false)
         let blogs = await this.mongooseModel.find({author})
-        blogs = blogs.map(blog => this.format(blog, author_info))
+        for (let i=0;i<blogs.length;i++) {
+            blogs[i] =await this.format(blogs[i],author_info)
+        }
         return blogs
     }
 
@@ -71,7 +80,9 @@ class BlogService extends Index {
     async findByAuthorAndPage(author: string, skip: number, limit: number) {
         let author_info = await User.findByName(author, false)
         let blogs = await this.mongooseModel.find({author}).skip(skip).limit(limit)
-        blogs = blogs.map(blog => this.format(blog, author_info))
+        for (let i=0;i<blogs.length;i++) {
+            blogs[i] =await this.format(blogs[i],author_info)
+        }
         return blogs
     }
 
@@ -104,6 +115,22 @@ class BlogService extends Index {
     }
 
     /**
+     * 更新博客数据
+     * @param uid   博客 uid
+     * @param fav_num  收藏数量
+     * @param like_num  喜欢数量
+     * @param read_num  阅读数量
+     */
+    async  updateData(uid:string,fav_num:number,like_num:number,read_num:number){
+        return this.format(await this.mongooseModel.findOneAndUpdate({uid: uid}, {
+            fav_num,
+            like_num,
+            read_num,
+            update_date: Date.now(),
+        }))
+    }
+
+    /**
      * 获取文章总数
      * @param callback
      */
@@ -116,7 +143,7 @@ class BlogService extends Index {
      * @param author 作者名
      * @param callback
      */
-    getCountByAuthor(author, callback?: (err: any, count: number) => void) {
+    getCountByAuthor(author:string, callback?: (err: any, count: number) => void) {
         return this.mongooseModel.count({author}, callback);
     }
 
@@ -127,14 +154,27 @@ class BlogService extends Index {
         return this.mongooseModel.remove({uid}, callback)
     }
 
+    //为博客添加评论
+    async setBlogComment(blog:Document,skip:number,limit:number){
+        //@ts-ignore
+        let comment:Document =await  Comments.findByBlog(blog.uid,skip,limit)
+        // console.log("comment,",comment)
+        //@ts-ignore
+        for (const child of comment) {
+            let child_comments =await Comments.findByReply(child.uid,0,10)
+            child.set('reply',child_comments || [])
+        }
+        blog.set('comments', comment || [])
+    }
 
     /**
      * 格式化数据
      * @param blog  文章数据
      * @param author_info    是否增加作者信息字段
      */
-    format(blog: Document, author_info?: Document) {
+    async format(blog: Document, author_info?: Document) {
         if (!blog) return null
+        await this.setBlogComment(blog,0,100)
         blog.set('author_info', author_info||{})
         return blog
     }

@@ -14,7 +14,7 @@ const   blogsSchemaType : SchemaDefinition=  {
     original:{type:Boolean , default:true},     //是否为原创
     original_url:{type:String , default:''},  //搬运文章的地址
     category:[String],    //文章分类
-
+    comments:[Object],
 
 
     date: { type: Number, default: Date.now },    //创建时间
@@ -22,8 +22,6 @@ const   blogsSchemaType : SchemaDefinition=  {
     fav_num:{type:Number , default:0},  //收藏数量
     like_num:{type:Number , default:0},    //点赞数据
     read_num:{type:Number ,default:0 } ,   //访问数量
-    comments: [String],   //评论
-
 
 }
 

@@ -22,9 +22,11 @@ module.exports = {
     /**
      * 根据指定的t，获取t距离现在过去了多少天
      * @param t     指定的时间
+     * @param detail    自动适配显示具体时间，如果时间太久，显示日期，否则显示 xx 前
      * @return {any} elapsed 过去的时间
      */
-    getElapsedTime(t) {
+    getElapsedTime(t,detail) {
+
         let now = Date.now();
         let elapsed = now - t
         let result = ''
@@ -40,17 +42,32 @@ module.exports = {
         let month = Math.abs(new Date(t).getMonth() - nowMonth)
         let year = nowYear - new Date(t).getFullYear()
 
-        if (year !== 0 && month >= 12) result = year + '年'
-        else if (month !== 0 &&  parseInt(elapsed / day) >= months[nowMonth]) return month + '个月'
-        else if (parse(day) !== 0) return parse(day) + '天'
-        else if (parse(hours) !== 0) return parse(hours) + '小时'
-        else if (parse(minute) !== 0) return parse(minute) + '分钟'
-        else if (parse(second) !== 0) return parse(second) + '秒'
-        else result = '1秒'
+        if (year !== 0 && month >= 12)  result = year + '年'
+        else if (month !== 0 &&  Math.round(elapsed / day) >= months[nowMonth]) result =  month + '个月'
+        else if (parse(day) !== 0) result= parse(day) + '天'
+        else if (parse(hours) !== 0) result= parse(hours) + '小时'
+        else if (parse(minute) !== 0) result = parse(minute) + '分钟'
+        else if (parse(second) !== 0) result = parse(second) + '秒'
+        else if(parse(1) !== 0)result = parse(1) + '毫秒'
+        else result = '1毫秒'
+
+        //数据分析
+        // console.table({
+        //     elapsed, year,month,day:parse(day),hours:parse(hours),minute:parse(minute),second:parse(second),haomiao:parse(1),result
+        // })
 
         function parse(time) {
-            return parseInt(elapsed / time)
+            return  Math.round(elapsed/time)
         }
+        if(detail){
+            if(parse(day)>1){
+                result = this.getTime(t)
+            }else{
+                result += '前'
+            }
+
+        }
+
 
         return result;
     },
@@ -96,10 +113,9 @@ module.exports = {
 
     /**
      * 页面窗口自适应
-     * @param window  窗口
      * @param cb    回调函数
      */
-    listenResize(window, cb) {
+    listenResize( cb) {
         window.onresize = () => {
             if (window.document.documentElement.clientWidth < 800) {
                 cb('mobile');
@@ -110,7 +126,7 @@ module.exports = {
 
     },
     //获取设备
-    getPlatform(window) {
+    getPlatform() {
         if (window.document.documentElement.clientWidth < 800) {
             return 'mobile'
         } else {

@@ -13,8 +13,7 @@
     <template v-else>
       <!--背景图，以及名字-->
       <!---->
-      <a-row
-          style="  align-content:center;align-items: center;display: flex;justify-content: center;flex-wrap: nowrap;padding:50px 0px 20px 0px;text-align: center">
+      <a-row class="home-index-row">
 
         <a-col>
           <a-row>
@@ -28,7 +27,7 @@
 
       </a-row>
 
-      <a-row>
+      <a-row >
         <a-col :span="14" :offset="5" class="adapt-item-width card-container ">
           <a-tabs type="card" default-active-key="0" @change="callback">
             <a-tab-pane key="0" tab="他的文章">
@@ -92,7 +91,7 @@ export default {
       name: this.$route.params.name,
       utils,
       //背景样式
-      backgroundImage: `url('https://cdn.jsdelivr.net/gh/klskeleton/cdn/src/img/bg3.png')`,
+      backgroundImage: `url('https://cdn.jsdelivr.net/gh/enncy/cdn/src/img/bg3.png')`,
       minHeight: '300px',
     }
   },
@@ -130,7 +129,7 @@ export default {
 
     //自适应图片
 
-    utils.listenResize(window, platform => {
+    utils.listenResize( platform => {
       console.log("platform", platform)
       if (platform === 'mobile') {
         this.minHeight = '100vh'
@@ -166,10 +165,22 @@ export default {
 </style>
 
 <style>
+
+.home-index-row {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  padding: 50px 0px 20px 0px;
+  text-align: center;
+
+}
+
 .card-container {
   overflow: hidden;
   padding: 24px;
-
+  min-height: 600px;
 }
 
 
