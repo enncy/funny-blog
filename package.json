@@ -1,6 +1,6 @@
 {
-  "name": "funny-blog-demo",
-  "version": "0.0.0",
+  "name": "funny-blog",
+  "version": "0.0.1",
   "scripts": {
     "serve": "vite preview",
     "build": "vue-tsc --noEmit && vite build",
@@ -29,5 +29,25 @@
     "vite-plugin-compression": "^0.3.5",
     "vue-cli-plugin-vue-next": "~0.1.4",
     "vue-tsc": "^0.2.2"
-  }
+  },
+  "description": "This template should help get you started developing with Vue 3 and Typescript in Vite.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enncy/funny-blog.git"
+  },
+  "keywords": [
+    "blog",
+    "springboot",
+    "vue3",
+    "vue-router",
+    "mysql",
+    "ant-design-vue"
+  ],
+  "author": "enncy",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/enncy/funny-blog/issues"
+  },
+  "homepage": "https://github.com/enncy/funny-blog#readme"
 }

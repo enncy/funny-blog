@@ -47,7 +47,7 @@
 
 <script lang='ts'>
 import { defineComponent, ref } from "vue";
-// import { SettingOutlined, UserOutlined } from "@ant-design/icons-vue";
+import { SettingOutlined, UserOutlined } from "@ant-design/icons-vue";
 
 import { MenuData } from "../interface/MenuData";
 import BorderItem from "./BorderItem.vue";
@@ -58,8 +58,8 @@ import Qbklogo from "./qbklogo.vue";
 
 export default defineComponent({
   components: {
-    // SettingOutlined,
-    // UserOutlined,
+    SettingOutlined,
+    UserOutlined,
     BorderItem,
     Login,
     Container,

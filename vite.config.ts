@@ -39,7 +39,7 @@ export default defineConfig({
     // }),
 
     // gzip 压缩
-    // viteCompression()
+    viteCompression()
   ],
 
 })
