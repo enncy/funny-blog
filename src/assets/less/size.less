@@ -1,0 +1,59 @@
+
+/** 尺寸设置 */
+
+@size:24px;
+@position: left,right,top,bottom;
+
+.margin(@px) when (@px <= @size){
+    .margin-@{px}{
+        margin: @px;
+    }
+    .margin(@px+2)
+}
+.margin(2px);
+
+.padding(@px) when (@px <= @size){
+    .padding-@{px}{
+        padding: @px;
+    }
+    .padding(@px+2)
+}
+.padding(2px);
+
+.height(@px) when (@px <= @size){
+    .height-@{px}{
+        height: @px;
+    }
+    .height(@px+2)
+}
+.height(2px);
+
+.width(@px) when (@px <= @size){
+    .width-@{px}{
+        width: @px;
+    }
+    .width(@px+2)
+}
+.width(2px);
+
+each(@position,{
+    .margin(@px) when (@px <= @size){
+        .margin-@{value}-@{px}{
+            margin-@{value}: @px;
+        }
+        .margin(@px+2)
+    }
+    .margin(2px);
+});
+
+each(@position,{
+    .padding(@px) when (@px <= @size){
+        .padding-@{value}-@{px}{
+            padding-@{value}: @px;
+        }
+        .padding(@px+2)
+    }
+    .padding(2px);
+});
+
+

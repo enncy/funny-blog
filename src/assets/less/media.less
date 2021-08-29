@@ -1,0 +1,40 @@
+ /** 媒体查询 */
+
+ @base-size: 24;
+
+
+ @media screen and (max-width:  992px) {
+     #app {
+         .adapt-hide {
+             display: none;
+         }
+
+         .loop(@counter) when (@counter<=@base-size ) {
+             .xs-@{counter} {
+                 width: (90vw/@base-size*@counter);
+             }
+
+             .loop(@counter+1)
+         }
+
+         .loop(0)
+     }
+
+
+
+ }
+
+
+ @media screen and (min-width: 993px) {
+     #app {
+         .loop(@counter) when (@counter<=@base-size ) {
+             .lg-@{counter} {
+                 width: (90vw/@base-size*@counter);
+             }
+
+             .loop(@counter+1)
+         }
+
+         .loop(0)
+     }
+ }
