@@ -1,113 +1,103 @@
 <template>
-  <container>
-    <a-space style="height: 64px" :size="20">
-      <!-- 图标 logo -->
-      <qbklogo/>
-
-      <div class="flex adapt-hide">
-        <border-item
-          v-for="item of navigations"
-          position="bottom"
-          style="height: 64px"
-          class="flex ai-center font-v2 pointer"
-          @click="clickItem(item.path, $event)"
-        >
-          <template #body>
-            <span>{{ item.title }} </span>
-          </template>
-        </border-item>
-      </div>
-
-      <!-- 搜索框 -->
-
-      <a-input-search
-        v-model:value="searchValue"
-        placeholder="输入文章标题或者用户名"
-        class="background-color border-radius-circle lg-6 xs-10 height-24"
-        @search="onSearch"
-      />
-
-      <div class="lg-3" />
-
-      <a-dropdown placement="bottomCenter" :trigger="['hover', 'click']">
-        <div class="pointer flex ai-center" style="height: 100%" @click.prevent>
-          <a-avatar>U</a-avatar>
-          <span class="adapt-hide font-nowrap">未登录</span>
+    <div class="col-12 col-lg-8 m-auto row gx-2">
+        <!-- 图标 logo -->
+        <div class="col-6 col-md-3 col-lg-1 d-flex justify-content-start">
+            <logo class="ms-3 ms-lg-0" />
         </div>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item> <UserOutlined /> 个人中心 </a-menu-item>
-            <a-menu-item> <SettingOutlined /> 个人设置 </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
-    </a-space>
-  </container>
+
+        <div class="col-lg-4 d-none d-lg-flex">
+            <BorderItem
+                v-for="item of navigationInfos"
+                position="bottom"
+                style="height: 64px"
+                class="ps-3 pe-3 d-flex align-items-center font-v2 pointer"
+                @click="$router.push(item.path)"
+            >
+                <span>{{ item.title }} </span>
+            </BorderItem>
+        </div>
+        <!-- 间隔 -->
+        <div class="col-md-3 col-lg-2 d-none d-md-block"></div>
+
+        <div class="col-md-4 col-lg-3 d-none d-md-block">
+            <!-- 搜索框 -->
+            <SearchItem />
+        </div>
+
+        <div class="col-2 col-lg-2 d-none d-md-block">
+            <!-- 用户菜单 -->
+            <UserMenuItem :menu="userMenus" />
+        </div>
+
+        <!-- 小屏幕的特殊 trigger -->
+        <div class="col-6 d-block d-md-none d-flex justify-content-end align-items-center">
+            <a-button class="me-3" link type="text" @click="showDrawer">
+                <MenuOutlined />
+            </a-button>
+        </div>
+
+        <!-- 手机端侧边栏显示 -->
+        <a-drawer
+            title="趣博客"
+            placement="right"
+            v-model:visible="visible"
+            :after-visible-change="afterVisibleChange"
+            :body-style="{ padding: '0px' }"
+            class="d-md-none"
+        >
+            <SideBar :user-menus="userMenus" :default-menus="navigationInfos"></SideBar>
+        </a-drawer>
+    </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent, ref } from "vue";
-import { SettingOutlined, UserOutlined } from "@ant-design/icons-vue";
+<script lang="ts" setup>
+import { ref } from "vue";
 
-import { MenuData } from "../interface/MenuData";
-import BorderItem from "./BorderItem.vue";
 import { useRouter } from "vue-router";
-import Login from "../login/login.vue";
-import Container from "./Container.vue";
-import Qbklogo from "./qbklogo.vue";
+import Logo from "./Logo.vue";
+import { MenuData } from "./navigation/interface";
+import SideBar from "./navigation/SideBar.vue";
+import UserMenuItem from "./navigation/UserMenuItem.vue";
+import SearchItem from "./navigation/SearchItem.vue";
+import BorderItem from "./BorderItem.vue";
 
-export default defineComponent({
-  components: {
-    SettingOutlined,
-    UserOutlined,
-    BorderItem,
-    Login,
-    Container,
-    Qbklogo,
-  },
-  name: "menu",
+const navigationInfos = ref<MenuData[]>([
+    { title: "首页", path: "/", icon: "icon-home" },
+    { title: "推荐", path: "/", icon: "icon-star" },
+    { title: "分类", path: "/", icon: "icon-folder-open" },
+    { title: "专栏", path: "/", icon: "icon-tags" },
+]);
 
-  setup() {
-    const navigations = ref<MenuData[]>([
-      { title: "首页", path: "/" },
-      { title: "推荐", path: "/" },
-      { title: "分类", path: "/" },
-      { title: "专栏", path: "/" },
-    ]);
+const userMenus = ref<MenuData[]>([
+    { title: "个人中心", path: "/", icon: "icon-user" },
+    { title: "个人设置", path: "/", icon: "icon-setting" },
+    { title: "退出", path: "/", icon: "icon-logout" },
+]);
 
-    const router = useRouter();
-    const searchValue = ref("");
-    return {
-      // 菜单信息
-      navigations,
-      // 搜索字符串
-      searchValue,
-      // 搜索
-      onSearch() {},
-      // 点击链接
-      clickItem(path: string, e: any) {
-        // 排他
-        document.querySelectorAll(".acive").forEach((el) => {
-          el.className = el.className.replace(/ +/g, " ").replace("acive", "");
-        });
-        // 设置活动链接
-        let target: any = e.path.find(
-          (el: any) => el.className.indexOf("border-item") != -1
-        );
-        target.className += " acive";
-        // 跳转
-        path && router.push(path);
-      },
-    };
-  },
-});
+const defaultUserMenus = ref<MenuData[]>([
+    { title: "登录", path: "/", icon: "icon-login" },
+    { title: "注册", path: "/", icon: "icon-edit-square" },
+]);
+
+const router = useRouter();
+const searchValue = ref("");
+
+const visible = ref<boolean>(false);
+
+const afterVisibleChange = (bool: boolean) => {
+    console.log("visible", bool);
+};
+
+const showDrawer = () => {
+    visible.value = true;
+};
 </script>
 
-<style scope lang='less'>
+<style scope lang="less">
 #navigation {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 </style>

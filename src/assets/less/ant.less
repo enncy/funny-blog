@@ -20,6 +20,8 @@
 
 */
 
+
+
 #app {
     .border-radius-base {
         border-radius: @border-radius-base;
@@ -29,29 +31,6 @@
         border-radius: 20px;
     }
 
-
-    .border-item(@link-color, left);
-    .border-item(@link-color, right);
-    .border-item(@link-color, top);
-    .border-item(@link-color, bottom);
-
-    .border-item(@color, @position) {
-        .border-item {
-            transition: color 0.2s ease-in;
-            &.@{position}:hover {
-                transition: color 0.2s ease-out;
-                color: @color;
-                border-@{position}: 3px solid @color;
-            }
-        }
-
-        .acive.border-item {
-            &.@{position} {
-                color: @color;
-                border-@{position}: 3px solid @color;
-            }
-        }
-    }
 
     .border-color-base {
         color: @border-color-base;

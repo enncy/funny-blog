@@ -1,32 +1,23 @@
 <template>
-  <a-layout>
-    <a-layout-header  :style="style">
-      <navigation />
-    </a-layout-header>
-    <a-layout-content>
-      <router-view />
-    </a-layout-content>
-    <a-layout-footer></a-layout-footer>
-  </a-layout>
+    <a-layout>
+        <a-layout-header :style="style">
+            <navigation />
+        </a-layout-header>
+        <a-layout-content class="bg-light">
+            <router-view />
+        </a-layout-content>
+        <a-layout-footer class="bg-white"> </a-layout-footer>
+    </a-layout>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { reactive } from "vue";
+import navigation from "./view/components/Navigation.vue";
 
-import { defineComponent, reactive } from "vue";
-import navigation from "./view/components/navigation.vue";
-
-
-export default defineComponent({
-  components: { navigation },
-  name: "App",
-  setup() {
-    return {
-      style: reactive({ background: "white", padding: "0px", height: "64px" }),
-    };
-  },
-});
+const style = reactive({ background: "white", padding: "0px", height: "64px" });
 </script>
 
-<style  lang="less">
+<style lang="less">
 @import "@/assets/css/common.css";
+@import "@/assets/css/bootstrap.css";
 </style>
