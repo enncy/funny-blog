@@ -91,6 +91,12 @@ body {
 .pointer {
   cursor: pointer;
 }
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
 .border-item {
   transition: color 0.2s ease-in;
 }

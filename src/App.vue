@@ -1,20 +1,23 @@
 <template>
-    <a-layout>
-        <a-layout-header :style="style">
-            <navigation />
-        </a-layout-header>
-        <a-layout-content class="bg-light">
-            <router-view />
-        </a-layout-content>
-        <a-layout-footer class="bg-white"> </a-layout-footer>
-    </a-layout>
+    <router-view v-if="show" v-slot="{ Component }">
+        <keep-alive>
+            <component :is="layout || BaseLayout">
+                <component :is="Component" />
+            </component>
+        </keep-alive>
+    </router-view>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-import navigation from "./view/components/Navigation.vue";
+import { computed, reactive, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import BaseLayout from "./view/components/layout/BaseLayout.vue";
 
-const style = reactive({ background: "white", padding: "0px", height: "64px" });
+const route = useRoute();
+// 动态布局
+const layout = computed(() => route.meta.layout);
+// 等待 meta 加载
+const show = computed(() => Reflect.ownKeys(route.meta).length !== 0);
 </script>
 
 <style lang="less">

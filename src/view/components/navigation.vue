@@ -11,7 +11,7 @@
                 position="bottom"
                 style="height: 64px"
                 class="ps-3 pe-3 d-flex align-items-center font-v2 pointer"
-                @click="$router.push(item.path)"
+                @click="goto(item.path)"
             >
                 <span>{{ item.title }} </span>
             </BorderItem>
@@ -26,11 +26,13 @@
 
         <div class="col-2 col-lg-2 d-none d-md-block">
             <!-- 用户菜单 -->
-            <UserMenuItem :menu="userMenus" />
+            <UserMenuItem :menu="defaultUserMenus" @goto="goto" />
         </div>
 
         <!-- 小屏幕的特殊 trigger -->
-        <div class="col-6 d-block d-md-none d-flex justify-content-end align-items-center">
+        <div
+            class="col-6 d-block d-md-none d-flex justify-content-end align-items-center"
+        >
             <a-button class="me-3" link type="text" @click="showDrawer">
                 <MenuOutlined />
             </a-button>
@@ -41,11 +43,14 @@
             title="趣博客"
             placement="right"
             v-model:visible="visible"
-            :after-visible-change="afterVisibleChange"
             :body-style="{ padding: '0px' }"
             class="d-md-none"
         >
-            <SideBar :user-menus="userMenus" :default-menus="navigationInfos"></SideBar>
+            <SideBar
+                :user-menus="defaultUserMenus"
+                :default-menus="navigationInfos"
+                @goto="goto"
+            ></SideBar>
         </a-drawer>
     </div>
 </template>
@@ -53,44 +58,44 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
-import { useRouter } from "vue-router";
 import Logo from "./Logo.vue";
 import { MenuData } from "./navigation/interface";
 import SideBar from "./navigation/SideBar.vue";
 import UserMenuItem from "./navigation/UserMenuItem.vue";
 import SearchItem from "./navigation/SearchItem.vue";
 import BorderItem from "./BorderItem.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const navigationInfos = ref<MenuData[]>([
     { title: "首页", path: "/", icon: "icon-home" },
-    { title: "推荐", path: "/", icon: "icon-star" },
-    { title: "分类", path: "/", icon: "icon-folder-open" },
+    { title: "推荐", path: "/recommend", icon: "icon-star" },
+    { title: "分类", path: "/category", icon: "icon-folder-open" },
     { title: "专栏", path: "/", icon: "icon-tags" },
 ]);
 
 const userMenus = ref<MenuData[]>([
-    { title: "个人中心", path: "/", icon: "icon-user" },
-    { title: "个人设置", path: "/", icon: "icon-setting" },
+    { title: "个人中心", path: "/user", icon: "icon-user" },
+    { title: "个人设置", path: "/user/setting", icon: "icon-setting" },
     { title: "退出", path: "/", icon: "icon-logout" },
 ]);
 
 const defaultUserMenus = ref<MenuData[]>([
-    { title: "登录", path: "/", icon: "icon-login" },
-    { title: "注册", path: "/", icon: "icon-edit-square" },
+    { title: "登录", path: "/login", icon: "icon-login" },
+    { title: "注册", path: "/register", icon: "icon-edit-square" },
 ]);
-
-const router = useRouter();
-const searchValue = ref("");
 
 const visible = ref<boolean>(false);
 
-const afterVisibleChange = (bool: boolean) => {
-    console.log("visible", bool);
-};
-
-const showDrawer = () => {
+function showDrawer() {
     visible.value = true;
-};
+}
+
+function goto(path: string) {
+    visible.value = false;
+    router.push(path);
+}
 </script>
 
 <style scope lang="less">

@@ -1,5 +1,5 @@
 <template>
-    <span class="blog-logo" style="width: 66px; display: inline-flex">
+    <span class="blog-logo d-inline-flex align-items-lg-baseline" style="width: 66px" @click="$router.push('/')">
         <span :style="{ color: 'rgb(24, 144, 255)', fontSize: size + 'px' }">趣</span>
         <span style="font-size: 20px">博客</span>
     </span>

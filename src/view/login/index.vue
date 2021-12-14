@@ -1,4 +1,8 @@
-<template></template>
+<template>
+
+<span>登录</span>
+
+</template>
 
 <script lang='ts'>
  

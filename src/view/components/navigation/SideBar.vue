@@ -11,7 +11,7 @@
         v-for="item of userMenus"
         style="height: 48px"
         class="d-flex align-items-center font-v2 pointer"
-        @click="$router.push(item.path)"
+        @click="emits('goto', item.path)"
     >
         <div class="d-flex align-items-center ms-5">
             <Icon :type="item.icon"></Icon>
@@ -25,7 +25,7 @@
         v-for="item of defaultMenus"
         style="height: 48px"
         class="d-flex align-items-center font-v2 pointer"
-        @click="$router.push(item.path)"
+        @click="emits('goto', item.path)"
     >
         <div class="d-flex align-items-center ms-5">
             <Icon :type="item.icon"></Icon>
@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, toRefs } from "vue";
- 
+
 import { MenuData } from "./interface";
 import BorderItem from "../BorderItem.vue";
 import SearchItem from "./SearchItem.vue";
@@ -48,9 +48,13 @@ interface SideBarProps {
     userMenus: MenuData[];
     defaultMenus: MenuData[];
 }
+const emits = defineEmits<{
+    (e: "goto", path: string): void;
+}>();
 const props = withDefaults(defineProps<SideBarProps>(), {});
 const { userMenus, defaultMenus } = toRefs(props);
- 
+
+
 </script>
 
 <style scope lang="less"></style>
