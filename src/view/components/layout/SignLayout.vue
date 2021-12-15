@@ -1,6 +1,6 @@
 <template>
     <div class="w-100 h-100">
-        <div class="sign-container col-lg-3 col-md-6 col-12">
+        <div class="sign-container col-lg-4 col-xl-3 col-md-8 col-12">
             <slot></slot>
         </div>
 
@@ -45,7 +45,6 @@ img {
 }
 
 .sign-container {
-    max-width: 400px;
     height: 100%;
     margin: 0 auto;
 }

@@ -2,7 +2,7 @@
     <div class="row col-12 col-lg-6 m-auto flex-wrap pt-5 pb-5 text-start">
         <div class="col-6   col-lg-3">
             <Logo />
-            <div style="font-size: 14px" class="pt-4">
+            <div  class="pt-4 font-v3">
                 <div>开源博客网站</div>
                 <div>趣博客 © 2021 enncy</div>
                 <div>联系我们</div>
@@ -40,14 +40,9 @@ import Logo from "./Logo.vue";
 
 <style scope lang="less">
 .links div {
-    line-height: 32px;
+    line-height: 2rem;
 }
-
-.icons * {
-    font-size: 18px;
-    margin-left: 8px;
-    cursor: pointer;
-}
+ 
 
 .bold {
     font-weight: bold;

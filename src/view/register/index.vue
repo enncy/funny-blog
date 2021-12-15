@@ -14,6 +14,14 @@
                     @finish="handleFinish"
                     @finishFailed="handleFinishFailed"
                 >
+                    <a-form-item has-feedback name="account">
+                        <a-input
+                            placeholder="账号"
+                            size="large"
+                            v-model:value.trim="formState.account"
+                            type="text"
+                        />
+                    </a-form-item>
                     <a-form-item has-feedback name="password">
                         <a-input
                             placeholder="密码"
@@ -40,17 +48,29 @@
                     </a-form-item>
                     <a-form-item>
                         <div class="mt-4 d-flex flex-wrap">
-                            <a-button type="primary" size="large" class="mb-3" html-type="submit" block
-                                >注册</a-button
+                            <a-button
+                                type="primary"
+                                size="large"
+                                class="mb-3"
+                                html-type="submit"
+                                :disabled="disabled"
+                                block
                             >
-                            <a-button block size="large" @click="resetForm"> 登录 </a-button>
+                                {{ msg }}
+                            </a-button>
+                            <a-button block size="large" @click="resetForm">
+                                重置
+                            </a-button>
                         </div>
                     </a-form-item>
                 </a-form>
             </div>
         </div>
 
-        <div style="height: 32px; background-color: rgb(242, 242, 242)">
+        <div
+            class="border-radius-base"
+            style="height: 32px; background-color: rgb(242, 242, 242)"
+        >
             <a-button type="link" class="fl">首页</a-button>
 
             <a-button type="link" class="fr">已有账号</a-button>
@@ -64,19 +84,24 @@ import { ref, reactive, toRefs, UnwrapRef, watch } from "vue";
 
 import { Rule, RuleObject, ValidateErrorEntity } from "ant-design-vue/es/form/interface";
 import { createForm } from "../../utils/form";
+import { UserApi, UserFormState } from "../../api/user";
+import { User } from "../../api/models";
+import { Message } from "../../utils";
 
-interface FormState {
-    password: string;
-    confirmPassword: string;
-    email: string;
-}
+const msg = ref("注册");
+const disabled = ref(false);
 
 const formRef = ref();
-const formState: UnwrapRef<FormState> = createForm<FormState>({
-    password: "",
-    confirmPassword: "",
-    email: "",
-});
+const formState: UnwrapRef<UserFormState> = createForm<UserFormState>(
+    {
+        account: "",
+        nickName: "无昵称",
+        password: "",
+        confirmPassword: "",
+        email: "",
+    },
+    ["email"]
+);
 
 async function commonValidator(rule: RuleObject, value: string) {
     if (!value) {
@@ -84,10 +109,26 @@ async function commonValidator(rule: RuleObject, value: string) {
     }
 }
 
-function handleFinish(values: FormState) {
-    console.log(values);
+async function handleFinish(values: UserFormState) {
+    console.log("注册", values);
+
+    let count = 0;
+    msg.value = "60s 后重新注册";
+    disabled.value = true;
+    let i = setInterval(() => {
+        count++;
+        msg.value = 60 - count + "s 后重新注册";
+        if (count === 60) {
+            clearInterval(i);
+            msg.value = "注册";
+            disabled.value = false;
+        }
+    }, 1000);
+
+    const res = await UserApi.register(formState);
+    Message(res, res.data.data);
 }
-function handleFinishFailed(errors: ValidateErrorEntity<FormState>) {
+function handleFinishFailed(errors: ValidateErrorEntity<UserFormState>) {
     console.log(errors);
 }
 function resetForm() {
@@ -95,30 +136,58 @@ function resetForm() {
 }
 
 const rules = {
+    account: [
+        {
+            required: true,
+            validator: async (rule: RuleObject, value: string) => {
+                await commonValidator(rule, value);
+                const { data } = await UserApi.checkAccount(value);
+                if (!data.success) {
+                    return Promise.reject(data.msg);
+                }
+            },
+            trigger: "blur",
+        },
+    ],
     password: [
         {
             required: true,
-            validator: commonValidator,
+            validator: async (rule: RuleObject, value: string) => {
+                await commonValidator(rule, value);
+                const { data } = await UserApi.checkPassword(value);
+                if (!data.success) {
+                    return Promise.reject(data.msg);
+                }
+            },
             trigger: "blur",
         },
     ],
     confirmPassword: [
         {
             required: true,
-            validator: commonValidator,
+            validator: async (rule: RuleObject, value: string) => {
+                await commonValidator(rule, value);
+                if (value !== formState.password) {
+                    return Promise.reject("2次密码不一致");
+                }
+            },
             trigger: "blur",
         },
     ],
     email: [
         {
             required: true,
-            validator: (rule: RuleObject, value: string) => {
-                commonValidator(rule, value);
-                if (!/.+@.+/.test(value)) {
+            validator: async (rule: RuleObject, value: string) => {
+                await commonValidator(rule, value);
+                if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)) {
                     return Promise.reject("邮箱格式不正确");
                 }
+                const { data } = await UserApi.checkEmail(value);
+                if (!data.success) {
+                    return Promise.reject(data.msg);
+                }
             },
-            trigger: "change",
+            trigger: "blur",
         },
     ],
 };

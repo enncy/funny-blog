@@ -1,5 +1,4 @@
-@import './ant.less';
-
+@import "./ant.less";
 
 /** 
 
@@ -7,22 +6,20 @@
 
 */
 
-@base-size: 15px;
+@base-size: 1rem;
 
-.font(font-v1, @base-size + 11, bold, @text-color);
-.font(font-v2, @base-size, 600, @text-color);
-.font(font-v3, @base-size - 1, 400, @text-color);
-.font(font-v4, @base-size - 3, 400, @text-color-secondary);
-.font(font-disable, @base-size - 2, 400, @disabled-color);
+.font(font-v1, @base-size + 1, bold );
+.font(font-v2, @base-size, 600 );
+.font(font-v3, @base-size - 0.125, 400 );
+.font(font-v4, @base-size - 0.3, 400 );
 
-.font(@class, @px, @weight, @color) {
+.font(@class, @rem, @weight ) {
     .@{class} {
         font-weight: @weight;
-        font-size: @px;
-        color: @color
+        font-size: @rem;
     }
 }
 
-.font-nowrap{
-    white-space:nowrap;
+.font-nowrap {
+    white-space: nowrap;
 }
