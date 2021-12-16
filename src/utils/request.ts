@@ -1,8 +1,13 @@
 import axios, { AxiosRequestConfig } from "axios";
-import md5 from 'md5'; 
+import md5 from "crypto-js/md5";
 
-let key = "db6c6c411bb7467e996fbd5fda687b18"
+// 携带 cookie
+axios.defaults.withCredentials = true;
 
+// md5 密钥
+let key = "db6c6c411bb7467e996fbd5fda687b18";
+
+// 全局配置
 let baseConfig = {
     baseURL: "http://localhost:8999",
     timeout: 30 * 1000,
@@ -29,13 +34,19 @@ axios.interceptors.request.use(
         if (config.url) {
             config.url = config.url.replace(/%E2%80%8B/g, "");
         }
+        // 加密处理
+        let time = Date.now();
+        let obj = Object.assign({}, config.data || {}, config.params || {});
         config.headers = {
-            token:getMd5(config.data,key)
-        }
+            token: MD5(obj, time),
+            time: time,
+        };
         // 在发送请求之前做些什么
         return config;
     },
     function (error) {
+        console.error(error);
+
         // 对请求错误做些什么
         return Promise.reject(error);
     }
@@ -48,33 +59,24 @@ axios.interceptors.response.use(
         return response;
     },
     function (error) {
+        console.error(error);
         // 对响应错误做点什么
         return Promise.reject(error);
     }
 );
 
-
-
-
 //传入json对象，和key(任意字符串，越长越好)，获取md5加密
-function getMd5(params:any,key:string){
-	let str = JSON.stringify(sort_ASCII(params))
-	return md5(encodeURIComponent(str+key))
+export function MD5(params: any, time: number) {
+    let str = JSON.stringify(asciiSort(params));
+    let s = encodeURIComponent(str + time + key).toLocaleLowerCase();
+    return md5(s).toString();
 }
 
 //对json 对象进行 ascii码 排序
-function sort_ASCII(obj:any) {
-	var arr:string[] = new Array();
-	var num = 0;
-	for (var i in obj) {
-		arr[num] = i;
-		num++;
-	}
-	var sortArr = arr.sort();
-	var sortObj:any = {};
-	for (var i in sortArr) {
-		sortObj[sortArr[i]] = obj[sortArr[i]];
-	}
-	return sortObj;
+function asciiSort(obj: any) {
+    // 键值排序
+    var sortKeys = Reflect.ownKeys(obj).sort();
+    var newObj = {};
+    sortKeys.forEach((v) => Reflect.set(newObj, v, obj[v]));
+    return newObj;
 }
- 

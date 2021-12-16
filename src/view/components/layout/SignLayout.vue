@@ -1,6 +1,6 @@
 <template>
     <div class="w-100 h-100">
-        <div class="sign-container col-lg-4 col-xl-3 col-md-8 col-12">
+        <div class="sign-container">
             <slot></slot>
         </div>
 

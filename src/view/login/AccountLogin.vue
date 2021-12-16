@@ -1,0 +1,110 @@
+<template>
+    <a-form
+        name="custom-validation"
+        ref="formRef"
+        :model="accountForm"
+        :rules="accountRules"
+        v-bind="layout"
+    >
+        <a-form-item has-feedback name="account">
+            <a-input
+                placeholder="账号"
+                size="large"
+                v-model:value.trim="accountForm.account"
+                type="text"
+            />
+        </a-form-item>
+        <a-form-item has-feedback name="password">
+            <a-input
+                placeholder="密码"
+                size="large"
+                v-model:value.trim="accountForm.password"
+                type="password"
+            />
+        </a-form-item>
+        <a-form-item>
+            <div class="mt-4 d-flex flex-wrap">
+                <a-button
+                    type="primary"
+                    size="large"
+                    html-type="submit"
+                    block
+                    @click="onSubmit"
+                >
+                    登录
+                </a-button>
+            </div>
+        </a-form-item>
+    </a-form>
+</template>
+
+<script lang="ts" setup>
+import { message } from "ant-design-vue";
+import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { handleApi } from "../../api";
+import { UserApi } from "../../api/user";
+import { Message } from "../../utils";
+
+import {
+    AccountValidators,
+    createForm,
+    PasswordValidators,
+    Validator,
+} from "../../utils/form";
+
+interface AccountLoginForm {
+    type: string;
+    account: string;
+    password: string;
+}
+
+const accountForm = createForm<AccountLoginForm>({
+    type: "password",
+    account: "",
+    password: "",
+});
+
+const accountRules = {
+    account: [
+        {
+            required: true,
+            validator: Validator.all(...AccountValidators),
+            trigger: "blur",
+        },
+    ],
+    password: [
+        {
+            required: true,
+            validator: Validator.all(...PasswordValidators),
+            trigger: "blur",
+        },
+    ],
+};
+
+const layout = {
+    wrapperCol: { span: 24 },
+};
+const router = useRouter();
+const disabled = ref(false);
+
+async function onSubmit(values: AccountLoginForm) {
+    disabled.value = true;
+    let { account, password } = accountForm;
+
+    handleApi(UserApi.loginByAccount(account, password), (res) => {
+        if (res.data.success) {
+            message.success(res.data.msg);
+            setTimeout(() => {
+                router.push("/user");
+            }, 1000);
+        }
+    });
+
+    disabled.value = false;
+}
+ 
+</script>
+
+<style scope lang="less"></style>

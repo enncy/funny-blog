@@ -1,12 +1,69 @@
 <template>
+    <div class="login-card box-shadow-base border-radius-base col-lg-4 col-md-8 col-12">
+        <div class="p-4 pb-0">
+            <a-tabs default-active-key="1">
+                <a-tab-pane key="1" tab="账号密码登录" class="p-2 w-100">
+                    <AccountLogin />
+                </a-tab-pane>
+                <a-tab-pane key="2" tab="邮箱登录" class="p-2 w-100">
+                    <EmailLogin />
+                </a-tab-pane>
+            </a-tabs>
+        </div>
 
-<span>登录</span>
+        <div
+            class="border-radius-base"
+            style="height: 32px; background-color: rgb(242, 242, 242)"
+        >
+            <a-button type="link" class="fl" @click="$router.push('/')">首页</a-button>
 
+            <a-button type="link" class="fr" @click="$router.push('/register')"
+                >注册</a-button
+            >
+            <a-button type="link" class="fr" @click="$router.push('/forget')"
+                >忘记密码</a-button
+            >
+        </div>
+    </div>
 </template>
 
-<script lang='ts'>
- 
+<script lang="ts" setup>
+import AccountLogin from "./AccountLogin.vue";
+import EmailLogin from "./EmailLogin.vue";
 </script>
 
-<style scope lang='less'>
+<style scope lang="less">
+@media (min-width: 1200px) {
+    .login-card {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+}
+.login-card {
+    margin: 100px auto;
+    background-color: white;
+    min-width: 320px;
+    input,.ant-input-affix-wrapper {
+        border-right: none;
+        border-top: none;
+        border-left: none;
+        box-shadow: none;
+    }
+}
+.ant-input:focus,
+.ant-input:hover {
+    border-color: none !important;
+    border-right-width: none !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+.ant-tabs-nav-scroll {
+    text-align: left !important;
+    font-size: 1rem;
+}
+
+[role="alert"] {
+    text-align: left;
+}
 </style>

@@ -11,8 +11,9 @@
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+ 
 import BaseLayout from "./view/components/layout/BaseLayout.vue";
-
+ 
 const route = useRoute();
 // 动态布局
 const layout = computed(() => route.meta.layout);

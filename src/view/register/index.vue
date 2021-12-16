@@ -1,80 +1,84 @@
 <template>
-    <div class="register-card box-shadow-base border-radius-base">
+    <div
+        class="register-card box-shadow-base border-radius-base col-lg-4 col-xl-3 col-md-8 col-12"
+    >
         <div class="p-4 pb-0">
-            <div class="font-v1" style="text-align: left">注册</div>
-            <a-divider></a-divider>
-            <div class="w-100 p-2">
-                <a-form
-                    class="text-left"
-                    name="custom-validation"
-                    ref="formRef"
-                    :model="formState"
-                    :rules="rules"
-                    v-bind="layout"
-                    @finish="handleFinish"
-                    @finishFailed="handleFinishFailed"
-                >
-                    <a-form-item has-feedback name="account">
-                        <a-input
-                            placeholder="账号"
-                            size="large"
-                            v-model:value.trim="formState.account"
-                            type="text"
-                        />
-                    </a-form-item>
-                    <a-form-item has-feedback name="password">
-                        <a-input
-                            placeholder="密码"
-                            size="large"
-                            v-model:value.trim="formState.password"
-                            type="password"
-                        />
-                    </a-form-item>
-                    <a-form-item has-feedback name="confirmPassword">
-                        <a-input
-                            placeholder="重复密码"
-                            size="large"
-                            v-model:value.trim="formState.confirmPassword"
-                            type="password"
-                        />
-                    </a-form-item>
-                    <a-form-item has-feedback name="email">
-                        <a-input
-                            size="large"
-                            placeholder="邮箱"
-                            type="email"
-                            v-model:value.trim="formState.email"
-                        />
-                    </a-form-item>
-                    <a-form-item>
-                        <div class="mt-4 d-flex flex-wrap">
+            <a-tabs default-active-key="1">
+                <a-tab-pane key="1" tab="账号密码注册" class="p-2">
+                    <a-form
+                        class="text-left"
+                        name="custom-validation"
+                        ref="formRef"
+                        :model="formState"
+                        :rules="rules"
+                        v-bind="layout"
+                    >
+                        <a-form-item has-feedback name="account">
+                            <a-input
+                                placeholder="账号"
+                                size="large"
+                                v-model:value.trim="formState.account"
+                                type="text"
+                            />
+                        </a-form-item>
+                        <a-form-item has-feedback name="password">
+                            <a-input
+                                placeholder="密码"
+                                size="large"
+                                v-model:value.trim="formState.password"
+                                type="password"
+                            />
+                        </a-form-item>
+                        <a-form-item has-feedback name="confirmPassword">
+                            <a-input
+                                placeholder="重复密码"
+                                size="large"
+                                v-model:value.trim="formState.confirmPassword"
+                                type="password"
+                            />
+                        </a-form-item>
+                        <a-form-item has-feedback name="email">
+                            <a-input
+                                size="large"
+                                placeholder="邮箱"
+                                type="email"
+                                v-model:value.trim="formState.email"
+                            />
+                        </a-form-item>
+                        <a-form-item class="mb-3">
                             <a-button
                                 type="primary"
                                 size="large"
-                                class="mb-3"
                                 html-type="submit"
                                 :disabled="disabled"
                                 block
+                                @click.prevent="onSubmit"
                             >
                                 {{ msg }}
                             </a-button>
+                        </a-form-item>
+                        <a-form-item>
                             <a-button block size="large" @click="resetForm">
                                 重置
                             </a-button>
-                        </div>
-                    </a-form-item>
-                </a-form>
-            </div>
+                        </a-form-item>
+                    </a-form>
+                </a-tab-pane>
+            </a-tabs>
         </div>
 
         <div
             class="border-radius-base"
             style="height: 32px; background-color: rgb(242, 242, 242)"
         >
-            <a-button type="link" class="fl">首页</a-button>
+            <a-button type="link" class="fl" @click="$router.push('/')">首页</a-button>
 
-            <a-button type="link" class="fr">已有账号</a-button>
-            <a-button type="link" class="fr">忘记密码</a-button>
+            <a-button type="link" class="fr" @click="$router.push('/login')"
+                >已有账号</a-button
+            >
+            <a-button type="link" class="fr" @click="$router.push('/forget')"
+                >忘记密码</a-button
+            >
         </div>
     </div>
 </template>
@@ -83,13 +87,17 @@
 import { ref, reactive, toRefs, UnwrapRef, watch } from "vue";
 
 import { Rule, RuleObject, ValidateErrorEntity } from "ant-design-vue/es/form/interface";
-import { createForm } from "../../utils/form";
-import { UserApi, UserFormState } from "../../api/user";
-import { User } from "../../api/models";
+import { AccountValidators, createForm, Validator } from "../../utils/form";
+import { UserApi } from "../../api/user";
 import { Message } from "../../utils";
+import { RegExpFilter } from "../../utils/filter/regexp";
+import { handleApi } from "../../api";
+import { User } from "../../api/models/user";
 
 const msg = ref("注册");
 const disabled = ref(false);
+
+type UserFormState = User & { confirmPassword: string };
 
 const formRef = ref();
 const formState: UnwrapRef<UserFormState> = createForm<UserFormState>(
@@ -103,13 +111,7 @@ const formState: UnwrapRef<UserFormState> = createForm<UserFormState>(
     ["email"]
 );
 
-async function commonValidator(rule: RuleObject, value: string) {
-    if (!value) {
-        return Promise.reject("不能留空");
-    }
-}
-
-async function handleFinish(values: UserFormState) {
+async function onSubmit(values: UserFormState) {
     console.log("注册", values);
 
     let count = 0;
@@ -125,12 +127,9 @@ async function handleFinish(values: UserFormState) {
         }
     }, 1000);
 
-    const res = await UserApi.register(formState);
-    Message(res, res.data.data);
+    handleApi(UserApi.register(formState), (res) => {});
 }
-function handleFinishFailed(errors: ValidateErrorEntity<UserFormState>) {
-    console.log(errors);
-}
+
 function resetForm() {
     formRef.value.resetFields();
 }
@@ -139,54 +138,40 @@ const rules = {
     account: [
         {
             required: true,
-            validator: async (rule: RuleObject, value: string) => {
-                await commonValidator(rule, value);
-                const { data } = await UserApi.checkAccount(value);
-                if (!data.success) {
-                    return Promise.reject(data.msg);
-                }
-            },
+            validator: Validator.all(
+                ...AccountValidators.concat(Validator.api(UserApi.checkPassword))
+            ),
             trigger: "blur",
         },
     ],
     password: [
         {
             required: true,
-            validator: async (rule: RuleObject, value: string) => {
-                await commonValidator(rule, value);
-                const { data } = await UserApi.checkPassword(value);
-                if (!data.success) {
-                    return Promise.reject(data.msg);
-                }
-            },
+            validator: Validator.all(...AccountValidators),
             trigger: "blur",
         },
     ],
     confirmPassword: [
         {
             required: true,
-            validator: async (rule: RuleObject, value: string) => {
-                await commonValidator(rule, value);
-                if (value !== formState.password) {
-                    return Promise.reject("2次密码不一致");
-                }
-            },
+            validator: Validator.all(
+                Validator.regexpFilter((filter) => filter.blank().specialChar()),
+                Validator.compare(
+                    (v: string) => v !== formState.password,
+                    "两次密码不一样"
+                )
+            ),
             trigger: "blur",
         },
     ],
     email: [
         {
             required: true,
-            validator: async (rule: RuleObject, value: string) => {
-                await commonValidator(rule, value);
-                if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)) {
-                    return Promise.reject("邮箱格式不正确");
-                }
-                const { data } = await UserApi.checkEmail(value);
-                if (!data.success) {
-                    return Promise.reject(data.msg);
-                }
-            },
+            validator: Validator.all(
+                Validator.regexpFilter((filter) => filter.blank().email()),
+                Validator.api(UserApi.checkEmail)
+            ),
+
             trigger: "blur",
         },
     ],
@@ -197,9 +182,15 @@ const layout = {
 </script>
 
 <style scope lang="less">
+@media (min-width: 1200px) {
+    .register-card {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+}
 .register-card {
-    margin-top: 100px;
-    width: 100%;
+    margin: 100px auto;
+
     background-color: white;
 
     input {
@@ -215,6 +206,11 @@ const layout = {
     border-right-width: none !important;
     box-shadow: none !important;
     outline: 0 !important;
+}
+
+.ant-tabs-nav-scroll {
+    text-align: left !important;
+    font-size: 1rem;
 }
 
 [role="alert"] {
