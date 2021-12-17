@@ -17,7 +17,7 @@
             </BorderItem>
         </div>
         <!-- 间隔 -->
-        <div class="col-md-3 col-lg-2 d-none d-md-block "></div>
+        <div class="col-md-3 col-lg-2 d-none d-md-block"></div>
 
         <div class="col-md-4 col-lg-3 d-none d-md-flex align-items-center">
             <!-- 搜索框 -->
@@ -34,7 +34,7 @@
             class="col-6 d-block d-md-none d-flex justify-content-end align-items-center"
         >
             <a-button class="me-3" link type="text" @click="showDrawer">
-                <MenuOutlined />
+                <Icon type="icon-menu" />
             </a-button>
         </div>
 
@@ -65,8 +65,7 @@ import UserMenuItem from "./navigation/UserMenuItem.vue";
 import SearchItem from "./navigation/SearchItem.vue";
 import BorderItem from "./BorderItem.vue";
 import { useRouter } from "vue-router";
-
-const router = useRouter();
+import { routerPush } from "../../route";
 
 const navigationInfos = ref<MenuData[]>([
     { title: "首页", path: "/", icon: "icon-home" },
@@ -94,7 +93,7 @@ function showDrawer() {
 
 function goto(path: string) {
     visible.value = false;
-    router.push(path);
+    routerPush(path);
 }
 </script>
 

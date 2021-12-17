@@ -4,7 +4,7 @@
     >
         <div class="p-4 pb-0">
             <a-tabs default-active-key="1">
-                <a-tab-pane key="1" tab="账号密码注册" class="p-2">
+                <a-tab-pane key="1" tab="注册" class="p-2">
                     <a-form
                         class="text-left funny-form"
                         name="custom-validation"
@@ -86,14 +86,9 @@
             class="border-radius-base"
             style="height: 32px; background-color: rgb(242, 242, 242)"
         >
-            <a-button type="link" class="fl" @click="$router.push('/')">首页</a-button>
-
-            <a-button type="link" class="fr" @click="$router.push('/login')"
-                >登录</a-button
-            >
-            <a-button type="link" class="fr" @click="$router.push('/forget')"
-                >忘记密码</a-button
-            >
+            <a-button type="link" class="fl"><a href="/">首页</a></a-button>
+            <a-button type="link" class="fr"><a href="/forget">忘记密码</a></a-button>
+            <a-button type="link" class="fr"><a href="/login">登录</a></a-button>
         </div>
     </div>
 </template>
@@ -107,8 +102,8 @@ import { handleApi, handleApiSync } from "../../api";
 import { RegisterForm, User } from "../../api/models/user";
 import { EmailApi } from "../../api/email";
 import { message } from "ant-design-vue";
-import router from "../../route";
- 
+import { useRouter } from "vue-router";
+import { routerPush } from "../../route";
 
 const msg = ref("注册");
 const disabled = ref(false);
@@ -151,7 +146,7 @@ async function onSubmit() {
     if (res.data.success) {
         message.success(res.data.msg);
         setTimeout(() => {
-            router.push("/user");
+            routerPush("/user")
         }, 1000);
     }
 }

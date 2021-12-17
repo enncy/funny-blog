@@ -75,14 +75,9 @@
             class="border-radius-base"
             style="height: 32px; background-color: rgb(242, 242, 242)"
         >
-            <a-button type="link" class="fl" @click="$router.push('/')">首页</a-button>
-
-            <a-button type="link" class="fr" @click="$router.push('/login')"
-                >登录</a-button
-            >
-            <a-button type="link" class="fr" @click="$router.push('/register')"
-                >注册</a-button
-            >
+            <a-button type="link" class="fl"><a href="/">首页</a></a-button>
+            <a-button type="link" class="fr"><a href="/login">登录</a></a-button>
+            <a-button type="link" class="fr"><a href="/register">注册</a></a-button>
         </div>
     </div>
 </template>
@@ -96,8 +91,8 @@ import { EmailApi } from "../../api/email";
 import { message } from "ant-design-vue";
 import { handleApi, handleApiSync } from "../../api";
 import { ResetForm } from "../../api/models";
-import router from "../../route";
-
+import { routerPush } from "../../route";
+ 
 const disabled = ref(false);
 
 const formRef = ref();
@@ -131,7 +126,7 @@ async function onSubmit() {
     if (res.data.success) {
         message.success(res.data.data);
         setTimeout(() => {
-            router.push("/user");
+            routerPush("/user")
         }, 1000);
     }
     disabled.value = false;

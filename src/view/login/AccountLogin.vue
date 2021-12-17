@@ -44,9 +44,11 @@
 import { message } from "ant-design-vue";
 
 import { ref } from "vue";
-import router from "../../route";
+import { useRouter } from "vue-router";
+ 
 import { handleApiSync } from "../../api";
 import { UserApi } from "../../api/user";
+import { routerPush } from "../../route";
 
 import {
     AccountValidators,
@@ -85,6 +87,7 @@ const layout = {
 };
 
 const disabled = ref(false);
+ 
 
 async function onSubmit() {
     disabled.value = true;
@@ -95,7 +98,7 @@ async function onSubmit() {
     if (res.data.success) {
         message.success(res.data.msg);
         setTimeout(() => {
-            router.push("/user");
+            routerPush("/user")
         }, 1000);
     }
 

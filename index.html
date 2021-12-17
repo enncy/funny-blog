@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    [v-cloak] {
-      display: none;
-    }
-  </style>
+ 
 
   <script src="https://cdn.jsdelivr.net/npm/vue@3.2.10/dist/vue.global.prod.js"></script>
   <!-- ant desgin vue css-->
@@ -18,11 +14,13 @@
   <title>趣博客</title>
 </head>
 
-<body>
-  <div id="app" v-cloak  class="fs-lg-1" ></div>
+<body  >
+  <div id="app" class="fs-lg-1">
+    <!--ssr-outlet-->
+  </div>
 
 
-  <script defer type="module" src="/src/main.ts"></script>
+  <script defer type="module" src="/src/entry-client.js"></script>
 
 
 

@@ -51,11 +51,12 @@
 import { message } from "ant-design-vue";
 import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
 import { ref } from "vue";
-import router from "../../route";
-
+import { useRouter } from "vue-router";
+ 
 import { handleApi, handleApiSync } from "../../api";
 import { EmailApi } from "../../api/email";
 import { UserApi } from "../../api/user";
+import { routerPush } from "../../route";
 import { createForm, Validator } from "../../utils/form";
 
 interface EmailLoginForm {
@@ -99,7 +100,7 @@ const layout = {
 };
 
 const disabled = ref(false);
-
+ 
 // 发送验证码
 async function sendCode() {
     // 先验证邮箱
@@ -121,7 +122,7 @@ async function onSubmit() {
     if (res.data.success) {
         message.success(res.data.msg);
         setTimeout(() => {
-            router.push("/user");
+            routerPush("/user")
         }, 1000);
     }
     disabled.value = false;

@@ -16,14 +16,9 @@
             class="border-radius-base"
             style="height: 32px; background-color: rgb(242, 242, 242)"
         >
-            <a-button type="link" class="fl" @click="$router.push('/')">首页</a-button>
-
-            <a-button type="link" class="fr" @click="$router.push('/register')"
-                >注册</a-button
-            >
-            <a-button type="link" class="fr" @click="$router.push('/forget')"
-                >忘记密码</a-button
-            >
+            <a-button type="link" class="fl"><a href="/">首页</a></a-button>
+            <a-button type="link" class="fr"><a href="/forget">忘记密码</a></a-button>
+            <a-button type="link" class="fr"><a href="/register">注册</a></a-button>
         </div>
     </div>
 </template>

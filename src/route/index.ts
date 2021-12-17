@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createMemoryHistory, createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -50,25 +50,21 @@ const routes: RouteRecordRaw[] = [
         path: "/:pathMatch(.*)*",
         component: () => import("@/view/components/NotFound.vue"),
     },
-]; 
+];
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes: routes.map((r) => {
-        // 添加默认布局
-        r.meta = r?.meta?.layout ? r.meta : Object.assign(r?.meta || {}, { layout: "BaseLayout" });
-        return r;
-    }),
-});
+export function createSSRRouter() {
+    const routerHistory = import.meta.env.SSR === false ? createWebHistory() : createMemoryHistory();
 
+    return createRouter({
+        history: routerHistory,
+        routes: routes.map((r) => {
+            // 添加默认布局
+            r.meta = r?.meta?.layout ? r.meta : Object.assign(r?.meta || {}, { layout: "BaseLayout" });
+            return r;
+        }),
+    });
+}
 
-router.beforeEach((to,form,next)=>{
-    if(to.path.startsWith('/user')){
-
-    }
-
-    next()
-})
-
-export default router
-
+export function routerPush(path: string) {
+    window.location.href = path;
+}
