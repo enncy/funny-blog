@@ -69,13 +69,15 @@ axios.interceptors.response.use(
 export function MD5(params: any, time: number) {
     let str = JSON.stringify(asciiSort(params));
     let s = encodeURIComponent(str + time + key).toLocaleLowerCase();
+ 
     return md5(s).toString();
 }
 
 //对json 对象进行 ascii码 排序
-function asciiSort(obj: any) {
+export function asciiSort(obj: any) {
     // 键值排序
     var sortKeys = Reflect.ownKeys(obj).sort();
+ 
     var newObj = {};
     sortKeys.forEach((v) => Reflect.set(newObj, v, obj[v]));
     return newObj;

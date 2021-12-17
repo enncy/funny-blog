@@ -16,6 +16,13 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path: "/forget",
+        component: () => import("@/view/forget/index.vue"),
+        meta: {
+            layout: "SignLayout",
+        },
+    },
+    {
         path: "/index",
         component: () => import("@/view/index.vue"),
     },
@@ -43,11 +50,9 @@ const routes: RouteRecordRaw[] = [
         path: "/:pathMatch(.*)*",
         component: () => import("@/view/components/NotFound.vue"),
     },
-];
+]; 
 
-console.log(routes);
-
-export default createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes: routes.map((r) => {
         // 添加默认布局
@@ -55,3 +60,15 @@ export default createRouter({
         return r;
     }),
 });
+
+
+router.beforeEach((to,form,next)=>{
+    if(to.path.startsWith('/user')){
+
+    }
+
+    next()
+})
+
+export default router
+

@@ -33,6 +33,26 @@
 #app .background-color {
   color: #f0f2f5;
 }
+.ant-tabs-nav-scroll {
+  font-size: 1rem;
+}
+.funny-form input,
+.funny-form .ant-input-affix-wrapper {
+  border-right: none;
+  border-top: none;
+  border-left: none;
+  box-shadow: none;
+}
+.funny-form .ant-input:focus,
+.funny-form .ant-input:hover {
+  border-color: none !important;
+  border-right-width: none !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+.funny-form [role="alert"] {
+  text-align: left;
+}
 /** 
 
 字体 css
@@ -68,6 +88,9 @@
   height: 100%;
   min-width: 300px;
   white-space: nowrap;
+}
+svg {
+  vertical-align: baseline !important;
 }
 html,
 body {

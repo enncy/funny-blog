@@ -1,10 +1,12 @@
 <template>
     <a-form
+        class="funny-form"
         name="custom-validation"
         ref="formRef"
         :model="accountForm"
         :rules="accountRules"
         v-bind="layout"
+        @finish="onSubmit"
     >
         <a-form-item has-feedback name="account">
             <a-input
@@ -29,7 +31,7 @@
                     size="large"
                     html-type="submit"
                     block
-                    @click="onSubmit"
+                    :disabled="disabled"
                 >
                     登录
                 </a-button>
@@ -40,12 +42,11 @@
 
 <script lang="ts" setup>
 import { message } from "ant-design-vue";
-import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
+
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { handleApi } from "../../api";
+import router from "../../route";
+import { handleApiSync } from "../../api";
 import { UserApi } from "../../api/user";
-import { Message } from "../../utils";
 
 import {
     AccountValidators,
@@ -67,44 +68,39 @@ const accountForm = createForm<AccountLoginForm>({
 });
 
 const accountRules = {
-    account: [
-        {
-            required: true,
-            validator: Validator.all(...AccountValidators),
-            trigger: "blur",
-        },
-    ],
-    password: [
-        {
-            required: true,
-            validator: Validator.all(...PasswordValidators),
-            trigger: "blur",
-        },
-    ],
+    account: {
+        required: true,
+        validator: Validator.all(...AccountValidators),
+        trigger: "blur",
+    },
+    password: {
+        required: true,
+        validator: Validator.all(...PasswordValidators),
+        trigger: "blur",
+    },
 };
 
 const layout = {
     wrapperCol: { span: 24 },
 };
-const router = useRouter();
+
 const disabled = ref(false);
 
-async function onSubmit(values: AccountLoginForm) {
+async function onSubmit() {
     disabled.value = true;
     let { account, password } = accountForm;
 
-    handleApi(UserApi.loginByAccount(account, password), (res) => {
-        if (res.data.success) {
-            message.success(res.data.msg);
-            setTimeout(() => {
-                router.push("/user");
-            }, 1000);
-        }
-    });
+    const res = await handleApiSync(UserApi.loginByAccount(account, password));
+
+    if (res.data.success) {
+        message.success(res.data.msg);
+        setTimeout(() => {
+            router.push("/user");
+        }, 1000);
+    }
 
     disabled.value = false;
 }
- 
 </script>
 
 <style scope lang="less"></style>

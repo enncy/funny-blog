@@ -12,15 +12,12 @@
 @border-radius-base: 4px; // 组件/浮层圆角
 @border-color-base: #d9d9d9; // 边框色
 @box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // 浮层阴影
- 
 
 /** 
 
 边框以及主要颜色
 
 */
-
-
 
 #app {
     .border-radius-base {
@@ -30,7 +27,6 @@
     .border-radius-circle {
         border-radius: 20px;
     }
-
 
     .border-color-base {
         color: @border-color-base;
@@ -63,7 +59,31 @@
     .background-color {
         color: @background-color;
     }
+}
 
+.ant-tabs-nav-scroll {
+ 
+    font-size: 1rem;
+}
 
+.funny-form {
+    // 下面主要是修改输入框的样式
+    input,
+    .ant-input-affix-wrapper {
+        border-right: none;
+        border-top: none;
+        border-left: none;
+        box-shadow: none;
+    }
+    .ant-input:focus,
+    .ant-input:hover {
+        border-color: none !important;
+        border-right-width: none !important;
+        box-shadow: none !important;
+        outline: 0 !important;
+    }
 
+    [role="alert"] {
+        text-align: left;
+    }
 }

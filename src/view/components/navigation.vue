@@ -5,7 +5,7 @@
             <logo class="ms-3 ms-lg-0" />
         </div>
 
-        <div class="col-lg-4 d-none d-lg-flex">
+        <div class="col-lg-4 d-none d-lg-flex align-items-center">
             <BorderItem
                 v-for="item of navigationInfos"
                 position="bottom"
@@ -17,14 +17,14 @@
             </BorderItem>
         </div>
         <!-- 间隔 -->
-        <div class="col-md-3 col-lg-2 d-none d-md-block"></div>
+        <div class="col-md-3 col-lg-2 d-none d-md-block "></div>
 
-        <div class="col-md-4 col-lg-3 d-none d-md-block">
+        <div class="col-md-4 col-lg-3 d-none d-md-flex align-items-center">
             <!-- 搜索框 -->
             <SearchItem />
         </div>
 
-        <div class="col-2 col-lg-2 d-none d-md-block">
+        <div class="col-2 col-lg-2 d-none d-md-block align-items-center">
             <!-- 用户菜单 -->
             <UserMenuItem :menu="defaultUserMenus" @goto="goto" />
         </div>

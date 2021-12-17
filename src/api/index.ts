@@ -12,10 +12,10 @@ export interface ResultBody<T> {
 
 export type Result<T> = AxiosResponse<ResultBody<T>>;
 
-export function handleApi<T>(fn: Promise<Result<T>>, callback: (res: Result<T>) => void) {
+export function handleApi<T>(fn: Promise<Result<T>>, callback?: (res: Result<T>) => void) {
     fn.then((result) => {
         if (result.data.success) {
-            callback(result);
+            callback?.(result);
         } else {
             message.error(result.data.msg);
         }
@@ -25,17 +25,17 @@ export function handleApi<T>(fn: Promise<Result<T>>, callback: (res: Result<T>) 
 }
 
 
-export async function handleApiSync<T>(fn: Promise<Result<T>>): Promise<boolean> {
+export async function handleApiSync<T>(fn: Promise<Result<T>>): Promise<Result<T>> {
     const result =  await fn
 
     try{
         if (result.data.success) {
-            return true
+            return result
         } else {
             message.error(result.data.msg);
         }
     }catch{
         message.error("网络错误");
     }
-    return false
+    return result
 }

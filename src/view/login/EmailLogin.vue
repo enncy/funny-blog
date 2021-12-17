@@ -1,11 +1,12 @@
 <template>
     <a-form
-        class="text-left"
+        class="text-left funny-form"
         name="custom-validation"
         ref="formRef"
         :model="emailForm"
         :rules="emailRules"
         v-bind="layout"
+        @finish="onSubmit"
     >
         <a-form-item name="email">
             <a-input
@@ -38,7 +39,6 @@
                     html-type="submit"
                     block
                     :disabled="disabled"
-                    @click.prevent="onSubmit"
                 >
                     登录
                 </a-button>
@@ -51,7 +51,8 @@
 import { message } from "ant-design-vue";
 import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import router from "../../route";
+
 import { handleApi, handleApiSync } from "../../api";
 import { EmailApi } from "../../api/email";
 import { UserApi } from "../../api/user";
@@ -63,6 +64,7 @@ interface EmailLoginForm {
     code: string;
 }
 
+const formRef = ref();
 const emailForm = createForm<EmailLoginForm>(
     {
         type: "email",
@@ -73,38 +75,36 @@ const emailForm = createForm<EmailLoginForm>(
 );
 
 const emailRules = {
-    email: [
-        {
-            required: true,
-            validator: Validator.all(
-                Validator.regexpFilter((filter) => filter.blank().email())
+    email: {
+        required: true,
+        validator: Validator.all(
+            Validator.regexpFilter((filter) => filter.blank().email())
+        ),
+        trigger: "blur",
+    },
+    code: {
+        required: true,
+        validator: Validator.all(
+            Validator.regexpFilter((filter) =>
+                filter.blank().test(/[^0-9]/, "只能输入数字")
             ),
-            trigger: "blur",
-        },
-    ],
-    code: [
-        {
-            required: true,
-            validator: Validator.all(
-                Validator.regexpFilter((filter) =>
-                    filter.blank().test(/[^0-9]/, "只能输入数字")
-                ),
-                Validator.range(6, 6, "验证码应为6个数字"),
-                Validator.api(EmailApi.checkCode)
-            ),
-            trigger: "blur",
-        },
-    ],
+            Validator.range(6, 6, "验证码应为6个数字")
+        ),
+        trigger: "blur",
+    },
 };
 
 const layout = {
     wrapperCol: { span: 24 },
 };
 
-const router = useRouter();
 const disabled = ref(false);
 
-function sendCode() {
+// 发送验证码
+async function sendCode() {
+    // 先验证邮箱
+    await formRef.value.validateFields("email");
+
     handleApi(EmailApi.sendCode(emailForm.email), (res) => {
         if (res.data.success) {
             message.success(res.data.data);
@@ -112,20 +112,20 @@ function sendCode() {
     });
 }
 
-async function onSubmit(values: EmailLoginForm) {
+async function onSubmit() {
     disabled.value = true;
     let { email, code } = emailForm;
-    handleApi(UserApi.loginByEmail(email, code), (res) => {
-        if (res.data.success) {
-            message.success(res.data.msg);
-            setTimeout(() => {
-                router.push("/user");
-            }, 1000);
-        }
-    });
+
+    const res = await handleApiSync(UserApi.loginByEmail(email, code));
+
+    if (res.data.success) {
+        message.success(res.data.msg);
+        setTimeout(() => {
+            router.push("/user");
+        }, 1000);
+    }
     disabled.value = false;
 }
- 
 </script>
 
 <style scope lang="less"></style>

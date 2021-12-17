@@ -1,6 +1,6 @@
 import { Result } from ".";
 import { request, get, post } from "../utils/request";
-import { User } from "./models";
+import { RegisterForm, ResetForm, User } from "./models";
 
 export class UserApi {
     //账号检验
@@ -37,10 +37,12 @@ export class UserApi {
     }
 
     //注册
-    static async register(userForm: User & { confirmPassword: string }): Promise<Result<string>> {
-        let { confirmPassword, ...user } = userForm;
-        return await post("/user/register", user, {
-            params: { confirmPassword },
-        });
+    static async register(userForm:  RegisterForm): Promise<Result<string>> {
+        return await post("/user/register",userForm);
+    }
+
+    //注册
+    static async resetPassword(resetForm: ResetForm): Promise<Result<string>> {
+        return await post("/user/reset/password", resetForm);
     }
 }

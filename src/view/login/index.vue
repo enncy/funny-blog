@@ -1,6 +1,7 @@
 <template>
     <div class="login-card box-shadow-base border-radius-base col-lg-4 col-md-8 col-12">
         <div class="p-4 pb-0">
+  
             <a-tabs default-active-key="1">
                 <a-tab-pane key="1" tab="账号密码登录" class="p-2 w-100">
                     <AccountLogin />
@@ -28,8 +29,10 @@
 </template>
 
 <script lang="ts" setup>
+import { message } from "ant-design-vue";
 import AccountLogin from "./AccountLogin.vue";
 import EmailLogin from "./EmailLogin.vue";
+ 
 </script>
 
 <style scope lang="less">
@@ -43,27 +46,9 @@ import EmailLogin from "./EmailLogin.vue";
     margin: 100px auto;
     background-color: white;
     min-width: 320px;
-    input,.ant-input-affix-wrapper {
-        border-right: none;
-        border-top: none;
-        border-left: none;
-        box-shadow: none;
-    }
-}
-.ant-input:focus,
-.ant-input:hover {
-    border-color: none !important;
-    border-right-width: none !important;
-    box-shadow: none !important;
-    outline: 0 !important;
-}
 
-.ant-tabs-nav-scroll {
-    text-align: left !important;
-    font-size: 1rem;
 }
+//  display: flex;
+//     align-items: center;
 
-[role="alert"] {
-    text-align: left;
-}
 </style>
