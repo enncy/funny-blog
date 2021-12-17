@@ -13,6 +13,7 @@ import SignLayout from "@/view/components/layout/SignLayout.vue";
 // @ts-ignore
 import BaseLayout from "@/view/components/layout/BaseLayout.vue";
 
+// 注册远程 icon
 const Icon = createFromIconfontCN({
     scriptUrl: "//at.alicdn.com/t/font_3013134_pc3mmckqy1.js", // 在 iconfont.cn 上生成
 });

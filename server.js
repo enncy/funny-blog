@@ -1,70 +1,88 @@
+// @ts-check
+
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const { createServer: createViteServer } = require("vite");
 
-const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
+// 处理路径
+const resolve = (p) => path.resolve(__dirname, p);
 
-async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV === "production") {
-    const resolve = (p) => path.resolve(__dirname, p);
+// 判断是否为生产模式
+const isProd = process.env.NODE_ENV === "production";
 
-    const indexProd = isProd ? fs.readFileSync(resolve("dist/client/index.html"), "utf-8") : "";
+/**
+ * 创建生产模式下的服务器
+ */
+async function createProdServer() {
+    const app = express();
+    // 开启 gzip 压缩
+    app.use(require("compression")());
+    // 处理静态资源
+    app.use(
+        require("serve-static")(resolve("dist/client"), {
+            index: false,
+        })
+    );
 
-    const manifest = isProd
-        ? // @ts-ignore
-          require("./dist/client/ssr-manifest.json")
-        : {};
+    // 处理所有请求
+    app.use("*", async (req, res) => {
+        try {
+            // 发送生成后的 html 页面
+            await renderHtml({
+                res,
+                // 使用打包好的模板
+                template: fs.readFileSync(resolve("dist/client/index.html"), "utf-8"),
+                // 使用打包好的 server 入口
+                render: require("./dist/server/entry-server.js").render,
+                // 当前的 url
+                url: req.originalUrl,
+                // 预加载 json
+                manifest: require("./dist/client/ssr-manifest.json"),
+            });
+        } catch (e) {
+            console.log(e.stack);
+            res.status(500).end(e.stack);
+        }
+    });
 
+    return app;
+}
+
+/**
+ * 创建开发模式下的服务器
+ */
+async function createDevServer() {
     const app = express();
 
-    /**
-     * @type {import('vite').ViteDevServer}
-     */
-    let vite;
-    if (!isProd) {
-        vite = await require("vite").createServer({
-            root,
-            logLevel: isTest ? "error" : "info",
-            server: {
-                middlewareMode: "ssr",
-                watch: {
-                    // During tests we edit the files too fast and sometimes chokidar
-                    // misses change events, so enforce polling for consistency
-                    usePolling: true,
-                    interval: 100,
-                },
-            },
-        });
-        // use vite's connect instance as middleware
-        app.use(vite.middlewares);
-    } else {
-        app.use(require("compression")());
-        app.use(
-            require("serve-static")(resolve("dist/client"), {
-                index: false,
-            })
-        );
-    }
+    // @ts-ignore
+    // 从 vite 创建一个ssr中间件服务器
+    const vite = await createViteServer({
+        server: { middlewareMode: "ssr" },
+    });
+    // 使用 vite 中间件
+    app.use(vite.middlewares);
 
+    
+    // 处理所有请求
     app.use("*", async (req, res) => {
         try {
             const url = req.originalUrl;
-
-            let template, render;
-            if (!isProd) {
-                // always read fresh template in dev
-                template = fs.readFileSync(resolve("index.html"), "utf-8");
-                template = await vite.transformIndexHtml(url, template);
-                render = (await vite.ssrLoadModule("/src/entry-server.js")).render;
-            } else {
-                template = indexProd;
-                render = require("./dist/server/entry-server.js").render;
-            }
-
-            const [appHtml, preloadLinks] = await render(url, manifest);
-
-            const html = template.replace(`<!--preload-links-->`, preloadLinks).replace(`<!--app-html-->`, appHtml);
-
-            res.status(200).set({ "Content-Type": "text/html" }).end(html);
+            // 处理渲染模板
+            let templateFile = fs.readFileSync(resolve("index.html"), "utf-8");
+            let template = await vite.transformIndexHtml(url, templateFile);
+            // 发送生成后的 html 页面
+            await renderHtml({
+                res,
+                // 使用打包好的模板
+                template: template,
+                // 使用打包好的 server 入口
+                render: (await vite.ssrLoadModule("/src/entry-server.js")).render,
+                // 当前的 url
+                url,
+                // 预加载 json
+                manifest: {},
+            });
         } catch (e) {
             vite && vite.ssrFixStacktrace(e);
             console.log(e.stack);
@@ -72,16 +90,33 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
         }
     });
 
-    return { app, vite };
+    return app;
 }
 
-if (!isTest) {
-    createServer().then(({ app }) =>
-        app.listen(3000, () => {
-            console.log("http://localhost:3000");
-        })
-    );
+/**
+ *
+ * template 模板 index.html
+ * render 渲染器 (server entry)
+ * url 路径
+ * manifest 预加载
+ * res 请求
+ */
+async function renderHtml({ template, render, url, manifest, res }) {
+    // 生成 html 和 预加载链接
+    const { html, preloadLinks } = await render(url, manifest);
+    // 渲染预加载链接
+    const result = template.replace(`<!--preload-links-->`, preloadLinks)
+    // 渲染 html 
+    result.replace(`<!--ssr-outlet-->`, html);
+    // 响应请求
+    res.status(200).set({ "Content-Type": "text/html" }).end(result);
 }
 
-// for test use
-exports.createServer = createServer;
+// 运行服务
+const server = isProd ? createProdServer : createDevServer;
+
+server().then((app) =>
+    app.listen(3000, () => {
+        console.log("http://localhost:3000");
+    })
+);
