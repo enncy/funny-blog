@@ -24,18 +24,17 @@ export function handleApi<T>(fn: Promise<Result<T>>, callback?: (res: Result<T>)
     });
 }
 
-
-export async function handleApiSync<T>(fn: Promise<Result<T>>): Promise<Result<T>> {
-    const result =  await fn
-
-    try{
+export async function handleApiSync<T>(fn: Promise<Result<T>>): Promise<Result<T> | undefined> {
+    try {
+        const result = await fn;
         if (result.data.success) {
-            return result
+            return result;
         } else {
             message.error(result.data.msg);
         }
-    }catch{
+        return result;
+    } catch {
         message.error("网络错误");
     }
-    return result
+    return undefined;
 }

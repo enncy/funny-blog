@@ -11,9 +11,10 @@
                 position="bottom"
                 style="height: 64px"
                 class="ps-3 pe-3 d-flex align-items-center font-v2 pointer"
-                @click="goto(item.path)"
             >
-                <span>{{ item.title }} </span>
+                <a :href="item.path">
+                    <span class="text-black">{{ item.title }} </span>
+                </a>
             </BorderItem>
         </div>
         <!-- 间隔 -->
@@ -26,7 +27,7 @@
 
         <div class="col-2 col-lg-2 d-none d-md-block align-items-center">
             <!-- 用户菜单 -->
-            <UserMenuItem :menu="defaultUserMenus" @goto="goto" />
+            <UserMenuItem :menu="defaultUserMenus" />
         </div>
 
         <!-- 小屏幕的特殊 trigger -->
@@ -49,7 +50,6 @@
             <SideBar
                 :user-menus="defaultUserMenus"
                 :default-menus="navigationInfos"
-                @goto="goto"
             ></SideBar>
         </a-drawer>
     </div>

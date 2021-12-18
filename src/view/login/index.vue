@@ -1,5 +1,5 @@
 <template>
-    <div class="login-card box-shadow-base border-radius-base col-lg-4 col-md-8 col-12">
+    <div class="login-card box-shadow-base border-radius-base col-lg-4 col-md-6 col-12">
         <div class="p-4 pb-0">
   
             <a-tabs default-active-key="1">

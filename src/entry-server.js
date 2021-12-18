@@ -10,16 +10,17 @@ export async function render(url, manifest) {
 
     // 在渲染前设置 url
     router.push(url);
+
     await router.isReady();
 
-    // ssr 上下文对象，可以通过 useSSRContext() 去获取
-    const ctx = {};
+    // ssr 上下文对象，可以在 .vue 文件中通过 useSSRContext() 去获取
+    const ctx = { test: 1 };
     // 渲染 html
-    const html = await renderToString(app, ctx);
+    let html = await renderToString(app, ctx);
 
     // 预加载
     const preloadLinks = renderPreloadLinks(ctx.modules, manifest);
-    return { html, preloadLinks };
+    return { html, preloadLinks, router };
 }
 
 function renderPreloadLinks(modules, manifest) {

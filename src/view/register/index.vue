@@ -1,6 +1,6 @@
 <template>
     <div
-        class="register-card box-shadow-base border-radius-base col-lg-4 col-xl-3 col-md-8 col-12"
+        class="register-card box-shadow-base border-radius-base col-lg-4 col-xl-3 col-md-6 col-12"
     >
         <div class="p-4 pb-0">
             <a-tabs default-active-key="1">
@@ -143,7 +143,7 @@ async function onSubmit() {
 
     const res = await handleApiSync(UserApi.register(formState));
 
-    if (res.data.success) {
+    if (res?.data.success) {
         message.success(res.data.msg);
         setTimeout(() => {
             routerPush("/user")

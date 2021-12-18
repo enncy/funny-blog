@@ -111,6 +111,9 @@ body {
 .fr {
   float: right;
 }
+a {
+  text-decoration: none  !important;
+}
 .border-item {
   transition: color 0.2s ease-in;
 }

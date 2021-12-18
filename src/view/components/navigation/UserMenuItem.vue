@@ -6,13 +6,15 @@
         </div>
         <template #overlay>
             <a-menu>
-                <a-menu-item v-for="item of menu"  @click="emits('goto',item.path)">
-                    <div class="d-flex align-items-center">
-                        <Icon :type="item.icon"></Icon>
-                        <span style="width: 100px" class="ms-3">
-                            {{ item.title }}
-                        </span>
-                    </div>
+                <a-menu-item v-for="item of menu">
+                    <a   :href="item.path">
+                        <div class="d-flex align-items-center">
+                            <Icon :type="item.icon"></Icon>
+                            <span   class="ms-3 text-black" >
+                                {{ item.title }}
+                            </span>
+                        </div>
+                    </a>
                 </a-menu-item>
             </a-menu>
         </template>
@@ -25,9 +27,7 @@ import { MenuData } from "./interface";
 interface UserMenuItemProps {
     menu: MenuData[];
 }
-const emits = defineEmits<{
-    (e: "goto", path: string): void;
-}>();
+ 
 const props = withDefaults(defineProps<UserMenuItemProps>(), {});
 const {} = toRefs(props);
 </script>

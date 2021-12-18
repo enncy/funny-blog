@@ -32,7 +32,7 @@ onMounted(() => {
 
 // 点击链接
 function ClickNavItem(e: any) {
-    console.log("ClickNavItem", e);
+ 
     // 排他
     document.querySelectorAll(".border-item.active").forEach((el) => {
         el.classList.remove("active");

@@ -1,6 +1,6 @@
 <template>
     <div
-        class="reset-card box-shadow-base border-radius-base col-lg-4 col-xl-3 col-md-8 col-12"
+        class="reset-card box-shadow-base border-radius-base col-lg-4 col-xl-3 col-md-6 col-12"
     >
         <div class="p-4 pb-0">
             <a-tabs default-active-key="1">
@@ -123,7 +123,7 @@ async function onSubmit() {
     console.log(resetForm);
 
     const res = await handleApiSync(UserApi.resetPassword(resetForm));
-    if (res.data.success) {
+    if (res?.data.success) {
         message.success(res.data.data);
         setTimeout(() => {
             routerPush("/user")

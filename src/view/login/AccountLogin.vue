@@ -95,7 +95,7 @@ async function onSubmit() {
 
     const res = await handleApiSync(UserApi.loginByAccount(account, password));
 
-    if (res.data.success) {
+    if (res?.data.success) {
         message.success(res.data.msg);
         setTimeout(() => {
             routerPush("/user")
