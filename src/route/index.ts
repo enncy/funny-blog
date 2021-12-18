@@ -89,11 +89,7 @@ export function createSSRRouter() {
     });
 
     router.beforeEach((to, from, next) => {
-        if (to.path.startsWith("/user")) {
-            router.push("/login");
-        } else {
-            next();
-        }
+        next();
     });
 
     router.beforeResolve((to, from, next) => {

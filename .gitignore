@@ -3,3 +3,12 @@ node_modules
 dist
 dist-ssr
 *.local
+
+
+package-lock.json
+
+stats.html
+
+.idea/
+
+components.d.ts
