@@ -79,6 +79,7 @@ async function createDevServer() {
     app.use("*", async (req, res) => {
         try {
             const url = req.originalUrl;
+            console.log("url", url);
             // 处理渲染模板
             let templateFile = fs.readFileSync(resolve("index.html"), "utf-8");
             let template = await vite.transformIndexHtml(url, templateFile);
@@ -113,8 +114,9 @@ async function createDevServer() {
  * res 请求
  */
 async function renderHtml({ template, render, url, manifest, res }) {
-    // 生成 html 和 预加载链接
-    const { html, preloadLinks, router } = await render(url, manifest);
+    // console.log("renderHtml", url);
+    // // 生成 html 和 预加载链接
+    const { appHtml, preloadLinks, router } = await render(url, manifest);
 
     // 在这里可以获取到   router.currentRoute 当前的路由，如果在 render(renderToString) 之前，则不行
 
@@ -122,8 +124,8 @@ async function renderHtml({ template, render, url, manifest, res }) {
     let meta = router.currentRoute.value.meta;
     // 默认 seo meta 内容
     let { title, description, keywords } = Object.assign(defaultMetaInfos, meta);
- 
-    template = template
+
+    const html = template
         // 渲染预加载链接
         .replace(`<!--preload-links-->`, preloadLinks)
         // 渲染 meta 信息
@@ -131,10 +133,10 @@ async function renderHtml({ template, render, url, manifest, res }) {
         .replace(`<!--ssr-description-->`, `<meta name="description" content="${description}">`)
         .replace(`<!--ssr-keywords-->`, `<meta name="keywords" content="${keywords}">`)
         // 渲染 html
-        .replace(`<!--ssr-outlet-->`, html);
+        .replace(`<!--app-html-->`, appHtml);
 
     // 响应请求
-    res.status(200).set({ "Content-Type": "text/html" }).end(template);
+    res.status(200).set({ "Content-Type": "text/html" }).end(html);
 }
 
 // 运行服务

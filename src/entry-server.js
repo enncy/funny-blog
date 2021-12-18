@@ -1,7 +1,5 @@
 // @ts-check
-import { createSSRApp } from "vue";
-// @ts-ignore
-import App from "./App.vue";
+
 import { renderToString } from "@vue/server-renderer";
 import { createApp } from "./main";
 
@@ -14,13 +12,13 @@ export async function render(url, manifest) {
     await router.isReady();
 
     // ssr 上下文对象，可以在 .vue 文件中通过 useSSRContext() 去获取
-    const ctx = { test: 1 };
+    const ctx = {};
     // 渲染 html
-    let html = await renderToString(app, ctx);
+    let appHtml = await renderToString(app, ctx);
 
     // 预加载
     const preloadLinks = renderPreloadLinks(ctx.modules, manifest);
-    return { html, preloadLinks, router };
+    return { appHtml, preloadLinks, router };
 }
 
 function renderPreloadLinks(modules, manifest) {

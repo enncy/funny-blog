@@ -78,8 +78,8 @@ const routes: RouteRecordRaw[] = [
 
 export function createSSRRouter() {
     const routerHistory = import.meta.env.SSR === false ? createWebHistory() : createMemoryHistory();
-
-    const router = createRouter({
+  
+    return createRouter({
         history: routerHistory,
         routes: routes.map((r) => {
             // 添加默认布局
@@ -87,16 +87,6 @@ export function createSSRRouter() {
             return r;
         }),
     });
-
-    router.beforeEach((to, from, next) => {
-        next();
-    });
-
-    router.beforeResolve((to, from, next) => {
-        next();
-    });
-
-    return router;
 }
 
 export function routerPush(path: string) {
