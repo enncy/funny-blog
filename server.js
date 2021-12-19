@@ -143,8 +143,8 @@ async function renderHtml({ template, render, url, manifest, res }) {
 const server = isProd ? createProdServer : createDevServer;
 console.log("开发环境 ", isProd ? "生产" : "开发");
 server().then((app) =>
-    app.listen(3000, () => {
-        console.log("http://localhost:3000");
+    app.listen(3121, () => {
+        console.log("http://localhost:3121");
     })
 );
 

@@ -5,11 +5,11 @@ import md5 from "crypto-js/md5";
 axios.defaults.withCredentials = true;
 
 // md5 密钥
-let key = "db6c6c411bb7467e996fbd5fda687b18";
+let key = import.meta.env.KEY;
 
 // 全局配置
 let baseConfig = {
-    baseURL: "http://localhost:8999",
+    baseURL: import.meta.env.BASE_URL,
     timeout: 30 * 1000,
 };
 export const request = axios.create(baseConfig);

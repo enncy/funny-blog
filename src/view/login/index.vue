@@ -1,5 +1,5 @@
 <template>
-    <div class="login-card box-shadow-base border-radius-base col-lg-4 col-md-6 col-12">
+    <div class="login-card box-shadow-base border-radius-base col-lg-4   col-md-6 col-12">
         <div class="p-4 pb-0">
   
             <a-tabs default-active-key="1">
@@ -32,7 +32,7 @@ import EmailLogin from "./EmailLogin.vue";
 
 <style scope lang="less">
 @media (min-width: 1200px) {
-    .login-card {
+    #app .login-card {
         flex: 0 0 auto;
         width: 20%;
     }

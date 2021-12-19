@@ -193,7 +193,7 @@ const layout = {
 
 <style scope lang="less">
 @media (min-width: 1200px) {
-    .register-card {
+    #app .register-card {
         flex: 0 0 auto;
         width: 20%;
     }

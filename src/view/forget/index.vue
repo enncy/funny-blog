@@ -171,14 +171,13 @@ const layout = {
 
 <style scope lang="less">
 @media (min-width: 1200px) {
-    .reset-card {
+    #app .reset-card {
         flex: 0 0 auto;
         width: 20%;
     }
 }
 .reset-card {
     margin: 100px auto;
-
     background-color: white;
 }
 </style>

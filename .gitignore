@@ -12,3 +12,7 @@ stats.html
 .idea/
 
 components.d.ts
+
+# env
+
+.env*
